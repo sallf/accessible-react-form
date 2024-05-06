@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import React from 'react'
 
 interface Props {
   label: string
@@ -17,14 +18,8 @@ export const Label = (props: Props) => {
   //  RENDER
   // ---------------------
   return (
-    <label
-      className={
-        className
-          ? className
-          : 'w-full flex flex-col gap-2 text-sm text-theme-on-surface'
-      }
-    >
-      <span className="opacity-60">{`${label}${isRequired ? '*' : ''}`}</span>
+    <label className={`arform__label ${className || ''}`}>
+      <span>{`${label}${isRequired ? '*' : ''}`}</span>
       {children}
     </label>
   )

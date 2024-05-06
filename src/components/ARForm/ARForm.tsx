@@ -35,7 +35,7 @@ export const ARForm = (props: Props) => {
     validationSchema = null,
     formCtas,
     // ctaLayout = 'modal',
-    className = 'flex flex-wrap gap-4',
+    className = '',
     defaultValues = null, // can be passed as array here, or individually to each component
     onChangeCallback = () => null,
     ...rest
@@ -75,7 +75,7 @@ export const ARForm = (props: Props) => {
   return (
     <form
       onSubmit={handleSubmit(formCtas.submit.onClick)}
-      className={className}
+      className={`arform ${className}`}
       {...rest}
     >
       {validationSchema && (

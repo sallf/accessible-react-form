@@ -3,11 +3,12 @@ import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { Label } from '../../Label/Label'
 import { Input } from '../private/Input'
+import React from 'react'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
   label: string
-  className?: string
+  labelClassName?: string
   formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
 }
 
@@ -18,7 +19,8 @@ export const Date = (props: Props) => {
   const {
     id, // must be unique in form
     label,
-    className,
+    labelClassName,
+    className = '',
     formProps,
     required,
     ...rest
@@ -28,10 +30,11 @@ export const Date = (props: Props) => {
   //  RENDER
   // ---------------------
   return (
-    <Label label={label} isRequired={!!required} className={className}>
+    <Label label={label} isRequired={!!required} className={labelClassName}>
       <Input
         id={id}
         label={label}
+        className={`arform__date ${className}`}
         type="date"
         required={!!required}
         formProps={formProps}

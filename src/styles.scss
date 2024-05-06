@@ -1,0 +1,48 @@
+$label-color: #333;
+$background-color: #f5f5f5;
+$gray: rgb(107 114 128);
+
+.arform {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  &__label {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.875rem /* 14px */;
+    line-height: 1.25rem /* 20px */;
+    color: $label-color;
+  }
+
+  &__input {
+    background: $background-color;
+    border: 1px solid $gray;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+  }
+
+  &__checkbox {
+    background: $background-color;
+    border: 1px solid $gray;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    order: -9999;
+  }
+
+  &__upload {
+    background: $gray;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 1px dashed $gray;
+
+    &--is-active {
+      border-inline-style: solid;
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}

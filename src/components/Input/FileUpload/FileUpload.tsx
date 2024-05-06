@@ -1,16 +1,16 @@
-import Upload from '@shared-images/svgr/icons/upload.svg?react'
 import type { DragEvent, FormEvent, InputHTMLAttributes } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { Label } from '../../Label/Label'
 import { Input } from '../private/Input'
+import React from 'react'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
   label: string
+  labelClassName?: string
   fileType: 'media' | 'binary'
-  className?: string
   formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
 }
 
@@ -21,7 +21,8 @@ export const FileUpload = (props: Props) => {
   const {
     id, // must be unique in form
     label,
-    className,
+    labelClassName,
+    className = '',
     fileType = 'binary',
     formProps,
     required,
@@ -102,14 +103,28 @@ export const FileUpload = (props: Props) => {
   // --------------------- ===
   //  RENDER
   // ---------------------
+  // TODO this has another layer of complexity. Not sure how to pass className
   return (
-    <Label label={label} isRequired={!!required} className={className}>
+    <Label label={label} isRequired={!!required} className={labelClassName}>
       <div
-        className={`relative flex flex-col gap-2 border-gray-500 border-dashed rounded ${
-          isActive ? '!border-solid !bg-white/20' : ''
-        } ${disabled ? '' : 'border py-16 px-4 items-center content-center'}`}
+        className={`arform__upload ${
+          isActive ? 'arform__upload--is-active' : ''
+        } ${className}`}
       >
-        {!disabled && <Upload className="w-8 fill-white/75" />}
+        {!disabled && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 21.5 17.62"
+            style={{
+              width: '2rem',
+              fill: 'white',
+              opacity: 0.75,
+            }}
+          >
+            <path d="m11.28,7.22s-.02,0-.02-.02c-.06-.06-.14-.11-.22-.15,0,0,0,0,0,0,0,0-.01,0-.02,0-.08-.03-.16-.04-.24-.05-.03,0-.05,0-.08,0-.06,0-.12.02-.18.04-.03,0-.05.02-.07.03-.08.04-.16.08-.22.15l-2,2c-.29.29-.29.77,0,1.06s.77.29,1.06,0l.72-.72v4.19c0,.41.34.75.75.75s.75-.34.75-.75v-4.19l.72.72c.29.29.77.29,1.06,0s.29-.77,0-1.06l-2-2Z" />
+            <path d="m16.87,5.63c-.5-2.25-1.69-3.82-3.23-4.72C12.01-.05,10.06-.21,8.3.25s-3.38,1.56-4.34,3.2c-.85,1.45-1.15,3.28-.62,5.34-4.74,1.14-4.42,8.46.87,8.84.02,0,.04,0,.05,0h11.12c1.54.01,3.02-.57,4.15-1.59,3.63-3.18,1.91-9.38-2.67-10.4Zm1.68,9.27h-.01c-.87.8-1.99,1.23-3.14,1.22H4.3c-3.74-.29-3.72-5.68,0-5.97.09,0,.18-.01.27-.04.39-.14.59-.57.45-.96-.74-2.05-.49-3.71.23-4.94.73-1.25,2-2.13,3.43-2.5,1.43-.37,2.96-.23,4.21.5,1.23.72,2.25,2.05,2.61,4.2.05.33.32.58.65.62,3.7.47,5.22,5.43,2.41,7.88Z" />
+          </svg>
+        )}
         <span className={`${file ? 'text-sm' : 'text-xs'} text-center`}>
           {previewUrl && (
             <div className="my-2">

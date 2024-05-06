@@ -2,11 +2,12 @@ import type { InputHTMLAttributes } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { FieldError } from '../../FieldError/FieldError'
+import React from 'react'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
   label: string
-  className?: string
+  className: string
   formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
   prefix?: string
 }
@@ -18,7 +19,7 @@ export const Input = (props: Props) => {
   const {
     id, // must be unique in form
     label,
-    className = 'bg-theme-surface border border-gray-500 px-2 py-3 rounded',
+    className,
     type = 'text',
     required,
     formProps,
@@ -40,10 +41,11 @@ export const Input = (props: Props) => {
       {...rest}
       type={type}
       aria-invalid={error ? 'true' : 'false'}
-      className={className}
+      className={`arform__input ${className}`}
       required={!!required}
     />
   )
+  // TODO prefix styling. Need to generalize it
   return (
     <>
       {prefix ? (
