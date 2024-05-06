@@ -3,10 +3,12 @@ import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { FieldError } from '../FieldError/FieldError'
 import { Label } from '../Label/Label'
+import React from 'react'
 
 interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   id: string
   label: string
+  labelClassName?: string
   formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
 }
 
@@ -14,8 +16,17 @@ export const TextArea = (props: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
-  const { id, label, formProps, required, minLength, maxLength, ...rest } =
-    props
+  const {
+    id,
+    label,
+    labelClassName,
+    className = '',
+    formProps,
+    required,
+    minLength,
+    maxLength,
+    ...rest
+  } = props
 
   // --------------------- ===
   //  RENDER
@@ -23,12 +34,12 @@ export const TextArea = (props: Props) => {
   if (!formProps?.register || !id) return null // type help
   const error = formProps.formState.errors[id] || {}
   return (
-    <Label label={label} isRequired={!!required}>
+    <Label label={label} isRequired={!!required} className={labelClassName}>
       <textarea
         {...formProps.register(id)}
         {...rest}
         aria-invalid={error ? 'true' : 'false'}
-        className="bg-theme-surface border border-gray-500 px-2 py-3 rounded"
+        className={`arform__textarea ${className}`}
         minLength={minLength}
         maxLength={maxLength}
         required={!!required}
