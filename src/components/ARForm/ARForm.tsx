@@ -1,20 +1,19 @@
 import React from 'react'
 
-// import { useYupValidationResolver } from '@shared/hooks'
 import type { FormHTMLAttributes, ReactNode } from 'react'
 import { useEffect } from 'react'
 import type { EventType, FieldValues, UseFormReturn } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
-// import type { AnyObject } from 'yup'
 
-// import { Btn } from '../../buttons'
 import { ChildrenLoop } from './ChildrenLoop'
 import type { FormCtas } from '../types'
+import { useYupValidationResolver } from '../../hooks/yup'
+import { AnyObject, AnyObjectSchema } from 'yup'
 
 interface Props extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode
   // validationSchema?: AnyObject | null
-  validationSchema?: any // TODO
+  validationSchema?: AnyObjectSchema | null
   formCtas: FormCtas
   // ctaLayout?: 'modal' | 'progress' // could have more options?
   className?: string
@@ -45,7 +44,7 @@ export const ARForm = (props: Props) => {
   // --------------------- ===
   //  HOOKS
   // ---------------------
-  // const resolver = useYupValidationResolver(validationSchema)
+  const resolver = useYupValidationResolver(validationSchema)
   const formProps = useForm({
     ...(validationSchema && { resolver }),
   }) // only add resolver if there's a schema
