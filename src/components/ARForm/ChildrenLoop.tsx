@@ -17,17 +17,25 @@ interface Props {
   children: ReactNode
 }
 
+const checkSchema = (validationSchema: AnyObject, id: string) => {
+  if (!validationSchema.describe().fields[id]) {
+    throw new Error(`Field with id ${id} does not exist in validation schema`)
+  }
+}
+
 // There seems to be no right way to type this
-const isFieldRequired = (validationSchema: AnyObject, id: string) =>
-  validationSchema
+const isFieldRequired = (validationSchema: AnyObject, id: string) => {
+  checkSchema(validationSchema, id)
+  return validationSchema
     .describe()
-    //@ts-ignore
-    .fields[id].tests.some(({ name }) => name === 'required')
+    .fields[id].tests.some(({ name }: TestConfig) => name === 'required')
+}
 
 const getFieldLimits = (validationSchema: AnyObject | null, id: string) => {
   let minLength: undefined | number = undefined
   let maxLength: undefined | number = undefined
   if (!validationSchema) return { minLength, maxLength }
+  checkSchema(validationSchema, id)
   validationSchema.describe().fields[id].tests.forEach((test: TestConfig) => {
     if (test.name === 'min') {
       minLength = test?.params?.min as number
