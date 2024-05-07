@@ -1,5 +1,5 @@
-import Close from '@shared-images/svgr/icons/close-square.svg?react'
-import Add from '@shared-images/svgr/icons/plus.svg?react'
+// import Close from '@shared-images/svgr/icons/close-square.svg?react'
+// import Add from '@shared-images/svgr/icons/plus.svg?react'
 
 interface Props {
   label: string
@@ -28,7 +28,7 @@ export const Tag = (props: Props) => {
     >
       {label}
       <span className="p-px">
-        {isAdd ? <Add className="w-5" /> : <Close className="w-5" />}
+        {/* {isAdd ? <Add className="w-5" /> : <Close className="w-5" />} */}
         <span className="sr-only">{`${isAdd ? 'add' : 'remove'} tag`}</span>
       </span>
     </button>

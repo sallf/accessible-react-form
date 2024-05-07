@@ -6,15 +6,14 @@ import type { EventType, FieldValues, UseFormReturn } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 
 import { ChildrenLoop } from './ChildrenLoop'
-import type { FormCtas } from '../types'
 import { useYupValidationResolver } from '../../hooks/yup'
-import { AnyObject, AnyObjectSchema } from 'yup'
+import { AnyObjectSchema } from 'yup'
 
 interface Props extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode
   // validationSchema?: AnyObject | null
   validationSchema?: AnyObjectSchema | null
-  formCtas: FormCtas
+  onSubmit: (data: FieldValues) => void
   // ctaLayout?: 'modal' | 'progress' // could have more options?
   className?: string
   defaultValues?: FieldValues | null
@@ -33,7 +32,7 @@ export const ARForm = (props: Props) => {
   const {
     children,
     validationSchema = null,
-    formCtas,
+    onSubmit,
     // ctaLayout = 'modal',
     className = '',
     defaultValues = null, // can be passed as array here, or individually to each component
@@ -74,7 +73,7 @@ export const ARForm = (props: Props) => {
 
   return (
     <form
-      onSubmit={handleSubmit(formCtas.submit.onClick)}
+      onSubmit={handleSubmit(onSubmit)}
       className={`arform ${className}`}
       {...rest}
     >

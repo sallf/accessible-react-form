@@ -3,16 +3,13 @@ import { Children, cloneElement, isValidElement } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 import type { AnyObject, TestConfig } from 'yup'
 
-import {
-  Checkbox,
-  Date,
-  FileUpload,
-  Label,
-  Select,
-  TagInput,
-  Text,
-  TextArea,
-} from './index'
+import { Checkbox } from '../Input/Checkbox/Checkbox'
+import { Date } from '../Input/Date/Date'
+import { FileUpload } from '../Input/FileUpload/FileUpload'
+import { TagInput } from '../Input/TagInput/TagInput'
+import { Label } from '../Label/Label'
+import { Select } from '../Select/Select'
+import { TextArea } from '../TextArea/TextArea'
 
 interface Props {
   validationSchema: AnyObject

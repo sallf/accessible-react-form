@@ -7,6 +7,7 @@ import type { FieldValues, UseFormReturn } from 'react-hook-form'
 import { Label } from '../../Label/Label'
 import { Input } from '../private/Input'
 import { Tag } from './Tag'
+import React from 'react'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
