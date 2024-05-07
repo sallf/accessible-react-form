@@ -22,13 +22,13 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@storybook/addon-a11y": "^8.0.10",
-    "@storybook/addon-essentials": "^8.0.9",
+    "@storybook/addon-essentials": "^8.0.10",
     "@storybook/addon-interactions": "^8.0.10",
-    "@storybook/addon-links": "^8.0.9",
-    "@storybook/addon-onboarding": "^8.0.9",
-    "@storybook/blocks": "^8.0.9",
-    "@storybook/react": "^8.0.9",
-    "@storybook/react-vite": "^8.0.9",
+    "@storybook/addon-links": "^8.0.10",
+    "@storybook/addon-onboarding": "^8.0.10",
+    "@storybook/blocks": "^8.0.10",
+    "@storybook/react": "^8.0.10",
+    "@storybook/react-vite": "^8.0.10",
     "@storybook/test": "^8.0.10",
     "@testing-library/react": "^15.0.7",
     "@types/jest": "^29.5.12",
@@ -39,7 +39,6 @@
     "rollup": "^4.17.2",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "sass": "^1.77.0",
-    "storybook": "^8.0.9",
     "tslib": "^2.6.2",
     "typescript": "^5.4.5"
   },
@@ -49,5 +48,8 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.51.4",
     "yup": "^1.4.0"
+  },
+  "dependencies": {
+    "storybook": "^8.0.10"
   }
 }

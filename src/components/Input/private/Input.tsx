@@ -42,7 +42,7 @@ export const Input = (props: Props) => {
       type={type}
       aria-invalid={error ? 'true' : 'false'}
       className={`arform__input ${className}`}
-      required={!!required}
+      // required={!!required} removing required from input so validation can be done by yup
     />
   )
   // TODO prefix styling. Need to generalize it

@@ -3,7 +3,6 @@ import { ARForm } from '../components/ARForm/ARForm'
 import { Text } from '../components/Input/Text/Text'
 import { AnyObjectSchema, object, string } from 'yup'
 import { userEvent, within, expect, fn } from '@storybook/test'
-import { exact } from 'prop-types'
 
 const meta: Meta<typeof ARForm> = {
   component: ARForm,
