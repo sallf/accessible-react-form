@@ -1,4 +1,7 @@
 /** @type { import('@storybook/react').Preview } */
+
+import '../src/styles.scss'
+
 const preview = {
   parameters: {
     controls: {
@@ -8,6 +11,6 @@ const preview = {
       },
     },
   },
-};
+}
 
-export default preview;
+export default preview
