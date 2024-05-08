@@ -16,7 +16,7 @@ export const Page = () => {
       />
 
       <section className="storybook-page">
-        <h2>Pages in Storybook - this is a change</h2>
+        <h2>Pages in Storybook - this is a change - and nother change</h2>
         <p>
           We recommend building UIs with a{' '}
           <a

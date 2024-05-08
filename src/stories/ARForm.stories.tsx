@@ -3,7 +3,6 @@ import { ARForm } from '../components/ARForm/ARForm'
 import { Text } from '../components/Input/Text/Text'
 import { AnyObjectSchema, object, string } from 'yup'
 import { userEvent, within, expect, fn, waitFor, spyOn } from '@storybook/test'
-import { FieldValues } from 'react-hook-form'
 import { Checkbox } from '../components/Input/Checkbox/Checkbox'
 import { Date } from '../components/Input/Date/Date'
 import { Select } from '../components/Select/Select'
@@ -124,14 +123,14 @@ const getBaseElements = (canvasElement: HTMLElement) => {
 
 export const Base: Story = {
   ...BasicTemplate,
-  // play: async ({ args, canvasElement, step }) => {
-  //   const { canvas, nameInput, emailInput, submitButton } =
-  //     getBaseElements(canvasElement)
+  play: async ({ args, canvasElement, step }) => {
+    const { canvas, nameInput, emailInput, submitButton } =
+      getBaseElements(canvasElement)
 
-  //   await expect(nameInput).toBeInTheDocument()
-  //   await expect(emailInput).toBeInTheDocument()
-  //   await expect(submitButton).toBeInTheDocument()
-  // },
+    await expect(nameInput).toBeInTheDocument()
+    await expect(emailInput).toBeInTheDocument()
+    await expect(submitButton).toBeInTheDocument()
+  },
 }
 
 export const BaseWithSubmit: Story = {
@@ -160,58 +159,58 @@ export const Advanced: Story = {
 
 export const Empty: Story = {
   ...BasicTemplate,
-  // play: async ({ args, canvasElement, step }) => {
-  //   const { canvas, nameInput, emailInput, submitButton } =
-  //     getBaseElements(canvasElement)
+  play: async ({ args, canvasElement, step }) => {
+    const { canvas, nameInput, emailInput, submitButton } =
+      getBaseElements(canvasElement)
 
-  //   await userEvent.click(submitButton)
+    await userEvent.click(submitButton)
 
-  //   await expect(
-  //     canvas.getByText(/name is a required field/)
-  //   ).toBeInTheDocument()
-  // },
+    await expect(
+      canvas.getByText(/name is a required field/)
+    ).toBeInTheDocument()
+  },
 }
 
 export const InvalidEmail: Story = {
   ...BasicTemplate,
-  // play: async ({ args, canvasElement, step }) => {
-  //   const { canvas, nameInput, emailInput, submitButton } =
-  //     getBaseElements(canvasElement)
+  play: async ({ args, canvasElement, step }) => {
+    const { canvas, nameInput, emailInput, submitButton } =
+      getBaseElements(canvasElement)
 
-  //   await step('Type name and email', async () => {
-  //     await userEvent.type(nameInput, 'Jill Doe')
-  //     await userEvent.type(emailInput, '123')
-  //   })
+    await step('Type name and email', async () => {
+      await userEvent.type(nameInput, 'Jill Doe')
+      await userEvent.type(emailInput, '123')
+    })
 
-  //   await userEvent.click(submitButton)
+    await userEvent.click(submitButton)
 
-  //   await expect(
-  //     canvas.getByText(/email must be a valid email/)
-  //   ).toBeInTheDocument()
-  // },
+    await expect(
+      canvas.getByText(/email must be a valid email/)
+    ).toBeInTheDocument()
+  },
 }
 
 export const Valid: Story = {
   ...BasicTemplate,
-  // play: async ({ args, canvasElement, step }) => {
-  //   const { canvas, nameInput, emailInput, submitButton } =
-  //     getBaseElements(canvasElement)
+  play: async ({ args, canvasElement, step }) => {
+    const { canvas, nameInput, emailInput, submitButton } =
+      getBaseElements(canvasElement)
 
-  //   await step('Type name and email', async () => {
-  //     await userEvent.type(nameInput, 'Jill Doe')
-  //     await userEvent.type(emailInput, 'test@email.com')
-  //   })
+    await step('Type name and email', async () => {
+      await userEvent.type(nameInput, 'Jill Doe')
+      await userEvent.type(emailInput, 'test@email.com')
+    })
 
-  //   // await step('Submit form', async () => {
-  //   //   await userEvent.keyboard('{enter}')
-  //   // })
+    // await step('Submit form', async () => {
+    //   await userEvent.keyboard('{enter}')
+    // })
 
-  //   await userEvent.click(submitButton)
+    await userEvent.click(submitButton)
 
-  //   await expect(args.onSubmit).toHaveBeenCalled()
-  //   await expect(canvas.queryByText(/enter your email/)).not.toBeInTheDocument()
-  //   await expect(
-  //     canvas.queryByText(/name is a required field/)
-  //   ).not.toBeInTheDocument()
-  // },
+    await expect(args.onSubmit).toHaveBeenCalled()
+    await expect(canvas.queryByText(/enter your email/)).not.toBeInTheDocument()
+    await expect(
+      canvas.queryByText(/name is a required field/)
+    ).not.toBeInTheDocument()
+  },
 }
