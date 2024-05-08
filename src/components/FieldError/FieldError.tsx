@@ -14,10 +14,7 @@ export const FieldError = (props: Props) => {
   //  RENDER
   // ---------------------
   return error?.message ? (
-    <div
-      role="alert"
-      className="text-theme-error text-sm first-letter:capitalize"
-    >
+    <div role="alert" className="arform__error">
       {error.message}.
     </div>
   ) : null

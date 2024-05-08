@@ -48,11 +48,11 @@ export const Input = (props: Props) => {
   return (
     <>
       {prefix ? (
-        <span className="flex w-full">
-          <span className="text-sm text-kap-black flex-grow-0 px-4 bg-gray-500 rounded -mr-4 pr-6 flex items-center">
+        <span className="arform__prefix">
+          <span className="arform__prefix-inner">
             <span>{prefix}</span>
           </span>
-          <span className="flex-grow flex flex-col">{input}</span>
+          <span className="arform__prefix-input">{input}</span>
         </span>
       ) : (
         input
