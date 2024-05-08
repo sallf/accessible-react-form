@@ -31,6 +31,7 @@ const basicValidationSchema: AnyObjectSchema = object({
 const advancedValidationSchema: AnyObjectSchema = object({
   name: string().required(),
   username: string(),
+  website: string().url(),
   terms: string().required(),
   dob: string().required(),
   country: string().required(),
@@ -52,6 +53,7 @@ const AdvancedTemplate: Story = {
     <ARForm validationSchema={advancedValidationSchema} onSubmit={onSubmit}>
       <Text id="name" label="Name" />
       <Text id="username" label="Username" prefix="@" />
+      <Text id="website" label="Website" prefix="https://" />
       <Checkbox id="terms" label="I agree to the terms" />
       <Date id="dob" label="Date of Birth" />
       <Select

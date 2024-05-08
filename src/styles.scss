@@ -1,7 +1,9 @@
 $label-color: #333;
 $background-color: #f5f5f5;
-$gray: rgb(107 114 128);
+$gray: rgb(149 155 165);
 $light-gray: rgb(229 231 235);
+$rounded: 0.25rem;
+$border: 1px solid $gray;
 
 $font-sm: 0.875rem; // 14px
 $font-xs: 0.75rem; // 12px
@@ -30,22 +32,34 @@ $font-xs: 0.75rem; // 12px
 
   &__input {
     background: $background-color;
-    border: 1px solid $gray;
+    border: $border;
     padding: 0.5rem 0.75rem;
-    border-radius: 0.25rem;
+    border-radius: $rounded;
+
+    &--has-prefix {
+      border-radius: 0 $rounded $rounded 0;
+    }
+  }
+
+  &__textarea {
+    background: $background-color;
+    border: $border;
+    padding: 0.5rem;
+    border-radius: $rounded;
+    max-width: 100%;
   }
 
   &__checkbox {
     background: $background-color;
-    border: 1px solid $gray;
+    border: $border;
     padding: 0.5rem;
-    border-radius: 0.25rem;
+    border-radius: $rounded;
     order: -9999;
     align-self: flex-start;
   }
 
   &__upload {
-    background: $gray;
+    background: $background-color;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -60,9 +74,9 @@ $font-xs: 0.75rem; // 12px
 
   &__select {
     background: $background-color;
-    border: 1px solid $gray;
+    border: $border;
     padding: 0.5rem 0.75rem;
-    border-radius: 0.25rem;
+    border-radius: $rounded;
   }
 
   &__prefix {
@@ -71,13 +85,16 @@ $font-xs: 0.75rem; // 12px
 
     &-inner {
       display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: $font-sm;
       background: $light-gray;
       flex-grow: 0;
-      padding: 0.5rem;
-      border-radius: 0.25rem;
+      border: $border;
+      border-radius: $rounded 0 0 $rounded;
       margin-right: -1rem;
       padding-right: 1.5rem;
+      padding-left: 0.5rem;
     }
 
     &-input {
