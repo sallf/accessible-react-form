@@ -16,8 +16,16 @@ $font-xs: 0.75rem; // 12px
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    font-size: $font-sm;
-    color: $label-color;
+
+    &-inner {
+      font-size: $font-sm;
+      color: $label-color;
+    }
+
+    &--is-row {
+      flex-direction: row;
+      align-items: center;
+    }
   }
 
   &__input {

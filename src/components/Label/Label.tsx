@@ -19,7 +19,7 @@ export const Label = (props: Props) => {
   // ---------------------
   return (
     <label className={`arform__label ${className || ''}`}>
-      <span>{`${label}${isRequired ? '*' : ''}`}</span>
+      <div className="arform__label-inner">{`${label}${isRequired ? '*' : ''}`}</div>
       {children}
     </label>
   )
