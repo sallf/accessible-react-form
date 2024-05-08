@@ -48,6 +48,50 @@ const BasicTemplate: Story = {
   ),
 }
 
+const WithSubmit: Story = {
+  render: ({ onSubmit }) => (
+    <ARForm validationSchema={basicValidationSchema} onSubmit={onSubmit}>
+      <Text id="name" label="Name" />
+      <Text id="email" label="Email" />
+      <button type="submit">Submit</button>
+    </ARForm>
+  ),
+}
+
+const WithDefaults: Story = {
+  render: ({ onSubmit }) => (
+    <ARForm
+      validationSchema={basicValidationSchema}
+      onSubmit={onSubmit}
+      defaultValues={{
+        name: 'Jill Doe',
+        email: 'test@email.com',
+      }}
+    >
+      <Text id="name" label="Name" />
+      <Text id="email" label="Email" />
+    </ARForm>
+  ),
+}
+
+const UsingCallback: Story = {
+  render: ({ onSubmit }) => (
+    <ARForm
+      validationSchema={basicValidationSchema}
+      onSubmit={onSubmit}
+      onChangeCallback={(values, name, type, formProps) => {
+        console.log('values', values)
+        console.log('name', name)
+        console.log('type', type)
+        console.log('formProps', formProps)
+      }}
+    >
+      <Text id="name" label="Name" />
+      <Text id="email" label="Email" />
+    </ARForm>
+  ),
+}
+
 const AdvancedTemplate: Story = {
   render: ({ onSubmit }) => (
     <ARForm validationSchema={advancedValidationSchema} onSubmit={onSubmit}>
@@ -63,16 +107,6 @@ const AdvancedTemplate: Story = {
       />
       <TextArea id="comments" label="Comments" />
       <FileUpload id="file" label="File" fileType="media" />
-    </ARForm>
-  ),
-}
-
-const WithSubmit: Story = {
-  render: ({ onSubmit }) => (
-    <ARForm validationSchema={basicValidationSchema} onSubmit={onSubmit}>
-      <Text id="name" label="Name" />
-      <Text id="email" label="Email" />
-      <button type="submit">Submit</button>
     </ARForm>
   ),
 }
@@ -102,6 +136,14 @@ export const Base: Story = {
 
 export const BaseWithSubmit: Story = {
   ...WithSubmit,
+}
+
+export const BaseWithDefaults: Story = {
+  ...WithDefaults,
+}
+
+export const BaseUsingCallback: Story = {
+  ...UsingCallback,
 }
 
 export const Advanced: Story = {
