@@ -104,6 +104,65 @@ $font-xs: 0.75rem; // 12px
     }
   }
 
+  &__upload {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+
+    &-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border: $border;
+      border-radius: $rounded;
+      border-style: dashed;
+      padding: 4rem 1rem;
+
+      &--is-active {
+        border-style: solid;
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    &-text {
+      font-size: $font-sm;
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+
+    &-preview {
+      max-height: 4rem;
+      width: auto;
+      display: inline;
+    }
+
+    &-preview-label {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    &-button {
+      background: $background-color;
+      border: $border;
+      padding: 0.5rem 0.75rem;
+      border-radius: $rounded;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: $font-xs;
+    }
+
+    &--is-disabled {
+      cursor: default;
+    }
+  }
+
   &__error {
     color: rgb(157, 21, 21);
     font-size: $font-xs;

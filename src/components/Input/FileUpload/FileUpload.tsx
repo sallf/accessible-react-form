@@ -107,17 +107,16 @@ export const FileUpload = (props: Props) => {
   return (
     <Label label={label} isRequired={!!required} className={labelClassName}>
       <div
-        className={`arform__upload ${
-          isActive ? 'arform__upload--is-active' : ''
-        } ${className}`}
+        className={`arform__upload-wrapper ${
+          isActive ? 'arform__upload-wrapper--is-active' : ''
+        }`}
       >
         {!disabled && (
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 21.5 17.62"
             style={{
               width: '2rem',
-              fill: 'white',
+              fill: 'rgb(149 155 165)',
               opacity: 0.75,
             }}
           >
@@ -125,30 +124,24 @@ export const FileUpload = (props: Props) => {
             <path d="m16.87,5.63c-.5-2.25-1.69-3.82-3.23-4.72C12.01-.05,10.06-.21,8.3.25s-3.38,1.56-4.34,3.2c-.85,1.45-1.15,3.28-.62,5.34-4.74,1.14-4.42,8.46.87,8.84.02,0,.04,0,.05,0h11.12c1.54.01,3.02-.57,4.15-1.59,3.63-3.18,1.91-9.38-2.67-10.4Zm1.68,9.27h-.01c-.87.8-1.99,1.23-3.14,1.22H4.3c-3.74-.29-3.72-5.68,0-5.97.09,0,.18-.01.27-.04.39-.14.59-.57.45-.96-.74-2.05-.49-3.71.23-4.94.73-1.25,2-2.13,3.43-2.5,1.43-.37,2.96-.23,4.21.5,1.23.72,2.25,2.05,2.61,4.2.05.33.32.58.65.62,3.7.47,5.22,5.43,2.41,7.88Z" />
           </svg>
         )}
-        <span className={`${file ? 'text-sm' : 'text-xs'} text-center`}>
-          {previewUrl && (
-            <div className="my-2">
-              {fileType === 'media' ? (
-                <img
-                  className="max-h-[14rem] w-auto inline"
-                  src={previewUrl}
-                  alt=""
-                />
-              ) : (
-                <span className="font-bold text-lg">{previewUrl}</span>
-              )}
-            </div>
-          )}
-          {!disabled && 'Drag and drop files here'}
-        </span>
+
+        {previewUrl &&
+          (fileType === 'media' ? (
+            <img className="arform__upload-preview" src={previewUrl} alt="" />
+          ) : (
+            <span className="arform__upload-preview-label">{previewUrl}</span>
+          ))}
         {!disabled && (
           <>
-            <span className="text-sm">or</span>
-            <span className="bg-white/5 py-2 px-4 border border-white/20 rounded text-xs uppercase hover:bg-white/20 hover:border-white/60">
+            <span className={`arform__upload-text`}>
+              Drag and drop files here <br /> or
+            </span>
+            <span className="arform__upload-button">
               {file ? 'Change File' : 'Choose File'}
             </span>
           </>
         )}
+
         <div ref={inputRefWrapper}>
           {/* NOTE
           We can't manually set the value of a file input, so in the case that a
@@ -159,9 +152,9 @@ export const FileUpload = (props: Props) => {
           <Input
             id={id}
             label={label}
-            className={`absolute inset-0 opacity-0 ${
-              disabled ? '' : 'cursor-pointer'
-            }`}
+            className={`arform__upload ${
+              disabled ? 'arform__upload--is-disabled' : ''
+            } ${className || ''}`}
             type="file"
             required={!!required && !defaultValue}
             disabled={disabled}
