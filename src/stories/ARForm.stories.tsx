@@ -8,6 +8,7 @@ import { Checkbox } from '../components/Input/Checkbox/Checkbox'
 import { Date } from '../components/Input/Date/Date'
 import { Select } from '../components/Select/Select'
 import { TextArea } from '../components/TextArea/TextArea'
+import { FileUpload } from '../components/Input/FileUpload/FileUpload'
 
 const meta: Meta<typeof ARForm> = {
   component: ARForm,
@@ -34,6 +35,7 @@ const advancedValidationSchema: AnyObjectSchema = object({
   dob: string().required(),
   country: string().required(),
   comments: string().required(),
+  file: string().required(),
 })
 
 const BasicTemplate: Story = {
@@ -58,6 +60,7 @@ const AdvancedTemplate: Story = {
         options={['USA', 'Canada', 'Mexico']}
       />
       <TextArea id="comments" label="Comments" />
+      <FileUpload id="file" label="File" fileType="media" />
     </ARForm>
   ),
 }
@@ -83,6 +86,18 @@ export const Base: Story = {
     await expect(emailInput).toBeInTheDocument()
     await expect(submitButton).toBeInTheDocument()
   },
+}
+
+export const Advanced: Story = {
+  ...AdvancedTemplate,
+  // play: async ({ args, canvasElement, step }) => {
+  //   const { canvas, nameInput, emailInput, submitButton } =
+  //     getBaseElements(canvasElement)
+
+  //   await expect(nameInput).toBeInTheDocument()
+  //   await expect(emailInput).toBeInTheDocument()
+  //   await expect(submitButton).toBeInTheDocument()
+  // },
 }
 
 export const Empty: Story = {
@@ -141,16 +156,4 @@ export const Valid: Story = {
       canvas.queryByText(/name is a required field/)
     ).not.toBeInTheDocument()
   },
-}
-
-export const Advanced: Story = {
-  ...AdvancedTemplate,
-  // play: async ({ args, canvasElement, step }) => {
-  //   const { canvas, nameInput, emailInput, submitButton } =
-  //     getBaseElements(canvasElement)
-
-  //   await expect(nameInput).toBeInTheDocument()
-  //   await expect(emailInput).toBeInTheDocument()
-  //   await expect(submitButton).toBeInTheDocument()
-  // },
 }
