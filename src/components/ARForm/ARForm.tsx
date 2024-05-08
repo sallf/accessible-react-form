@@ -1,5 +1,3 @@
-import React from 'react'
-
 import type { FormHTMLAttributes, ReactNode } from 'react'
 import { useEffect } from 'react'
 import type { EventType, FieldValues, UseFormReturn } from 'react-hook-form'
@@ -82,34 +80,10 @@ export const ARForm = (props: Props) => {
           {children}
         </ChildrenLoop>
       )}
-      {/* <div className="mt-2 flex gap-2 justify-end w-full col-span-full">
-        {!formCtas.submit.hide && (
-          <div className={`order-1 ${ctaLayout === 'modal' ? '' : 'ml-auto'}`}>
-            <Btn
-              {...formCtas.submit}
-              onClick={() => null} // handled by form's onSubmit
-              btnType="submit"
-            />
-          </div>
-        )}
-        {formCtas.cancel && (
-          <div className="order-0">
-            <Btn
-              {...formCtas.cancel}
-              onClick={() => formCtas?.cancel?.onClick(getValues())}
-            />
-          </div>
-        )}
-      </div> */}
       {errorsCount > 0 && (
-        <div
-          role="alert"
-          // className={`text-theme-error text-sm basis-full ${
-          //   ctaLayout === 'progress' ? 'text-right' : ''
-          // }`}
-        >{`You have (${errorsCount}) error${errorsCount > 1 ? 's' : ''}`}</div>
+        <div role="alert">{`You have (${errorsCount}) error${errorsCount > 1 ? 's' : ''}`}</div>
       )}
-      <input type="submit" className="hidden" />
+      <input type="submit" className="arform__submit" />
     </form>
   )
 }

@@ -67,6 +67,16 @@ const AdvancedTemplate: Story = {
   ),
 }
 
+const WithSubmit: Story = {
+  render: ({ onSubmit }) => (
+    <ARForm validationSchema={basicValidationSchema} onSubmit={onSubmit}>
+      <Text id="name" label="Name" />
+      <Text id="email" label="Email" />
+      <button type="submit">Submit</button>
+    </ARForm>
+  ),
+}
+
 const getBaseElements = (canvasElement: HTMLElement) => {
   const canvas = within(canvasElement)
 
@@ -88,6 +98,10 @@ export const Base: Story = {
     await expect(emailInput).toBeInTheDocument()
     await expect(submitButton).toBeInTheDocument()
   },
+}
+
+export const BaseWithSubmit: Story = {
+  ...WithSubmit,
 }
 
 export const Advanced: Story = {
