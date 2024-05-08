@@ -1,8 +1,8 @@
 import { render, fireEvent, screen } from '@testing-library/react'
 import { composeStory } from '@storybook/react'
-import Meta, { Basic } from './ARForm.stories'
+import Meta, { Base } from './ARForm.stories'
 
-const FormBasic = composeStory(Basic, Meta)
+const FormBasic = composeStory(Base, Meta)
 
 describe('Basic Form', () => {
   test('renders form fields', () => {

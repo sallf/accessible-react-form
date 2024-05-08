@@ -1,6 +1,10 @@
 $label-color: #333;
 $background-color: #f5f5f5;
 $gray: rgb(107 114 128);
+$light-gray: rgb(229 231 235);
+
+$font-sm: 0.875rem; // 14px
+$font-xs: 0.75rem; // 12px
 
 .arform {
   display: flex;
@@ -12,8 +16,7 @@ $gray: rgb(107 114 128);
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    font-size: 0.875rem /* 14px */;
-    line-height: 1.25rem /* 20px */;
+    font-size: $font-sm;
     color: $label-color;
   }
 
@@ -30,6 +33,7 @@ $gray: rgb(107 114 128);
     padding: 0.5rem;
     border-radius: 0.25rem;
     order: -9999;
+    align-self: flex-start;
   }
 
   &__upload {
@@ -51,5 +55,34 @@ $gray: rgb(107 114 128);
     border: 1px solid $gray;
     padding: 0.5rem 0.75rem;
     border-radius: 0.25rem;
+  }
+
+  &__prefix {
+    display: flex;
+    width: 100%;
+
+    &-inner {
+      display: flex;
+      font-size: $font-sm;
+      background: $light-gray;
+      flex-grow: 0;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      margin-right: -1rem;
+      padding-right: 1.5rem;
+    }
+
+    &-input {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+  }
+
+  &__error {
+    color: rgb(157, 21, 21);
+    font-size: $font-xs;
+    line-height: 1rem;
+    text-transform: capitalize;
   }
 }
