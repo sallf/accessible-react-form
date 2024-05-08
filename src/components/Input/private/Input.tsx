@@ -2,7 +2,6 @@ import type { InputHTMLAttributes } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { FieldError } from '../../FieldError/FieldError'
-import React from 'react'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string

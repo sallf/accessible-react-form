@@ -4,24 +4,16 @@ import { Text } from '../components/Input/Text/Text'
 import { AnyObjectSchema, object, string } from 'yup'
 import { userEvent, within, expect, fn, waitFor, spyOn } from '@storybook/test'
 import { FieldValues } from 'react-hook-form'
+import { Checkbox } from '../components/Input/Checkbox/Checkbox'
+import { Date } from '../components/Input/Date/Date'
+import { Select } from '../components/Select/Select'
+import { TextArea } from '../components/TextArea/TextArea'
 
 const meta: Meta<typeof ARForm> = {
   component: ARForm,
   title: 'ARForm',
   // title: 'ARForm/ARForm',
   args: {
-    // onSubmit: (data: FieldValues) => {
-    //   console.log(data)
-    //   fn()
-    //   // fn().mockReturnValue(data)
-    //   // fn((args) => {
-    //   //   console.log('args :>> ', args)
-    //   //   return {
-    //   //     ...args,
-    //   //     data,
-    //   //   }
-    //   // })
-    // },
     onSubmit: fn(),
   },
   tags: ['autodocs'],
@@ -35,11 +27,37 @@ const basicValidationSchema: AnyObjectSchema = object({
   email: string().email(),
 })
 
+const advancedValidationSchema: AnyObjectSchema = object({
+  name: string().required(),
+  username: string(),
+  terms: string().required(),
+  dob: string().required(),
+  country: string().required(),
+  comments: string().required(),
+})
+
 const BasicTemplate: Story = {
   render: ({ onSubmit }) => (
     <ARForm validationSchema={basicValidationSchema} onSubmit={onSubmit}>
       <Text id="name" label="Name" />
       <Text id="email" label="Email" />
+    </ARForm>
+  ),
+}
+
+const AdvancedTemplate: Story = {
+  render: ({ onSubmit }) => (
+    <ARForm validationSchema={advancedValidationSchema} onSubmit={onSubmit}>
+      <Text id="name" label="Name" />
+      <Text id="username" label="Username" prefix="@" />
+      <Checkbox id="terms" label="I agree to the terms" />
+      <Date id="dob" label="Date of Birth" />
+      <Select
+        id="country"
+        label="Country"
+        options={['USA', 'Canada', 'Mexico']}
+      />
+      <TextArea id="comments" label="Comments" />
     </ARForm>
   ),
 }
@@ -125,111 +143,14 @@ export const Valid: Story = {
   },
 }
 
-// export const Basic: Story = {
-//   render: () => (
-//     <ARForm
-//       validationSchema={basicValidationSchema}
-//       onSubmit={(data) => console.log(data)}
-//     >
-//       <Text id="name" label="Name" />
-//       <Text id="email" label="Email" />
-//     </ARForm>
-//   ),
-//   play: async ({ canvasElement }) => {
-//     const canvas = within(canvasElement)
+export const Advanced: Story = {
+  ...AdvancedTemplate,
+  // play: async ({ args, canvasElement, step }) => {
+  //   const { canvas, nameInput, emailInput, submitButton } =
+  //     getBaseElements(canvasElement)
 
-//     console.log('canvas :>> ', canvas)
-
-//     // const nameInput = canvas.getByLabelText('Name', {
-//     //   selector: 'input',
-//     //   exact: false,
-//     // })
-
-//     // const emailInput = canvas.getByLabelText('Email', {
-//     //   selector: 'input',
-//     //   exact: false,
-//     // })
-
-//     // OR https://testing-library.com/docs/queries/about/#priority
-//     const nameInput = canvas.getByRole('textbox', { name: /Name/i })
-//     const emailInput = canvas.getByRole('textbox', { name: /Email/i })
-
-//     // await userEvent.type(nameInput, 'Jill Doe')
-//     await userEvent.type(emailInput, 'email@provider.com')
-
-//     // See https://storybook.js.org/docs/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-//     // await userEvent.click(canvas.getByRole('button'))
-//     await userEvent.keyboard('{enter}')
-
-//     // 👇 Assert DOM structure
-//     await expect(
-//       canvas.getByText('Please fill out this field')
-//     ).toBeInTheDocument()
-//   },
-// }
-
-// const invalidValidationSchema: AnyObjectSchema = object({
-//   name: string().required(),
-// })
-
-// export const Invalid: Story = {
-//   render: () => (
-//     <ARForm
-//       validationSchema={invalidValidationSchema}
-//       onSubmit={(data) => console.log(data)}
-//     >
-//       <Text id="name" label="Name" />
-//       <Text id="email" label="Email" />
-//     </ARForm>
-//   ),
-// }
-
-// export const FilledForm: Story = {
-//   play: async ({ canvasElement }) => {
-//     const canvas = within(canvasElement)
-
-//     console.log('canvas :>> ', canvas)
-
-//     const nameInput = canvas.getByLabelText('Name', {
-//       selector: 'input',
-//     })
-
-//     const emailInput = canvas.getByLabelText('Email', {
-//       selector: 'input',
-//     })
-
-//     await userEvent.type(nameInput, 'Jill Doe')
-//     await userEvent.type(emailInput, 'email@provider.com')
-
-//     // See https://storybook.js.org/docs/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-//     // await userEvent.click(canvas.getByRole('button'))
-//     await userEvent.keyboard('{enter}')
-
-//     // 👇 Assert DOM structure
-//     await expect(
-//       canvas.getByText(
-//         'Everything is perfect. Your account is ready and we should probably get you started!'
-//       )
-//     ).toBeInTheDocument()
-//   },
-// }
-
-// export const MissingNameForm: Story = {
-//   play: async ({ canvasElement }) => {
-//     const canvas = within(canvasElement)
-
-//     const emailInput = canvas.getByLabelText('Email', {
-//       selector: 'input',
-//     })
-
-//     await userEvent.type(emailInput, 'email@provider.com')
-//     await userEvent.keyboard('{enter}')
-
-//     // 👇 Assert DOM structure
-//     await expect(
-//       canvas.getByText(
-//         'Everything is perfect. Your account is ready and we should probably get you started!'
-//       )
-//     ).toBeInTheDocument()
-//   },
-// }
+  //   await expect(nameInput).toBeInTheDocument()
+  //   await expect(emailInput).toBeInTheDocument()
+  //   await expect(submitButton).toBeInTheDocument()
+  // },
+}

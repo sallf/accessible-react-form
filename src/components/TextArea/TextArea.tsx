@@ -3,7 +3,6 @@ import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { FieldError } from '../FieldError/FieldError'
 import { Label } from '../Label/Label'
-import React from 'react'
 
 interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   id: string
@@ -42,7 +41,7 @@ export const TextArea = (props: Props) => {
         className={`arform__textarea ${className}`}
         minLength={minLength}
         maxLength={maxLength}
-        required={!!required}
+        // required={!!required} removing required from input so validation can be done by yup
       />
       <FieldError error={error} />
     </Label>
