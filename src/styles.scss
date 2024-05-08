@@ -1,7 +1,9 @@
 $label-color: #333;
 $background-color: #f5f5f5;
-$gray: rgb(107 114 128);
+$gray: rgb(149 155 165);
 $light-gray: rgb(229 231 235);
+$rounded: 0.25rem;
+$border: 1px solid $gray;
 
 $font-sm: 0.875rem; // 14px
 $font-xs: 0.75rem; // 12px
@@ -16,45 +18,51 @@ $font-xs: 0.75rem; // 12px
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    font-size: $font-sm;
-    color: $label-color;
+
+    &-inner {
+      font-size: $font-sm;
+      color: $label-color;
+    }
+
+    &--is-row {
+      flex-direction: row;
+      align-items: center;
+    }
   }
 
   &__input {
     background: $background-color;
-    border: 1px solid $gray;
+    border: $border;
     padding: 0.5rem 0.75rem;
-    border-radius: 0.25rem;
+    border-radius: $rounded;
+
+    &--has-prefix {
+      border-radius: 0 $rounded $rounded 0;
+    }
+  }
+
+  &__textarea {
+    background: $background-color;
+    border: $border;
+    padding: 0.5rem;
+    border-radius: $rounded;
+    max-width: 100%;
   }
 
   &__checkbox {
     background: $background-color;
-    border: 1px solid $gray;
+    border: $border;
     padding: 0.5rem;
-    border-radius: 0.25rem;
+    border-radius: $rounded;
     order: -9999;
     align-self: flex-start;
   }
 
-  &__upload {
-    background: $gray;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    border: 1px dashed $gray;
-
-    &--is-active {
-      border-inline-style: solid;
-      background: rgba(255, 255, 255, 0.2);
-    }
-  }
-
   &__select {
     background: $background-color;
-    border: 1px solid $gray;
+    border: $border;
     padding: 0.5rem 0.75rem;
-    border-radius: 0.25rem;
+    border-radius: $rounded;
   }
 
   &__prefix {
@@ -63,13 +71,16 @@ $font-xs: 0.75rem; // 12px
 
     &-inner {
       display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: $font-sm;
       background: $light-gray;
       flex-grow: 0;
-      padding: 0.5rem;
-      border-radius: 0.25rem;
+      border: $border;
+      border-radius: $rounded 0 0 $rounded;
       margin-right: -1rem;
       padding-right: 1.5rem;
+      padding-left: 0.5rem;
     }
 
     &-input {
@@ -79,10 +90,82 @@ $font-xs: 0.75rem; // 12px
     }
   }
 
+  &__upload {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+
+    &-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border: $border;
+      border-radius: $rounded;
+      border-style: dashed;
+      padding: 4rem 1rem;
+
+      &--is-active {
+        border-style: solid;
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    &-text {
+      font-size: $font-sm;
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+
+    &-preview {
+      max-height: 4rem;
+      width: auto;
+      display: inline;
+    }
+
+    &-preview-label {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    &-button {
+      background: $background-color;
+      border: $border;
+      padding: 0.5rem 0.75rem;
+      border-radius: $rounded;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: $font-xs;
+    }
+
+    &--is-disabled {
+      cursor: default;
+    }
+  }
+
   &__error {
     color: rgb(157, 21, 21);
     font-size: $font-xs;
     line-height: 1rem;
     text-transform: capitalize;
+  }
+
+  // sr-only
+  &__submit {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 }

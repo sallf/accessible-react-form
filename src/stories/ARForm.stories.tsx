@@ -31,6 +31,7 @@ const basicValidationSchema: AnyObjectSchema = object({
 const advancedValidationSchema: AnyObjectSchema = object({
   name: string().required(),
   username: string(),
+  website: string().url(),
   terms: string().required(),
   dob: string().required(),
   country: string().required(),
@@ -47,11 +48,56 @@ const BasicTemplate: Story = {
   ),
 }
 
+const WithSubmit: Story = {
+  render: ({ onSubmit }) => (
+    <ARForm validationSchema={basicValidationSchema} onSubmit={onSubmit}>
+      <Text id="name" label="Name" />
+      <Text id="email" label="Email" />
+      <button type="submit">Submit</button>
+    </ARForm>
+  ),
+}
+
+const WithDefaults: Story = {
+  render: ({ onSubmit }) => (
+    <ARForm
+      validationSchema={basicValidationSchema}
+      onSubmit={onSubmit}
+      defaultValues={{
+        name: 'Jill Doe',
+        email: 'test@email.com',
+      }}
+    >
+      <Text id="name" label="Name" />
+      <Text id="email" label="Email" />
+    </ARForm>
+  ),
+}
+
+const UsingCallback: Story = {
+  render: ({ onSubmit }) => (
+    <ARForm
+      validationSchema={basicValidationSchema}
+      onSubmit={onSubmit}
+      onChangeCallback={(values, name, type, formProps) => {
+        console.log('values', values)
+        console.log('name', name)
+        console.log('type', type)
+        console.log('formProps', formProps)
+      }}
+    >
+      <Text id="name" label="Name" />
+      <Text id="email" label="Email" />
+    </ARForm>
+  ),
+}
+
 const AdvancedTemplate: Story = {
   render: ({ onSubmit }) => (
     <ARForm validationSchema={advancedValidationSchema} onSubmit={onSubmit}>
       <Text id="name" label="Name" />
       <Text id="username" label="Username" prefix="@" />
+      <Text id="website" label="Website" prefix="https://" />
       <Checkbox id="terms" label="I agree to the terms" />
       <Date id="dob" label="Date of Birth" />
       <Select
@@ -86,6 +132,18 @@ export const Base: Story = {
     await expect(emailInput).toBeInTheDocument()
     await expect(submitButton).toBeInTheDocument()
   },
+}
+
+export const BaseWithSubmit: Story = {
+  ...WithSubmit,
+}
+
+export const BaseWithDefaults: Story = {
+  ...WithDefaults,
+}
+
+export const BaseUsingCallback: Story = {
+  ...UsingCallback,
 }
 
 export const Advanced: Story = {

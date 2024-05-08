@@ -40,7 +40,7 @@ export const Input = (props: Props) => {
       {...rest}
       type={type}
       aria-invalid={error ? 'true' : 'false'}
-      className={`arform__input ${className}`}
+      className={`arform__input ${!!prefix ? 'arform__input--has-prefix' : ''} ${className}`}
       // required={!!required} removing required from input so validation can be done by yup
     />
   )

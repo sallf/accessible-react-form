@@ -30,7 +30,11 @@ export const Checkbox = (props: Props) => {
   //  RENDER
   // ---------------------
   return (
-    <Label label={label} isRequired={!!required} className={labelClassName}>
+    <Label
+      label={label}
+      isRequired={!!required}
+      className={`${labelClassName || ''} arform__label--is-row`}
+    >
       <Input
         id={id}
         label={label}
