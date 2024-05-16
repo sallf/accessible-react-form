@@ -190,3 +190,5 @@ export const TagInput = (props: Props) => {
     </Label>
   )
 }
+
+TagInput.displayName = 'TagInput'

@@ -176,3 +176,5 @@ export const FileUpload = (props: Props) => {
     </Label>
   )
 }
+
+FileUpload.displayName = 'FileUpload'

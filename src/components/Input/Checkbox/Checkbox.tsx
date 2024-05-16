@@ -47,3 +47,5 @@ export const Checkbox = (props: Props) => {
     </Label>
   )
 }
+
+Checkbox.displayName = 'Checkbox'

@@ -3,11 +3,12 @@ import { Children, cloneElement, isValidElement } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 import type { AnyObject, TestConfig } from 'yup'
 
+import { Text } from '../Input/Text/Text'
 import { Checkbox } from '../Input/Checkbox/Checkbox'
 import { Date } from '../Input/Date/Date'
 import { FileUpload } from '../Input/FileUpload/FileUpload'
 import { TagInput } from '../Input/TagInput/TagInput'
-import { Label } from '../Label/Label'
+// import { Label } from '../Label/Label'
 import { Select } from '../Select/Select'
 import { TextArea } from '../TextArea/TextArea'
 
@@ -66,12 +67,15 @@ export const ChildrenLoop = (props: Props) => {
         TagInput,
         Text,
         Date,
-        Label,
+        // Label,
         Select,
         TextArea,
       ]
-      const name = typeof child.type !== 'string' ? child.type.name : undefined
-      const isInput = inputs.some((input) => input.name === name)
+
+      const name =
+        // @ts-ignore - displayName can exist
+        typeof child.type !== 'string' ? child.type?.displayName : undefined
+      const isInput = inputs.some((input) => input.displayName === name)
       // If we find an input, stop here and return
       // This won't find nested inputs, but that shouldn't be a thing
       if (isInput) {
