@@ -131,11 +131,14 @@ const getBaseElements = (canvasElement: HTMLElement) => {
 export const Base: Story = {
   ...BasicTemplate,
   play: async ({ args, canvasElement, step }) => {
-    // const { canvas, nameInput, emailInput, submitButton } =
-    //   getBaseElements(canvasElement)
-
-    const nameInput = await screen.findByLabelText('Name')
-    const emailInput = await screen.findByLabelText('Email')
+    const nameInput = await within(canvasElement).findByLabelText('Name', {
+      selector: 'input',
+      exact: false,
+    })
+    const emailInput = await within(canvasElement).findByLabelText('Email', {
+      selector: 'input',
+      exact: false,
+    })
 
     await expect(nameInput).toBeInTheDocument()
     await expect(emailInput).toBeInTheDocument()
