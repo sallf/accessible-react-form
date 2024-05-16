@@ -12,7 +12,6 @@ interface Props extends FormHTMLAttributes<HTMLFormElement> {
   // validationSchema?: AnyObject | null
   validationSchema?: AnyObjectSchema | null
   onSubmit: (data: FieldValues) => void
-  // ctaLayout?: 'modal' | 'progress' // could have more options?
   className?: string
   defaultValues?: FieldValues | null
   onChangeCallback?: (

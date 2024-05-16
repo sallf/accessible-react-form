@@ -67,3 +67,5 @@ export const Select = (props: Props) => {
     </Label>
   )
 }
+
+Select.displayName = 'Select'

@@ -47,3 +47,5 @@ export const TextArea = (props: Props) => {
     </Label>
   )
 }
+
+TextArea.displayName = 'TextArea'

@@ -43,3 +43,5 @@ export const Date = (props: Props) => {
     </Label>
   )
 }
+
+Date.displayName = 'Date'

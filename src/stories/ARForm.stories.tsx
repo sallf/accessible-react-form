@@ -2,8 +2,15 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { ARForm } from '../components/ARForm/ARForm'
 import { Text } from '../components/Input/Text/Text'
 import { AnyObjectSchema, object, string } from 'yup'
-import { userEvent, within, expect, fn, waitFor, spyOn } from '@storybook/test'
-import { FieldValues } from 'react-hook-form'
+import {
+  userEvent,
+  within,
+  expect,
+  fn,
+  waitFor,
+  spyOn,
+  screen,
+} from '@storybook/test'
 import { Checkbox } from '../components/Input/Checkbox/Checkbox'
 import { Date } from '../components/Input/Date/Date'
 import { Select } from '../components/Select/Select'
@@ -113,7 +120,6 @@ const AdvancedTemplate: Story = {
 
 const getBaseElements = (canvasElement: HTMLElement) => {
   const canvas = within(canvasElement)
-
   return {
     canvas,
     nameInput: canvas.getByRole('textbox', { name: /Name/i }),
@@ -124,14 +130,20 @@ const getBaseElements = (canvasElement: HTMLElement) => {
 
 export const Base: Story = {
   ...BasicTemplate,
-  // play: async ({ args, canvasElement, step }) => {
-  //   const { canvas, nameInput, emailInput, submitButton } =
-  //     getBaseElements(canvasElement)
+  play: async ({ args, canvasElement, step }) => {
+    const nameInput = await within(canvasElement).findByLabelText('Name', {
+      selector: 'input',
+      exact: false,
+    })
+    const emailInput = await within(canvasElement).findByLabelText('Email', {
+      selector: 'input',
+      exact: false,
+    })
 
-  //   await expect(nameInput).toBeInTheDocument()
-  //   await expect(emailInput).toBeInTheDocument()
-  //   await expect(submitButton).toBeInTheDocument()
-  // },
+    await expect(nameInput).toBeInTheDocument()
+    await expect(emailInput).toBeInTheDocument()
+    // await expect(submitButton).toBeInTheDocument()
+  },
 }
 
 export const BaseWithSubmit: Story = {
