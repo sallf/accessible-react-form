@@ -1,6 +1,6 @@
 {
   "name": "accessible-react-form",
-  "version": "0.1.0",
+  "version": "0.0.1-alpha.0",
   "description": "An accessible, minimal React form library. Built on react-hook-form. Works with any Standard Schema validator (yup, zod, valibot, arktype).",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
