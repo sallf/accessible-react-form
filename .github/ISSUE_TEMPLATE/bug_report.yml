@@ -1,0 +1,55 @@
+name: Bug report
+description: Report something that doesn't work as expected
+labels: ['bug']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: A clear description of what you expected to happen vs. what actually happened.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: Minimal repro — a StackBlitz / CodeSandbox link is best. Otherwise, the smallest code snippet that demonstrates the issue.
+    validations:
+      required: true
+
+  - type: input
+    id: lib-version
+    attributes:
+      label: accessible-react-form version
+      placeholder: '0.1.0'
+    validations:
+      required: true
+
+  - type: input
+    id: react-version
+    attributes:
+      label: React version
+      placeholder: '19.2.5'
+    validations:
+      required: true
+
+  - type: input
+    id: rhf-version
+    attributes:
+      label: react-hook-form version
+      placeholder: '7.75.0'
+
+  - type: dropdown
+    id: a11y
+    attributes:
+      label: Is this an accessibility issue?
+      options:
+        - 'No'
+        - 'Yes — please describe the assistive tech below'
+
+  - type: textarea
+    id: a11y-details
+    attributes:
+      label: Assistive tech (if applicable)
+      description: Screen reader + browser combo, e.g., "VoiceOver + Safari 17"
