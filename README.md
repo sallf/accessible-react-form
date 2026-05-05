@@ -91,6 +91,92 @@ So `<ARForm>` stays neutral: the schema is the source of truth for *validation*,
 
 All accept the standard HTML attributes for their underlying element (`required`, `minLength`, `maxLength`, etc.) plus `id` and `label`.
 
+## Styling
+
+The library ships **completely unstyled**. Every element gets a stable `arform__*` class hook so you can style globally from your own CSS, and stateful elements expose state via attributes you can target with attribute selectors.
+
+### Per-form / per-field styling
+
+`<ARForm>` and every input component forward `className` and `style` to the underlying DOM element, so you can style a single instance directly:
+
+```tsx
+<ARForm className="checkout-form" style={{ maxWidth: 480 }} onSubmit={...}>
+  <Text id="email" label="Email" className="checkout-form__email" />
+</ARForm>
+```
+
+For wrapping markup (e.g., a custom row layout), wrap the input in your own element:
+
+```tsx
+<div className="my-row">
+  <Text id="first" label="First" />
+  <Text id="last" label="Last" />
+</div>
+```
+
+### Global styling
+
+Target the `arform__*` classes from your global stylesheet:
+
+```css
+.arform__input,
+.arform__select,
+.arform__textarea {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+.arform__label-required { color: crimson; }
+.arform__error { color: crimson; font-size: 0.875rem; }
+```
+
+#### Class hooks
+
+| Class | Element | Notes |
+|---|---|---|
+| `arform` | `<form>` | Root form element |
+| `arform__submit` | `<input type="submit">` | Default submit button |
+| `arform__error` | error `<div role="alert">` | Field-level error message |
+| `arform__label` | `<label>` | Wraps every input |
+| `arform__label-inner` | `<div>` inside label | Holds label text + required mark |
+| `arform__label-required` | `<span>` | The `*` for required fields |
+| `arform__input` | `<input>` | Base class on all inputs |
+| `arform__text` | `<input type="text">` | |
+| `arform__date` | `<input type="date">` | |
+| `arform__checkbox` | `<input type="checkbox">` | |
+| `arform__select` | `<select>` | |
+| `arform__textarea` | `<textarea>` | |
+| `arform__upload` | file `<input>` | |
+| `arform__upload-wrapper` | `<div>` | Drop target around file input |
+| `arform__upload-preview` | `<img>` | Image preview for `fileType="media"` |
+| `arform__upload-preview-label` | `<span>` | Filename preview for `fileType="binary"` |
+| `arform__upload-text` | `<span>` | "Drag and drop…" prompt |
+| `arform__upload-button` | `<span>` | "Choose File" / "Change File" |
+| `arform__prefix` | `<span>` | Wraps inputs with a `prefix` |
+| `arform__prefix-inner` | `<span>` | Holds the prefix text |
+| `arform__prefix-input` | `<span>` | Holds the input itself |
+
+#### State attributes
+
+State lives on attributes rather than modifier classes — pair them with the class hook above to scope each rule:
+
+| Selector | Meaning |
+|---|---|
+| `.arform__input[aria-invalid="true"]` | Field has a validation error |
+| `.arform__input[aria-required="true"]` | Field is marked required (UI/a11y) |
+| `.arform__input:disabled` | Native `disabled` attribute set |
+| `.arform__input[data-arform-has-prefix]` | Input is rendered with a `prefix` |
+| `.arform__label[data-arform-row]` | Label uses a row layout (e.g., checkbox) |
+| `.arform__upload-wrapper[data-arform-active]` | File is being dragged over the drop target |
+
+`aria-invalid` and `aria-required` work as CSS selectors and double as the accessibility hooks — no separate `data-*` is needed for them. Same for native `:disabled`.
+
+```css
+.arform__input[aria-invalid="true"] { border-color: crimson; }
+.arform__upload-wrapper[data-arform-active] { background: #eef; }
+```
+
 ## Examples
 
 See `src/stories` for runnable examples covering each component, validation states, and all three schema validators.
