@@ -1,7 +1,10 @@
 import { ARForm, Text } from 'accessible-react-form'
 import { object, string, type AnyObjectSchema } from 'yup'
 import { useState } from 'react'
+import type { FieldValues } from 'react-hook-form'
 import { CopyButton } from '../components/CopyButton'
+
+type HeroValues = { name: string; email: string }
 
 const schema: AnyObjectSchema = object({
   name: string().required(),
@@ -11,7 +14,7 @@ const schema: AnyObjectSchema = object({
 const installCmd = 'npm install accessible-react-form react-hook-form'
 
 export const Hero = () => {
-  const [submitted, setSubmitted] = useState<{ name: string; email: string } | null>(null)
+  const [submitted, setSubmitted] = useState<HeroValues | null>(null)
 
   return (
     <section className="max-w-6xl mx-auto px-6 pt-16 pb-24 sm:pt-24 sm:pb-32">
@@ -76,7 +79,10 @@ export const Hero = () => {
             <p className="text-xs font-mono text-fg-muted mb-4 uppercase tracking-wider">
               Try it
             </p>
-            <ARForm validationSchema={schema} onSubmit={(data) => setSubmitted(data as { name: string; email: string })}>
+            <ARForm
+              validationSchema={schema}
+              onSubmit={(data: FieldValues) => setSubmitted(data as HeroValues)}
+            >
               <Text id="name" label="Name" />
               <Text id="email" label="Email" />
             </ARForm>
