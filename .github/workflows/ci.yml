@@ -42,11 +42,12 @@ jobs:
 
       - name: Build site
         # Site build re-runs the storybook build; use the already-built output instead.
+        # Site tsc -b runs as part of this step (it imports the built library above).
         run: |
           rm -rf site/public/storybook
           cp -r storybook-static site/public/storybook
-          npx tsc -b --project site
-          npx vite build --root site
+          npx tsc -b site
+          npx vite build site
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
