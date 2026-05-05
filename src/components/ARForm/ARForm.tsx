@@ -2,15 +2,14 @@ import type { FormHTMLAttributes, ReactNode } from 'react'
 import { useEffect } from 'react'
 import type { EventType, FieldValues, UseFormReturn } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
+import type { StandardSchemaV1 } from '@standard-schema/spec'
 
 import { ChildrenLoop } from './ChildrenLoop'
-import { useYupValidationResolver } from '../../hooks/yup'
-import { AnyObjectSchema } from 'yup'
+import { useStandardSchemaResolver } from '../../hooks/standardSchema'
 
 interface Props extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode
-  // validationSchema?: AnyObject | null
-  validationSchema?: AnyObjectSchema | null
+  validationSchema?: StandardSchemaV1 | null
   onSubmit: (data: FieldValues) => void
   className?: string
   defaultValues?: FieldValues | null
@@ -40,9 +39,9 @@ export const ARForm = (props: Props) => {
   // --------------------- ===
   //  HOOKS
   // ---------------------
-  const resolver = useYupValidationResolver(validationSchema)
+  const resolver = useStandardSchemaResolver(validationSchema)
   const formProps = useForm<FieldValues>({
-    ...(validationSchema && { resolver: resolver as any }),
+    ...(validationSchema && { resolver }),
   }) // only add resolver if there's a schema
   const { handleSubmit, getValues, formState, watch } = formProps
 
@@ -74,11 +73,7 @@ export const ARForm = (props: Props) => {
       className={`arform ${className}`}
       {...rest}
     >
-      {validationSchema && (
-        <ChildrenLoop validationSchema={validationSchema} formProps={formProps}>
-          {children}
-        </ChildrenLoop>
-      )}
+      <ChildrenLoop formProps={formProps}>{children}</ChildrenLoop>
       {errorsCount > 0 && (
         <div role="alert">{`You have (${errorsCount}) error${errorsCount > 1 ? 's' : ''}`}</div>
       )}

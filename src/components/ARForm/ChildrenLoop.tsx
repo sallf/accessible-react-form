@@ -1,110 +1,47 @@
 import type { ReactElement, ReactNode } from 'react'
 import { Children, cloneElement, isValidElement } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
-import type { AnyObject, TestConfig } from 'yup'
 
 import { Text } from '../Input/Text/Text'
 import { Checkbox } from '../Input/Checkbox/Checkbox'
 import { Date } from '../Input/Date/Date'
 import { FileUpload } from '../Input/FileUpload/FileUpload'
 import { TagInput } from '../Input/TagInput/TagInput'
-// import { Label } from '../Label/Label'
 import { Select } from '../Select/Select'
 import { TextArea } from '../TextArea/TextArea'
 
 interface Props {
-  validationSchema: AnyObject
   formProps: UseFormReturn<FieldValues, any>
   children: ReactNode
 }
 
-const checkSchema = (validationSchema: AnyObject, id: string) => {
-  if (!validationSchema.describe().fields[id]) {
-    throw new Error(`Field with id ${id} does not exist in validation schema`)
-  }
-}
+const inputs = [Checkbox, FileUpload, TagInput, Text, Date, Select, TextArea]
 
-// There seems to be no right way to type this
-const isFieldRequired = (validationSchema: AnyObject, id: string) => {
-  checkSchema(validationSchema, id)
-  return validationSchema
-    .describe()
-    .fields[id].tests.some(({ name }: TestConfig) => name === 'required')
-}
-
-const getFieldLimits = (validationSchema: AnyObject | null, id: string) => {
-  let minLength: undefined | number = undefined
-  let maxLength: undefined | number = undefined
-  if (!validationSchema) return { minLength, maxLength }
-  checkSchema(validationSchema, id)
-  validationSchema.describe().fields[id].tests.forEach((test: TestConfig) => {
-    if (test.name === 'min') {
-      minLength = test?.params?.min as number
-    }
-    if (test.name === 'max') {
-      maxLength = test?.params?.max as number
-    }
-  })
-  return { minLength, maxLength }
-}
 // The point of this component is to loop through ALL children and
 // find the inputs. This allows us to wrap inputs in other components and elements
 export const ChildrenLoop = (props: Props) => {
-  // --------------------- ===
-  //  PROPS
-  // ---------------------
-  const { validationSchema, formProps, children } = props
+  const { formProps, children } = props
 
-  // --------------------- ===
-  //  LOOP
-  // ---------------------
   const loopChildren = (_children: ReactNode): ReactNode =>
     Children.map(_children, (child: ReactNode) => {
       if (!isValidElement(child)) return child
-      const inputs = [
-        Checkbox,
-        FileUpload,
-        TagInput,
-        Text,
-        Date,
-        // Label,
-        Select,
-        TextArea,
-      ]
 
       const name =
         // @ts-ignore - displayName can exist
         typeof child.type !== 'string' ? child.type?.displayName : undefined
       const isInput = inputs.some((input) => input.displayName === name)
-      // If we find an input, stop here and return
-      // This won't find nested inputs, but that shouldn't be a thing
-      const childProps = child.props as { id?: string; children?: ReactNode }
+      const childProps = child.props as { children?: ReactNode }
+
       if (isInput) {
-        const { minLength, maxLength } = getFieldLimits(
-          validationSchema,
-          childProps.id as string
-        )
-        return cloneElement(child as ReactElement<any>, {
-          formProps,
-          minLength,
-          maxLength,
-          required:
-            !!validationSchema &&
-            isFieldRequired(validationSchema, childProps.id as string),
-        })
+        return cloneElement(child as ReactElement<any>, { formProps })
       }
       if (childProps.children) {
-        // If we find a child with children, keep looping
         return cloneElement(child as ReactElement<any>, {
           children: loopChildren(childProps.children),
         })
       }
       return child
     })
-
-  // --------------------- ===
-  //  RETURN
-  // ---------------------
 
   return loopChildren(children)
 }
