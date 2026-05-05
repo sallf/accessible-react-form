@@ -177,6 +177,60 @@ State lives on attributes rather than modifier classes — pair them with the cl
 .arform__upload-wrapper[data-arform-active] { background: #eef; }
 ```
 
+### Tailwind CSS
+
+Tailwind plays nicely with the library — utility classes coexist with the `arform__*` hooks. Three patterns, in order of how most Tailwind users will reach for them:
+
+**1. Per-instance utilities via `className`**
+
+```tsx
+<ARForm className="space-y-4 max-w-md" onSubmit={onSubmit}>
+  <Text
+    id="email"
+    label="Email"
+    className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none aria-invalid:border-red-500"
+  />
+</ARForm>
+```
+
+Tailwind v3.1+ ships an `aria-invalid:` variant; older versions can use the arbitrary variant `[&[aria-invalid="true"]]:border-red-500`.
+
+**2. Wrapping div for layout the library doesn't render**
+
+```tsx
+<ARForm onSubmit={onSubmit}>
+  <div className="grid grid-cols-2 gap-4">
+    <Text id="first" label="First name" className="w-full rounded border px-3 py-2" />
+    <Text id="last" label="Last name" className="w-full rounded border px-3 py-2" />
+  </div>
+</ARForm>
+```
+
+**3. Global theme via `@apply` on the class hooks**
+
+Define the look once in your global stylesheet and every `<ARForm>` inherits it:
+
+```css
+@layer components {
+  .arform__input,
+  .arform__select,
+  .arform__textarea {
+    @apply w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none;
+  }
+  .arform__input[aria-invalid="true"],
+  .arform__select[aria-invalid="true"],
+  .arform__textarea[aria-invalid="true"] {
+    @apply border-red-500;
+  }
+  .arform__label { @apply block text-sm font-medium text-gray-700; }
+  .arform__label[data-arform-row] { @apply flex items-center gap-2; }
+  .arform__label-required { @apply text-red-500; }
+  .arform__error { @apply mt-1 text-sm text-red-600; }
+}
+```
+
+If you're using Tailwind's content scanner, make sure your config includes the files where you write these utilities — the `arform__*` strings come from this library and don't need to be listed.
+
 ## Examples
 
 See `src/stories` for runnable examples covering each component, validation states, and all three schema validators.
