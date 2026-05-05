@@ -12,7 +12,7 @@ interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 }
 
 export const TextArea = (props: Props) => {
-  // --- PROPS ---  s
+  // --- PROPS ---
   const {
     id,
     label,
