@@ -1,3 +1,4 @@
+import { Link, NavLink } from 'react-router-dom'
 import { useTheme, type Theme } from '../hooks/useTheme'
 
 const ThemeIcon = ({ theme }: { theme: Theme }) => {
@@ -30,22 +31,26 @@ export const Nav = () => {
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-bg/80 border-b border-border">
-      <nav className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-        <a href="#" className="font-mono text-sm font-semibold tracking-tight">
+      <nav className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
+        <Link to="/" className="font-mono text-sm font-semibold tracking-tight">
           accessible-react-form
-        </a>
+        </Link>
         <div className="flex items-center gap-1 sm:gap-3 text-sm">
+          <NavLink
+            to="/docs"
+            className={({ isActive }) =>
+              `px-2 py-1 transition-colors ${
+                isActive ? 'text-fg font-medium' : 'text-fg-muted hover:text-fg'
+              }`
+            }
+          >
+            Docs
+          </NavLink>
           <a
-            href="#components"
+            href="/storybook/"
             className="hidden sm:inline px-2 py-1 text-fg-muted hover:text-fg transition-colors"
           >
-            Components
-          </a>
-          <a
-            href="#comparison"
-            className="hidden sm:inline px-2 py-1 text-fg-muted hover:text-fg transition-colors"
-          >
-            Compare
+            Storybook
           </a>
           <a
             href="https://github.com/adam-rho/accessible-react-form"
