@@ -25,9 +25,7 @@ const isDuplicate = (v1: string, v2: string) =>
   removeSpaces(v1) === removeSpaces(v2)
 
 export const TagInput = (props: Props) => {
-  // --------------------- ===
-  //  PROPS
-  // ---------------------
+  // --- PROPS ---
   const {
     id, // must be unique in form
     label,
@@ -45,20 +43,14 @@ export const TagInput = (props: Props) => {
   // Note that currentVal will be a comma separated string e.x. 'tag1,tag 2,tag$' which would create three Tags ['tag1', 'tag 2', 'tag$']
   const currentVal: string | undefined = formProps?.watch(id) // Sent to form on submit
 
-  // --------------------- ===
-  //  STATE
-  // ---------------------
+  // --- STATE ---
   const [val, setVal] = useState('') // Visible input. Clears on Tab, Enter, and Comma
   const [isFocused, setIsFocused] = useState(false)
 
-  // --------------------- ===
-  //  REFS
-  // ---------------------
+  // --- REFS ---
   const visibleInput = useRef<HTMLInputElement>(null)
 
-  // --------------------- ===
-  //  HELPERS
-  // ---------------------
+  // --- HELPERS ---
   const setCurrentVal = (v: string | undefined) => {
     formProps?.setValue(id, v ?? '')
   }
@@ -72,9 +64,7 @@ export const TagInput = (props: Props) => {
     setVal('') // reset
   }
 
-  // --------------------- ===
-  //  HANDLERS
-  // ---------------------
+  // --- HANDLERS ---
   const handleClick = () => {
     visibleInput.current?.focus()
   }
@@ -90,9 +80,7 @@ export const TagInput = (props: Props) => {
     addVal(v)
   }
 
-  // --------------------- ===
-  //  EFFECTS
-  // ---------------------
+  // --- EFFECTS ---
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
@@ -123,9 +111,7 @@ export const TagInput = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [val, currentValToArr, isFocused]) // Only val, currentValToArr and isFocused
 
-  // --------------------- ===
-  //  RENDER
-  // ---------------------
+  // --- RENDER ---
   return (
     <Label label={label} isRequired={!!required} className={className}>
       <Input

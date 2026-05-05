@@ -19,9 +19,7 @@ interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 export const Select = (props: Props) => {
-  // --------------------- ===
-  //  PROPS
-  // ---------------------
+  // --- PROPS ---
   const {
     id,
     label,
@@ -33,19 +31,22 @@ export const Select = (props: Props) => {
     ...rest
   } = props
 
-  // --------------------- ===
-  //  RENDER
-  // ---------------------
+  // --- RENDER ---
   if (!formProps?.register || !id) return null // type help
-  const error = formProps.formState.errors[id] || {}
+
+  const error = formProps.formState.errors[id]
+  const hasError = !!error?.message
+  const errorId = `${id}-error`
+
   return (
     <Label label={label} isRequired={!!required} className={labelClassName}>
       <select
         {...formProps.register(id)}
         {...rest}
-        aria-invalid={error ? 'true' : 'false'}
+        aria-required={required ? true : undefined}
+        aria-invalid={hasError ? 'true' : 'false'}
+        aria-describedby={hasError ? errorId : undefined}
         className={`arform__select ${className}`}
-        required={!!required}
       >
         {options.map((opt) => {
           const isStr = typeof opt === 'string'
@@ -63,7 +64,7 @@ export const Select = (props: Props) => {
           )
         })}
       </select>
-      <FieldError error={error} />
+      <FieldError id={errorId} error={error} />
     </Label>
   )
 }

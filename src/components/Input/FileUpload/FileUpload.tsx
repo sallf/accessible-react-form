@@ -15,9 +15,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const FileUpload = (props: Props) => {
-  // --------------------- ===
-  //  PROPS
-  // ---------------------
+  // --- PROPS ---
   const {
     id, // must be unique in form
     label,
@@ -30,21 +28,15 @@ export const FileUpload = (props: Props) => {
     ...rest
   } = props
 
-  // --------------------- ===
-  //  STATE
-  // ---------------------
+  // --- STATE ---
   const [isActive, setIsActive] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string>('')
 
-  // --------------------- ===
-  //  REFS
-  // ---------------------
+  // --- REFS ---
   const inputRefWrapper = useRef<HTMLInputElement>(null)
 
-  // --------------------- ===
-  //  HANDLERS
-  // ---------------------
+  // --- HANDLERS ---
   const handleDrag = (evt: DragEvent<HTMLInputElement>, isEnter: boolean) => {
     setIsActive(isEnter)
   }
@@ -56,9 +48,7 @@ export const FileUpload = (props: Props) => {
     }
   }
 
-  // --------------------- ===
-  //  EFFECTS
-  // ---------------------
+  // --- EFFECTS ---
   const defaultValue = formProps?.formState?.defaultValues?.[id] as
     | string
     | File
@@ -100,9 +90,7 @@ export const FileUpload = (props: Props) => {
     }
   }, [file])
 
-  // --------------------- ===
-  //  RENDER
-  // ---------------------
+  // --- RENDER ---
   // TODO this has another layer of complexity. Not sure how to pass className
   return (
     <Label label={label} isRequired={!!required} className={labelClassName}>

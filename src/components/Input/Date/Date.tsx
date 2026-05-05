@@ -13,9 +13,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Date = (props: Props) => {
-  // --------------------- ===
-  //  PROPS
-  // ---------------------
+  // --- PROPS ---
   const {
     id, // must be unique in form
     label,
@@ -26,9 +24,7 @@ export const Date = (props: Props) => {
     ...rest
   } = props
 
-  // --------------------- ===
-  //  RENDER
-  // ---------------------
+  // --- RENDER ---
   return (
     <Label label={label} isRequired={!!required} className={labelClassName}>
       <Input
