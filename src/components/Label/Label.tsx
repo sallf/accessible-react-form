@@ -4,17 +4,21 @@ import React from 'react'
 interface Props {
   label: string
   isRequired: boolean
+  isRow?: boolean
   className?: string
   children: ReactNode
 }
 
 export const Label = (props: Props) => {
   // --- PROPS ---
-  const { label, isRequired, className, children } = props
+  const { label, isRequired, isRow, className, children } = props
 
   // --- RENDER ---
   return (
-    <label className={`arform__label ${className || ''}`}>
+    <label
+      className={`arform__label ${className || ''}`}
+      data-arform-row={isRow ? '' : undefined}
+    >
       <div className="arform__label-inner">
         {label}
         {isRequired && (

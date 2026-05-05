@@ -42,7 +42,8 @@ export const Input = (props: Props) => {
       aria-required={required ? true : undefined}
       aria-invalid={hasError ? 'true' : 'false'}
       aria-describedby={hasError ? errorId : undefined}
-      className={`arform__input ${!!prefix ? 'arform__input--has-prefix' : ''} ${className}`}
+      data-arform-has-prefix={prefix ? '' : undefined}
+      className={`arform__input ${className}`}
       // HTML required intentionally omitted — schema validation drives behavior;
       // aria-required announces the state to assistive tech.
     />

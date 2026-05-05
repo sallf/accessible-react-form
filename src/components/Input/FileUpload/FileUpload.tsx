@@ -95,9 +95,8 @@ export const FileUpload = (props: Props) => {
   return (
     <Label label={label} isRequired={!!required} className={labelClassName}>
       <div
-        className={`arform__upload-wrapper ${
-          isActive ? 'arform__upload-wrapper--is-active' : ''
-        }`}
+        className="arform__upload-wrapper"
+        data-arform-active={isActive ? '' : undefined}
       >
         {!disabled && (
           <svg
@@ -140,9 +139,7 @@ export const FileUpload = (props: Props) => {
           <Input
             id={id}
             label={label}
-            className={`arform__upload ${
-              disabled ? 'arform__upload--is-disabled' : ''
-            } ${className || ''}`}
+            className={`arform__upload ${className || ''}`}
             type="file"
             required={!!required && !defaultValue}
             disabled={disabled}
