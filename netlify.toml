@@ -1,6 +1,6 @@
 [build]
   base = "."
-  command = "npm install && npm install --prefix site && npm run build --prefix site"
+  command = "npm install && npm run build-lib && npm install --prefix site && npm run build --prefix site"
   publish = "site/dist"
 
 [build.environment]
