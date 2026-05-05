@@ -8,7 +8,7 @@ const schema: AnyObjectSchema = object({
   email: string().email().required(),
 })
 
-const installCmd = 'npm install accessible-react-form react-hook-form yup @hookform/resolvers'
+const installCmd = 'npm install accessible-react-form react-hook-form'
 
 export const Hero = () => {
   const [submitted, setSubmitted] = useState<{ name: string; email: string } | null>(null)
@@ -21,15 +21,28 @@ export const Hero = () => {
             ALPHA · v0.1.0
           </p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] mb-6">
-            Accessible React forms,<br />
-            <span className="text-fg-muted">without the boilerplate.</span>
+            Everything modern form libraries do —{' '}
+            <span className="text-fg-muted">
+              minus the boilerplate, plus accessibility built in.
+            </span>
           </h1>
           <p className="text-lg text-fg-muted mb-8 max-w-xl leading-relaxed">
             A minimal React form library built on{' '}
-            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">react-hook-form</code>
-            {' '}and{' '}
-            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">yup</code>.
-            WCAG-compliant by default. No ARIA wiring required.
+            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">react-hook-form</code>.
+            WCAG-compliant by default. No ARIA wiring required. Bring any{' '}
+            <a
+              href="https://standardschema.dev"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-fg-muted/40 hover:decoration-fg underline-offset-4"
+            >
+              Standard Schema
+            </a>
+            {' '}validator —{' '}
+            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">yup</code>,{' '}
+            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">zod</code>,{' '}
+            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">valibot</code>,{' '}
+            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">arktype</code>.
           </p>
 
           <div className="flex items-center justify-between gap-3 px-4 py-3 rounded-lg bg-bg-subtle border border-border mb-4">

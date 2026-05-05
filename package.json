@@ -1,7 +1,7 @@
 {
   "name": "accessible-react-form",
   "version": "0.1.0",
-  "description": "An easy to use and accessible library for building forms in react.",
+  "description": "An accessible, minimal React form library. Built on react-hook-form. Works with any Standard Schema validator (yup, zod, valibot, arktype).",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/types/index.d.ts",
@@ -35,7 +35,10 @@
     "accessibility",
     "a11y",
     "react-hook-form",
+    "standard-schema",
     "yup",
+    "zod",
+    "valibot",
     "validation",
     "wcag"
   ],
@@ -82,13 +85,15 @@
     "sass": "^1.99.0",
     "storybook": "^10.3.6",
     "tslib": "^2.8.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "yup": "^1.7.1"
+  },
+  "dependencies": {
+    "@standard-schema/spec": "^1.0.0"
   },
   "peerDependencies": {
-    "@hookform/resolvers": "^5.2.2",
     "react": "^18.3.1 || ^19.0.0",
     "react-dom": "^18.3.1 || ^19.0.0",
-    "react-hook-form": "^7.75.0",
-    "yup": "^1.7.1"
+    "react-hook-form": "^7.75.0"
   }
 }
