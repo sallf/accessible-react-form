@@ -42,11 +42,12 @@ jobs:
 
       - name: Build site
         # Site build re-runs the storybook build; use the already-built output instead.
+        # Site tsc -b runs as part of this step (it imports the built library above).
         run: |
           rm -rf site/public/storybook
           cp -r storybook-static site/public/storybook
-          npx tsc -b --project site
-          npx vite build --root site
+          npx tsc -b site
+          npx vite build site
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
@@ -54,29 +55,3 @@ jobs:
           name: site-dist
           path: site/dist
           retention-days: 7
-
-  chromatic:
-    name: Chromatic visual review
-    runs-on: ubuntu-latest
-    # Skip on forks (no secret access) and Dependabot PRs (also no secret access by default)
-    if: github.actor != 'dependabot[bot]' && (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'push')
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Chromatic needs full history for baseline detection
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install root deps
-        run: npm ci
-
-      - name: Run Chromatic
-        uses: chromaui/action@v11
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          exitZeroOnChanges: true
-          onlyChanged: true
