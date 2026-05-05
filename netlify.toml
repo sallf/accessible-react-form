@@ -1,0 +1,13 @@
+[build]
+  base = "."
+  command = "npm install && npm install --prefix site && npm run build --prefix site"
+  publish = "site/dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[headers]]
+  for = "/storybook/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    Cache-Control = "public, max-age=3600"
