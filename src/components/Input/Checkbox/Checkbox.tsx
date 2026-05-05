@@ -13,9 +13,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Checkbox = (props: Props) => {
-  // --------------------- ===
-  //  PROPS
-  // ---------------------
+  // --- PROPS ---
   const {
     id, // must be unique in form
     label,
@@ -26,9 +24,7 @@ export const Checkbox = (props: Props) => {
     ...rest
   } = props
 
-  // --------------------- ===
-  //  RENDER
-  // ---------------------
+  // --- RENDER ---
   return (
     <Label
       label={label}

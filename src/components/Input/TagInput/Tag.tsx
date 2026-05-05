@@ -8,14 +8,10 @@ interface Props {
 }
 
 export const Tag = (props: Props) => {
-  // --------------------- ===
-  //  PROPS
-  // ---------------------
+  // --- PROPS ---
   const { label, onClick, isAdd = false } = props
 
-  // --------------------- ===
-  //  RENDER
-  // ---------------------
+  // --- RENDER ---
   return (
     <button
       type="button"

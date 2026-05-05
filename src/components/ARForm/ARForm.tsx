@@ -22,9 +22,7 @@ interface Props extends FormHTMLAttributes<HTMLFormElement> {
 }
 
 export const ARForm = (props: Props) => {
-  // --------------------- ===
-  //  PROPS
-  // ---------------------
+  // --- PROPS ---
   const {
     children,
     validationSchema = null,
@@ -36,9 +34,7 @@ export const ARForm = (props: Props) => {
     ...rest
   } = props
 
-  // --------------------- ===
-  //  HOOKS
-  // ---------------------
+  // --- HOOKS ---
   const resolver = useStandardSchemaResolver(validationSchema)
   const formProps = useForm<FieldValues>({
     ...(validationSchema && { resolver }),
@@ -60,9 +56,7 @@ export const ARForm = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch]) // only watch (could probably be a mountEffect)
 
-  // --------------------- ===
-  //  RENDER
-  // ---------------------
+  // --- RENDER ---
   const errorsCount = formState.errors
     ? Object.keys(formState.errors).length
     : 0

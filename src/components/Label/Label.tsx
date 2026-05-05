@@ -9,17 +9,20 @@ interface Props {
 }
 
 export const Label = (props: Props) => {
-  // --------------------- ===
-  //  PROPS
-  // ---------------------
+  // --- PROPS ---
   const { label, isRequired, className, children } = props
 
-  // --------------------- ===
-  //  RENDER
-  // ---------------------
+  // --- RENDER ---
   return (
     <label className={`arform__label ${className || ''}`}>
-      <div className="arform__label-inner">{`${label}${isRequired ? '*' : ''}`}</div>
+      <div className="arform__label-inner">
+        {label}
+        {isRequired && (
+          <span aria-hidden="true" className="arform__label-required">
+            *
+          </span>
+        )}
+      </div>
       {children}
     </label>
   )

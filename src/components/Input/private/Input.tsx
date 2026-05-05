@@ -12,9 +12,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = (props: Props) => {
-  // --------------------- ===
-  //  PROPS
-  // ---------------------
+  // --- PROPS ---
   const {
     id, // must be unique in form
     label,
@@ -26,22 +24,27 @@ export const Input = (props: Props) => {
     ...rest
   } = props
 
-  // --------------------- ===
-  //  RENDER
-  // ---------------------
+  // --- RENDER ---
   if (!formProps?.register || !id) {
     console.log('input error', formProps, id)
     return null // type help
   }
-  const error = formProps.formState.errors[id] || {}
+
+  const error = formProps.formState.errors[id]
+  const hasError = !!error?.message
+  const errorId = `${id}-error`
+
   const input = (
     <input
       {...formProps.register(id, { required })}
       {...rest}
       type={type}
-      aria-invalid={error ? 'true' : 'false'}
+      aria-required={required ? true : undefined}
+      aria-invalid={hasError ? 'true' : 'false'}
+      aria-describedby={hasError ? errorId : undefined}
       className={`arform__input ${!!prefix ? 'arform__input--has-prefix' : ''} ${className}`}
-      // required={!!required} removing required from input so validation can be done by yup
+      // HTML required intentionally omitted — schema validation drives behavior;
+      // aria-required announces the state to assistive tech.
     />
   )
   // TODO prefix styling. Need to generalize it
@@ -57,7 +60,7 @@ export const Input = (props: Props) => {
       ) : (
         input
       )}
-      <FieldError error={error} />
+      <FieldError id={errorId} error={error} />
     </>
   )
 }

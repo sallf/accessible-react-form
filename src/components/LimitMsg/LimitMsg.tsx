@@ -9,16 +9,12 @@ interface Props {
 }
 
 export const LimitMsg = (prop: Props) => {
-  // --------------------- ===
-  //  PROPS
-  // ---------------------
+  // --- PROPS ---
   const { id, minLength, maxLength, control } = prop
 
   const value = useWatch({ name: id, control: control })
 
-  // --------------------- ===
-  //  RENDER
-  // ---------------------
+  // --- RENDER ---
   if (!minLength && !maxLength) return null
   return (
     <div>

@@ -2,15 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { ARForm } from '../components/ARForm/ARForm'
 import { Text } from '../components/Input/Text/Text'
 import { AnyObjectSchema, object, string } from 'yup'
-import {
-  userEvent,
-  within,
-  expect,
-  fn,
-  waitFor,
-  spyOn,
-  screen,
-} from 'storybook/test'
+import { z } from 'zod'
+import * as v from 'valibot'
+import { userEvent, within, expect, fn } from 'storybook/test'
 import { Checkbox } from '../components/Input/Checkbox/Checkbox'
 import { Date } from '../components/Input/Date/Date'
 import { Select } from '../components/Select/Select'
@@ -49,7 +43,7 @@ const advancedValidationSchema: AnyObjectSchema = object({
 const BasicTemplate: Story = {
   render: ({ onSubmit }) => (
     <ARForm validationSchema={basicValidationSchema} onSubmit={onSubmit}>
-      <Text id="name" label="Name" />
+      <Text id="name" label="Name" required />
       <Text id="email" label="Email" />
     </ARForm>
   ),
@@ -58,7 +52,7 @@ const BasicTemplate: Story = {
 const WithSubmit: Story = {
   render: ({ onSubmit }) => (
     <ARForm validationSchema={basicValidationSchema} onSubmit={onSubmit}>
-      <Text id="name" label="Name" />
+      <Text id="name" label="Name" required />
       <Text id="email" label="Email" />
       <button type="submit">Submit</button>
     </ARForm>
@@ -75,7 +69,7 @@ const WithDefaults: Story = {
         email: 'test@email.com',
       }}
     >
-      <Text id="name" label="Name" />
+      <Text id="name" label="Name" required />
       <Text id="email" label="Email" />
     </ARForm>
   ),
@@ -93,7 +87,7 @@ const UsingCallback: Story = {
         console.log('formProps', formProps)
       }}
     >
-      <Text id="name" label="Name" />
+      <Text id="name" label="Name" required />
       <Text id="email" label="Email" />
     </ARForm>
   ),
@@ -102,18 +96,19 @@ const UsingCallback: Story = {
 const AdvancedTemplate: Story = {
   render: ({ onSubmit }) => (
     <ARForm validationSchema={advancedValidationSchema} onSubmit={onSubmit}>
-      <Text id="name" label="Name" />
+      <Text id="name" label="Name" required />
       <Text id="user" label="User" prefix="@" />
       <Text id="website" label="Website" prefix="https://" />
-      <Checkbox id="terms" label="I agree to the terms" />
-      <Date id="dob" label="Date of Birth" />
+      <Checkbox id="terms" label="I agree to the terms" required />
+      <Date id="dob" label="Date of Birth" required />
       <Select
         id="country"
         label="Country"
         options={['USA', 'Canada', 'Mexico']}
+        required
       />
-      <TextArea id="comments" label="Comments" />
-      <FileUpload id="file" label="File" fileType="media" />
+      <TextArea id="comments" label="Comments" required />
+      <FileUpload id="file" label="File" fileType="media" required />
     </ARForm>
   ),
 }
@@ -150,7 +145,7 @@ const getAdvancedElements = (canvasElement: HTMLElement) => {
 
 export const Base: Story = {
   ...BasicTemplate,
-  play: async ({ args, canvasElement, step }) => {
+  play: async ({ canvasElement }) => {
     const nameInput = await within(canvasElement).findByLabelText('Name', {
       selector: 'input',
       exact: false,
@@ -180,9 +175,8 @@ export const BaseUsingCallback: Story = {
 
 export const Advanced: Story = {
   ...AdvancedTemplate,
-  play: async ({ args, canvasElement, step }) => {
+  play: async ({ canvasElement }) => {
     const {
-      canvas,
       nameInput,
       userInput,
       websiteInput,
@@ -209,9 +203,8 @@ export const Advanced: Story = {
 
 export const Empty: Story = {
   ...BasicTemplate,
-  play: async ({ args, canvasElement, step }) => {
-    const { canvas, nameInput, emailInput, submitButton } =
-      getBaseElements(canvasElement)
+  play: async ({ canvasElement }) => {
+    const { canvas, submitButton } = getBaseElements(canvasElement)
 
     await userEvent.click(submitButton)
 
@@ -223,7 +216,7 @@ export const Empty: Story = {
 
 export const InvalidEmail: Story = {
   ...BasicTemplate,
-  play: async ({ args, canvasElement, step }) => {
+  play: async ({ canvasElement, step }) => {
     const { canvas, nameInput, emailInput, submitButton } =
       getBaseElements(canvasElement)
 
@@ -263,4 +256,32 @@ export const Valid: Story = {
       canvas.queryByText(/name is a required field/)
     ).not.toBeInTheDocument()
   },
+}
+
+const zodSchema = z.object({
+  name: z.string().min(1, 'name is a required field'),
+  email: z.email().optional().or(z.literal('')),
+})
+
+export const BaseZod: Story = {
+  render: ({ onSubmit }) => (
+    <ARForm validationSchema={zodSchema} onSubmit={onSubmit}>
+      <Text id="name" label="Name" required />
+      <Text id="email" label="Email" />
+    </ARForm>
+  ),
+}
+
+const valibotSchema = v.object({
+  name: v.pipe(v.string(), v.minLength(1, 'name is a required field')),
+  email: v.optional(v.union([v.pipe(v.string(), v.email()), v.literal('')])),
+})
+
+export const BaseValibot: Story = {
+  render: ({ onSubmit }) => (
+    <ARForm validationSchema={valibotSchema} onSubmit={onSubmit}>
+      <Text id="name" label="Name" required />
+      <Text id="email" label="Email" />
+    </ARForm>
+  ),
 }
