@@ -1,0 +1,54 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      storybook:
+        patterns:
+          - 'storybook'
+          - '@storybook/*'
+          - '@chromatic-com/*'
+          - 'chromatic'
+      babel:
+        patterns:
+          - '@babel/*'
+          - 'babel-*'
+      rollup:
+        patterns:
+          - 'rollup'
+          - '@rollup/*'
+          - 'rollup-plugin-*'
+      types:
+        patterns:
+          - '@types/*'
+
+  - package-ecosystem: npm
+    directory: /site
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      tailwind:
+        patterns:
+          - 'tailwindcss'
+          - '@tailwindcss/*'
+      react:
+        patterns:
+          - 'react'
+          - 'react-dom'
+          - '@types/react'
+          - '@types/react-dom'
+      types:
+        patterns:
+          - '@types/*'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
