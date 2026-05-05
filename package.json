@@ -1,0 +1,94 @@
+{
+  "name": "accessible-react-form",
+  "version": "0.1.0",
+  "description": "An easy to use and accessible library for building forms in react.",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-storybook": "test-storybook",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "build-lib": "rollup -c",
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "prepublishOnly": "npm run build-lib"
+  },
+  "keywords": [
+    "react",
+    "form",
+    "accessible",
+    "accessibility",
+    "a11y",
+    "react-hook-form",
+    "yup",
+    "validation",
+    "wcag"
+  ],
+  "author": {
+    "name": "Adam Rho",
+    "email": "adam.rho@proton.me"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adam-rho/accessible-react-form.git"
+  },
+  "homepage": "https://github.com/adam-rho/accessible-react-form#readme",
+  "bugs": {
+    "url": "https://github.com/adam-rho/accessible-react-form/issues"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-react": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
+    "@chromatic-com/storybook": "^5.1.2",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@storybook/addon-a11y": "^10.3.6",
+    "@storybook/addon-docs": "^10.3.6",
+    "@storybook/addon-links": "^10.3.6",
+    "@storybook/addon-onboarding": "^10.3.6",
+    "@storybook/react-vite": "^10.3.6",
+    "@storybook/test-runner": "^0.24.3",
+    "@testing-library/react": "^16.3.2",
+    "@types/chai": "^4.3.20",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "babel-loader": "^9.2.1",
+    "chromatic": "^11.29.0",
+    "prop-types": "^15.8.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "rollup": "^4.60.3",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "sass": "^1.99.0",
+    "storybook": "^10.3.6",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "react": "^18.3.1 || ^19.0.0",
+    "react-dom": "^18.3.1 || ^19.0.0",
+    "react-hook-form": "^7.75.0",
+    "yup": "^1.7.1"
+  }
+}
