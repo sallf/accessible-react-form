@@ -63,7 +63,7 @@ export const Hero = () => {
               View components
             </a>
             <a
-              href="https://github.com/adam-rho/accessible-react-form"
+              href="https://github.com/sallf/accessible-react-form"
               target="_blank"
               rel="noreferrer"
               className="px-4 py-2 rounded-md border border-border font-medium hover:bg-bg-subtle transition-colors"

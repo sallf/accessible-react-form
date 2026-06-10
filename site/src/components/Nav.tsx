@@ -53,7 +53,7 @@ export const Nav = () => {
             Storybook
           </a>
           <a
-            href="https://github.com/adam-rho/accessible-react-form"
+            href="https://github.com/sallf/accessible-react-form"
             target="_blank"
             rel="noreferrer"
             className="px-2 py-1 text-fg-muted hover:text-fg transition-colors"

@@ -4,8 +4,8 @@ export const Footer = () => {
       <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between text-sm text-fg-muted">
         <div>
           <span className="font-mono">accessible-react-form</span> · MIT · by{' '}
-          <a href="https://github.com/adam-rho" className="text-fg hover:text-accent transition-colors">
-            Adam Rho
+          <a href="https://github.com/sallf" className="text-fg hover:text-accent transition-colors">
+            Saylor
           </a>
         </div>
         <div className="flex gap-5">
@@ -18,7 +18,7 @@ export const Footer = () => {
             npm
           </a>
           <a
-            href="https://github.com/adam-rho/accessible-react-form"
+            href="https://github.com/sallf/accessible-react-form"
             target="_blank"
             rel="noreferrer"
             className="hover:text-fg transition-colors"
@@ -26,7 +26,7 @@ export const Footer = () => {
             GitHub
           </a>
           <a
-            href="https://github.com/adam-rho/accessible-react-form/issues"
+            href="https://github.com/sallf/accessible-react-form/issues"
             target="_blank"
             rel="noreferrer"
             className="hover:text-fg transition-colors"

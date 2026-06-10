@@ -46,17 +46,17 @@
     "wcag"
   ],
   "author": {
-    "name": "Adam Rho",
-    "email": "adam.rho@proton.me"
+    "name": "Saylor",
+    "email": "hello@sallf.com"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adam-rho/accessible-react-form.git"
+    "url": "git+https://github.com/sallf/accessible-react-form.git"
   },
-  "homepage": "https://github.com/adam-rho/accessible-react-form#readme",
+  "homepage": "https://github.com/sallf/accessible-react-form#readme",
   "bugs": {
-    "url": "https://github.com/adam-rho/accessible-react-form/issues"
+    "url": "https://github.com/sallf/accessible-react-form/issues"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

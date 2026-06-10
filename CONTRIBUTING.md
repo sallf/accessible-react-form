@@ -10,7 +10,7 @@ This repo has two npm projects:
 - **`site/`** — the marketing site and docs
 
 ```sh
-git clone https://github.com/adam-rho/accessible-react-form
+git clone https://github.com/sallf/accessible-react-form
 cd accessible-react-form
 npm install
 npm install --prefix site
