@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.2.2",
+    "@hookform/resolvers": "^5.4.0",
     "accessible-react-form": "file:..",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
