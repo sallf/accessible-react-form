@@ -82,7 +82,7 @@
     "@types/react-dom": "^19.2.3",
     "axe-playwright": "^2.2.2",
     "babel-loader": "^9.2.1",
-    "chromatic": "^11.29.0",
+    "chromatic": "^18.1.0",
     "concurrently": "^10.0.4",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
