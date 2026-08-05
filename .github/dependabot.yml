@@ -13,10 +13,6 @@ updates:
           - '@storybook/*'
           - '@chromatic-com/*'
           - 'chromatic'
-      babel:
-        patterns:
-          - '@babel/*'
-          - 'babel-*'
       rollup:
         patterns:
           - 'rollup'
