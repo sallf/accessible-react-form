@@ -9,7 +9,8 @@ export const Validation = () => {
         <a href="https://standardschema.dev" target="_blank" rel="noreferrer">
           Standard Schema
         </a>{' '}
-        validator. The <code>&lt;ARForm&gt;</code> JSX is identical regardless of which one you choose — only the schema changes.
+        validator. The <code>&lt;ARForm&gt;</code> JSX is identical regardless
+        of which one you choose — only the schema changes.
       </p>
 
       <h2>yup</h2>
@@ -42,9 +43,16 @@ const schema = v.object({
 })`}
       />
 
-      <h2>Why <code>required</code> appears twice</h2>
+      <h2>
+        Why <code>required</code> appears twice
+      </h2>
       <p>
-        The schema controls validation; the <code>required</code> prop controls UI and accessibility (the <code>*</code> in the label and <code>aria-required</code> on the input). Each schema library expresses "required" differently, so there's no single introspection API that works across all of them — keep them in sync manually.
+        The schema controls validation; the <code>required</code> prop controls
+        UI and accessibility (the <code>*</code> in the label and{' '}
+        <code>aria-required</code> on the input). Each schema library expresses
+        &quot;required&quot; differently, so there&apos;s no single
+        introspection API that works across all of them — keep them in sync
+        manually.
       </p>
     </>
   )

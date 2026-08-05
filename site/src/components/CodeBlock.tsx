@@ -40,8 +40,14 @@ export const CodeBlock = ({ code, lang = 'tsx' }: Props) => {
       </div>
       {light ? (
         <>
-          <div className="dark:hidden text-sm" dangerouslySetInnerHTML={{ __html: light }} />
-          <div className="hidden dark:block text-sm" dangerouslySetInnerHTML={{ __html: dark }} />
+          <div
+            className="dark:hidden text-sm"
+            dangerouslySetInnerHTML={{ __html: light }}
+          />
+          <div
+            className="hidden dark:block text-sm"
+            dangerouslySetInnerHTML={{ __html: dark }}
+          />
         </>
       ) : (
         <pre className="p-4 rounded-lg bg-bg-subtle border border-border overflow-x-auto text-sm">

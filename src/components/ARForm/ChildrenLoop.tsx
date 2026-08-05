@@ -11,7 +11,7 @@ import { Select } from '../Select/Select'
 import { TextArea } from '../TextArea/TextArea'
 
 interface Props {
-  formProps: UseFormReturn<FieldValues, any>
+  formProps: UseFormReturn<FieldValues>
   children: ReactNode
 }
 
@@ -27,16 +27,21 @@ export const ChildrenLoop = (props: Props) => {
       if (!isValidElement(child)) return child
 
       const name =
-        // @ts-ignore - displayName can exist
+        // @ts-expect-error - displayName can exist
         typeof child.type !== 'string' ? child.type?.displayName : undefined
       const isInput = inputs.some((input) => input.displayName === name)
       const childProps = child.props as { children?: ReactNode }
 
       if (isInput) {
-        return cloneElement(child as ReactElement<any>, { formProps })
+        return cloneElement(
+          child as ReactElement<{ formProps?: Props['formProps'] }>,
+          {
+            formProps,
+          }
+        )
       }
       if (childProps.children) {
-        return cloneElement(child as ReactElement<any>, {
+        return cloneElement(child as ReactElement<{ children?: ReactNode }>, {
           children: loopChildren(childProps.children),
         })
       }

@@ -31,8 +31,10 @@ export const Hero = () => {
           </h1>
           <p className="text-lg text-fg-muted mb-8 max-w-xl leading-relaxed">
             A minimal React form library built on{' '}
-            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">react-hook-form</code>.
-            WCAG-compliant by default. No ARIA wiring required. Bring any{' '}
+            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">
+              react-hook-form
+            </code>
+            . WCAG-compliant by default. No ARIA wiring required. Bring any{' '}
             <a
               href="https://standardschema.dev"
               target="_blank"
@@ -40,17 +42,30 @@ export const Hero = () => {
               className="underline decoration-fg-muted/40 hover:decoration-fg underline-offset-4"
             >
               Standard Schema
-            </a>
-            {' '}validator —{' '}
-            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">yup</code>,{' '}
-            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">zod</code>,{' '}
-            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">valibot</code>,{' '}
-            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">arktype</code>.
+            </a>{' '}
+            validator —{' '}
+            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">
+              yup
+            </code>
+            ,{' '}
+            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">
+              zod
+            </code>
+            ,{' '}
+            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">
+              valibot
+            </code>
+            ,{' '}
+            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">
+              arktype
+            </code>
+            .
           </p>
 
           <div className="flex items-center justify-between gap-3 px-4 py-3 rounded-lg bg-bg-subtle border border-border mb-4">
             <code className="font-mono text-xs sm:text-sm text-fg overflow-x-auto whitespace-nowrap">
-              <span className="text-fg-muted select-none">$ </span>{installCmd}
+              <span className="text-fg-muted select-none">$ </span>
+              {installCmd}
             </code>
             <CopyButton text={installCmd} />
           </div>
@@ -74,7 +89,10 @@ export const Hero = () => {
         </div>
 
         <div className="relative">
-          <div className="absolute -inset-1 bg-gradient-to-br from-accent/20 to-transparent rounded-xl blur-xl" aria-hidden="true" />
+          <div
+            className="absolute -inset-1 bg-gradient-to-br from-accent/20 to-transparent rounded-xl blur-xl"
+            aria-hidden="true"
+          />
           <div className="relative p-6 sm:p-8 rounded-xl bg-bg-subtle border border-border shadow-sm">
             <p className="text-xs font-mono text-fg-muted mb-4 uppercase tracking-wider">
               Try it

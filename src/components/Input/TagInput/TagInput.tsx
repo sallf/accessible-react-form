@@ -124,6 +124,9 @@ export const TagInput = (props: Props) => {
         required={!!required}
         formProps={formProps}
       />
+      {/* Click is a mouse-only convenience that delegates focus to the inner
+          input; keyboard users can Tab to the input directly. */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         className={`bg-theme-surface border border-gray-500 px-2 py-2 rounded overflow-hidden min-h-[3.5rem] ${
           onlySuggestions ? '' : 'cursor-text'
