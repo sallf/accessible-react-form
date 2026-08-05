@@ -1,5 +1,11 @@
 # Accessible React Form
 
+[![npm version](https://img.shields.io/npm/v/accessible-react-form)](https://www.npmjs.com/package/accessible-react-form)
+[![CI](https://github.com/sallf/accessible-react-form/actions/workflows/ci.yml/badge.svg)](https://github.com/sallf/accessible-react-form/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/accessible-react-form)](./LICENSE)
+
+**[Docs & live demos](https://ar-form-sallf.netlify.app)** · **[Storybook](https://ar-form-sallf.netlify.app/storybook/)**
+
 A minimal, accessible React form library. Built on [react-hook-form](https://react-hook-form.com/) for performance, with first-class support for any [Standard Schema](https://standardschema.dev) validator — yup, zod, valibot, arktype, or any other compliant library.
 
 WCAG-compliant by default. No ARIA wiring required.
@@ -61,23 +67,23 @@ The `<ARForm>` JSX is identical regardless of which validator you chose.
 
 ## Why `required` is set in two places
 
-You'll notice the field above declares `required` *both* in the schema and as a prop on `<Text>`. They drive different things:
+You'll notice the field above declares `required` _both_ in the schema and as a prop on `<Text>`. They drive different things:
 
 - **Schema** owns **validation** — will the form reject submission?
 - **`required` prop** owns **UI + a11y** — does the label show a `*`? Does the input get `aria-required="true"`?
 
 It would be nice to derive one from the other, but each schema library expresses "required" differently:
 
-| | yup | zod | valibot |
-|---|---|---|---|
-| Default | optional | required | required |
+|               | yup           | zod                   | valibot                      |
+| ------------- | ------------- | --------------------- | ---------------------------- |
+| Default       | optional      | required              | required                     |
 | Mark required | `.required()` | (default) + `.min(1)` | (default) + `v.minLength(1)` |
-| Mark optional | (default) | `.optional()` | `v.optional(...)` |
-| Style | method chain | method chain | pipe composition |
+| Mark optional | (default)     | `.optional()`         | `v.optional(...)`            |
+| Style         | method chain  | method chain          | pipe composition             |
 
 There's no single introspection API that works across all of them — the [Standard Schema](https://standardschema.dev) spec only standardizes `validate()`, not "describe my fields," because the libraries genuinely disagree about what required means.
 
-So `<ARForm>` stays neutral: the schema is the source of truth for *validation*, and the `required` prop is the source of truth for *what the user sees and what assistive tech announces*. Keep them in sync and the form behaves consistently.
+So `<ARForm>` stays neutral: the schema is the source of truth for _validation_, and the `required` prop is the source of truth for _what the user sees and what assistive tech announces_. Keep them in sync and the form behaves consistently.
 
 ## Components
 
@@ -127,54 +133,63 @@ Target the `arform__*` classes from your global stylesheet:
   padding: 0.5rem;
 }
 
-.arform__label-required { color: crimson; }
-.arform__error { color: crimson; font-size: 0.875rem; }
+.arform__label-required {
+  color: crimson;
+}
+.arform__error {
+  color: crimson;
+  font-size: 0.875rem;
+}
 ```
 
 #### Class hooks
 
-| Class | Element | Notes |
-|---|---|---|
-| `arform` | `<form>` | Root form element |
-| `arform__submit` | `<input type="submit">` | Default submit button |
-| `arform__error` | error `<div role="alert">` | Field-level error message |
-| `arform__label` | `<label>` | Wraps every input |
-| `arform__label-inner` | `<div>` inside label | Holds label text + required mark |
-| `arform__label-required` | `<span>` | The `*` for required fields |
-| `arform__input` | `<input>` | Base class on all inputs |
-| `arform__text` | `<input type="text">` | |
-| `arform__date` | `<input type="date">` | |
-| `arform__checkbox` | `<input type="checkbox">` | |
-| `arform__select` | `<select>` | |
-| `arform__textarea` | `<textarea>` | |
-| `arform__upload` | file `<input>` | |
-| `arform__upload-wrapper` | `<div>` | Drop target around file input |
-| `arform__upload-preview` | `<img>` | Image preview for `fileType="media"` |
-| `arform__upload-preview-label` | `<span>` | Filename preview for `fileType="binary"` |
-| `arform__upload-text` | `<span>` | "Drag and drop…" prompt |
-| `arform__upload-button` | `<span>` | "Choose File" / "Change File" |
-| `arform__prefix` | `<span>` | Wraps inputs with a `prefix` |
-| `arform__prefix-inner` | `<span>` | Holds the prefix text |
-| `arform__prefix-input` | `<span>` | Holds the input itself |
+| Class                          | Element                    | Notes                                    |
+| ------------------------------ | -------------------------- | ---------------------------------------- |
+| `arform`                       | `<form>`                   | Root form element                        |
+| `arform__submit`               | `<input type="submit">`    | Default submit button                    |
+| `arform__error`                | error `<div role="alert">` | Field-level error message                |
+| `arform__label`                | `<label>`                  | Wraps every input                        |
+| `arform__label-inner`          | `<div>` inside label       | Holds label text + required mark         |
+| `arform__label-required`       | `<span>`                   | The `*` for required fields              |
+| `arform__input`                | `<input>`                  | Base class on all inputs                 |
+| `arform__text`                 | `<input type="text">`      |                                          |
+| `arform__date`                 | `<input type="date">`      |                                          |
+| `arform__checkbox`             | `<input type="checkbox">`  |                                          |
+| `arform__select`               | `<select>`                 |                                          |
+| `arform__textarea`             | `<textarea>`               |                                          |
+| `arform__upload`               | file `<input>`             |                                          |
+| `arform__upload-wrapper`       | `<div>`                    | Drop target around file input            |
+| `arform__upload-preview`       | `<img>`                    | Image preview for `fileType="media"`     |
+| `arform__upload-preview-label` | `<span>`                   | Filename preview for `fileType="binary"` |
+| `arform__upload-text`          | `<span>`                   | "Drag and drop…" prompt                  |
+| `arform__upload-button`        | `<span>`                   | "Choose File" / "Change File"            |
+| `arform__prefix`               | `<span>`                   | Wraps inputs with a `prefix`             |
+| `arform__prefix-inner`         | `<span>`                   | Holds the prefix text                    |
+| `arform__prefix-input`         | `<span>`                   | Holds the input itself                   |
 
 #### State attributes
 
 State lives on attributes rather than modifier classes — pair them with the class hook above to scope each rule:
 
-| Selector | Meaning |
-|---|---|
-| `.arform__input[aria-invalid="true"]` | Field has a validation error |
-| `.arform__input[aria-required="true"]` | Field is marked required (UI/a11y) |
-| `.arform__input:disabled` | Native `disabled` attribute set |
-| `.arform__input[data-arform-has-prefix]` | Input is rendered with a `prefix` |
-| `.arform__label[data-arform-row]` | Label uses a row layout (e.g., checkbox) |
+| Selector                                      | Meaning                                    |
+| --------------------------------------------- | ------------------------------------------ |
+| `.arform__input[aria-invalid="true"]`         | Field has a validation error               |
+| `.arform__input[aria-required="true"]`        | Field is marked required (UI/a11y)         |
+| `.arform__input:disabled`                     | Native `disabled` attribute set            |
+| `.arform__input[data-arform-has-prefix]`      | Input is rendered with a `prefix`          |
+| `.arform__label[data-arform-row]`             | Label uses a row layout (e.g., checkbox)   |
 | `.arform__upload-wrapper[data-arform-active]` | File is being dragged over the drop target |
 
 `aria-invalid` and `aria-required` work as CSS selectors and double as the accessibility hooks — no separate `data-*` is needed for them. Same for native `:disabled`.
 
 ```css
-.arform__input[aria-invalid="true"] { border-color: crimson; }
-.arform__upload-wrapper[data-arform-active] { background: #eef; }
+.arform__input[aria-invalid='true'] {
+  border-color: crimson;
+}
+.arform__upload-wrapper[data-arform-active] {
+  background: #eef;
+}
 ```
 
 ### Tailwind CSS
@@ -200,8 +215,16 @@ Tailwind v3.1+ ships an `aria-invalid:` variant; older versions can use the arbi
 ```tsx
 <ARForm onSubmit={onSubmit}>
   <div className="grid grid-cols-2 gap-4">
-    <Text id="first" label="First name" className="w-full rounded border px-3 py-2" />
-    <Text id="last" label="Last name" className="w-full rounded border px-3 py-2" />
+    <Text
+      id="first"
+      label="First name"
+      className="w-full rounded border px-3 py-2"
+    />
+    <Text
+      id="last"
+      label="Last name"
+      className="w-full rounded border px-3 py-2"
+    />
   </div>
 </ARForm>
 ```
@@ -217,15 +240,23 @@ Define the look once in your global stylesheet and every `<ARForm>` inherits it:
   .arform__textarea {
     @apply w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none;
   }
-  .arform__input[aria-invalid="true"],
-  .arform__select[aria-invalid="true"],
-  .arform__textarea[aria-invalid="true"] {
+  .arform__input[aria-invalid='true'],
+  .arform__select[aria-invalid='true'],
+  .arform__textarea[aria-invalid='true'] {
     @apply border-red-500;
   }
-  .arform__label { @apply block text-sm font-medium text-gray-700; }
-  .arform__label[data-arform-row] { @apply flex items-center gap-2; }
-  .arform__label-required { @apply text-red-500; }
-  .arform__error { @apply mt-1 text-sm text-red-600; }
+  .arform__label {
+    @apply block text-sm font-medium text-gray-700;
+  }
+  .arform__label[data-arform-row] {
+    @apply flex items-center gap-2;
+  }
+  .arform__label-required {
+    @apply text-red-500;
+  }
+  .arform__error {
+    @apply mt-1 text-sm text-red-600;
+  }
 }
 ```
 
