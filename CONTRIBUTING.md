@@ -22,6 +22,8 @@ Common commands:
 npm run storybook        # open Storybook on :6006
 npm run build-lib        # build the library
 npm run build-storybook  # build static Storybook
+npm test                 # build Storybook + run story tests (play functions + axe a11y checks)
+npm run test-storybook   # same tests against an already-running Storybook dev server
 
 cd site
 npm run dev              # dev server for marketing + docs site
@@ -41,23 +43,33 @@ For accessibility regressions, please mention the assistive tech you tested with
 ## Pull requests
 
 `main` is protected: all changes land via pull request, and merging requires an
-approving review plus passing CI (the **Typecheck & build** and **Lint &
-format** checks).
+approving review plus passing CI (the **Typecheck & build**, **Lint & format**,
+and **Storybook tests (a11y)** checks).
 
 1. Fork, branch off `main`, make your changes
    - We name branches with a `YYMMDD-` date prefix (e.g. `260805-ci-lint-format`)
      — feel free to follow suit, though it's not required for fork branches
 2. Run `npm run lint` and `npm run format:check` locally
-3. Make sure CI passes: typecheck, library build, site build, Storybook build
+3. Make sure CI passes: typecheck, builds, lint/format, and Storybook tests (`npm test`)
 4. If you change a component, add or update a Storybook story
 5. Keep PRs focused — one logical change per PR
-6. Include a test plan in the PR description (manual is fine; this repo has no test suite yet)
+6. Include a test plan in the PR description (story tests where possible, manual steps otherwise)
+
+## Versioning
+
+This project follows [semver](https://semver.org) with the usual pre-1.0
+convention: **minor** versions (`0.2.0`) may contain breaking changes,
+**patch** versions (`0.1.1`) are always safe upgrades. Releases are cut early
+and often — any user-facing change is a fine reason for a release.
 
 ## Releasing (maintainers only)
 
-1. Bump `version` in root `package.json`
-2. Tag the release: `git tag v0.x.y && git push origin v0.x.y`
-3. The release workflow publishes to npm with provenance
+1. Bump `version` in root `package.json` (lands on `main` via PR)
+2. Tag the release from `main`: `git tag v0.x.y && git push origin v0.x.y`
+3. The release workflow verifies the tag is on `main` and matches
+   `package.json`, runs typecheck + lint, publishes to npm (trusted
+   publishing + provenance — no token involved), and creates a GitHub
+   release with generated notes
 
 ## Code of conduct
 

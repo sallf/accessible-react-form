@@ -1,5 +1,11 @@
 # Accessible React Form
 
+[![npm version](https://img.shields.io/npm/v/accessible-react-form)](https://www.npmjs.com/package/accessible-react-form)
+[![CI](https://github.com/sallf/accessible-react-form/actions/workflows/ci.yml/badge.svg)](https://github.com/sallf/accessible-react-form/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/accessible-react-form)](./LICENSE)
+
+**[Docs & live demos](https://ar-form-sallf.netlify.app)** · **[Storybook](https://ar-form-sallf.netlify.app/storybook/)**
+
 A minimal, accessible React form library. Built on [react-hook-form](https://react-hook-form.com/) for performance, with first-class support for any [Standard Schema](https://standardschema.dev) validator — yup, zod, valibot, arktype, or any other compliant library.
 
 WCAG-compliant by default. No ARIA wiring required.
