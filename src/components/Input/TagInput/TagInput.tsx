@@ -34,7 +34,7 @@ export const TagInput = (props: Props) => {
     suggestions = [],
     formProps,
     required,
-    defaultValue,
+    defaultValue: _defaultValue, // kept out of the hidden input's DOM props
     ...rest
   } = props
 
