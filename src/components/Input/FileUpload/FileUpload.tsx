@@ -1,5 +1,5 @@
 import type { DragEvent, FormEvent, InputHTMLAttributes } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { Label } from '../../Label/Label'
@@ -30,11 +30,17 @@ export const FileUpload = (props: Props) => {
 
   // --- STATE ---
   const [isActive, setIsActive] = useState(false)
-  const [file, setFile] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string>('')
+  const [pickedFile, setPickedFile] = useState<File | null>(null)
+  // Object URL for media previews; set asynchronously once the image loads
+  const [mediaPreviewUrl, setMediaPreviewUrl] = useState('')
 
-  // --- REFS ---
-  const inputRefWrapper = useRef<HTMLInputElement>(null)
+  const defaultValue = formProps?.formState?.defaultValues?.[id] as
+    | string
+    | File
+
+  // A file the user picked wins over a File default value
+  const file =
+    pickedFile ?? (defaultValue instanceof File ? defaultValue : null)
 
   // --- HANDLERS ---
   const handleDrag = (evt: DragEvent<HTMLInputElement>, isEnter: boolean) => {
@@ -42,60 +48,31 @@ export const FileUpload = (props: Props) => {
   }
 
   const handleChange = (evt: FormEvent<HTMLInputElement>) => {
-    const files = (evt.target as HTMLInputElement).files
-    if (files) {
-      setFile(files[0])
-    }
+    setPickedFile((evt.target as HTMLInputElement).files?.[0] ?? null)
+    setMediaPreviewUrl('') // drop any object URL from a previous pick
   }
 
   // --- EFFECTS ---
-  const defaultValue = formProps?.formState?.defaultValues?.[id] as
-    | string
-    | File
   useEffect(() => {
-    // TODO derive preview state during render instead of syncing via effects
-    if (defaultValue instanceof File) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFile(defaultValue)
-      return
-    }
-    if (defaultValue) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setPreviewUrl(defaultValue)
-    }
-  }, [defaultValue])
-
-  useEffect(() => {
-    // If file, see if it's an image file and if so, set it as the preview.
-    // Otherwise make the preview url be the file name.
-    if (!file) return
-    if (fileType === 'media') {
-      const img = new Image()
-      img.src = URL.createObjectURL(file)
-      img.onload = () => {
-        setPreviewUrl(img.src)
-      }
-    } else {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setPreviewUrl(file.name)
+    // Media previews need an async round-trip: create an object URL and wait
+    // for the image to load before showing it
+    if (!file || fileType !== 'media') return
+    const img = new Image()
+    img.src = URL.createObjectURL(file)
+    img.onload = () => {
+      setMediaPreviewUrl(img.src)
     }
   }, [file, fileType])
 
-  useEffect(() => {
-    // If file is removed, remove the preview & clear the input
-    if (file) return
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setPreviewUrl('')
-    if (!inputRefWrapper.current) return
-    const input = Array.from(inputRefWrapper.current.children).find(
-      (el) => el.tagName === 'INPUT'
-    ) as HTMLInputElement | undefined
-    if (input && input.value) {
-      input.value = ''
-    }
-  }, [file])
-
   // --- RENDER ---
+  const previewUrl = file
+    ? fileType === 'media'
+      ? mediaPreviewUrl
+      : file.name
+    : typeof defaultValue === 'string'
+      ? defaultValue
+      : ''
+
   // TODO this has another layer of complexity. Not sure how to pass className
   return (
     <Label label={label} isRequired={!!required} className={labelClassName}>
@@ -134,34 +111,32 @@ export const FileUpload = (props: Props) => {
           </>
         )}
 
-        <div ref={inputRefWrapper}>
-          {/* NOTE
-          We can't manually set the value of a file input, so in the case that a
-          defaultValue exists, we need to disable the required attribute.
-          There's no way around this since we're using the form's onSubmit, thus
-          required inputs will fail via the browser's native validation before
-          it gets to yup. */}
-          <Input
-            id={id}
-            label={label}
-            className={`arform__upload ${className || ''}`}
-            type="file"
-            required={!!required && !defaultValue}
-            disabled={disabled}
-            formProps={formProps}
-            onDragEnter={(evt) => {
-              handleDrag(evt, true)
-            }}
-            onDragLeave={(evt) => {
-              handleDrag(evt, false)
-            }}
-            onDrop={(evt) => {
-              handleDrag(evt, false)
-            }}
-            onChangeCapture={handleChange}
-            {...rest}
-          />
-        </div>
+        {/* NOTE
+        We can't manually set the value of a file input, so in the case that a
+        defaultValue exists, we need to disable the required attribute.
+        There's no way around this since we're using the form's onSubmit, thus
+        required inputs will fail via the browser's native validation before
+        it gets to yup. */}
+        <Input
+          id={id}
+          label={label}
+          className={`arform__upload ${className || ''}`}
+          type="file"
+          required={!!required && !defaultValue}
+          disabled={disabled}
+          formProps={formProps}
+          onDragEnter={(evt) => {
+            handleDrag(evt, true)
+          }}
+          onDragLeave={(evt) => {
+            handleDrag(evt, false)
+          }}
+          onDrop={(evt) => {
+            handleDrag(evt, false)
+          }}
+          onChangeCapture={handleChange}
+          {...rest}
+        />
       </div>
     </Label>
   )

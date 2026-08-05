@@ -28,7 +28,7 @@ export const Text = (props: Props) => {
 
   // --- RENDER ---
   return (
-    <Label label={label} isRequired={!!required} className={className}>
+    <Label label={label} isRequired={!!required} className={labelClassName}>
       <Input
         id={id}
         label={label}

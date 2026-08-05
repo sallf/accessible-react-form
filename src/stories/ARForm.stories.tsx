@@ -250,11 +250,38 @@ export const Valid: Story = {
 
     await userEvent.click(submitButton)
 
-    await expect(args.onSubmit).toHaveBeenCalled()
+    await expect(args.onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'Jill Doe', email: 'test@email.com' }),
+      expect.anything()
+    )
     await expect(canvas.queryByText(/enter your email/)).not.toBeInTheDocument()
     await expect(
       canvas.queryByText(/name is a required field/)
     ).not.toBeInTheDocument()
+  },
+}
+
+export const FileUploadPreview: Story = {
+  render: ({ onSubmit }) => (
+    <ARForm onSubmit={onSubmit}>
+      <FileUpload id="doc" label="Document" fileType="binary" />
+    </ARForm>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement)
+    const fileInput = canvas.getByLabelText(/Document/i) as HTMLInputElement
+
+    await step('Shows the file name as the preview after upload', async () => {
+      await expect(canvas.getByText('Choose File')).toBeInTheDocument()
+
+      const file = new File(['contents'], 'report.pdf', {
+        type: 'application/pdf',
+      })
+      await userEvent.upload(fileInput, file)
+
+      await expect(canvas.getByText('report.pdf')).toBeInTheDocument()
+      await expect(canvas.getByText('Change File')).toBeInTheDocument()
+    })
   },
 }
 

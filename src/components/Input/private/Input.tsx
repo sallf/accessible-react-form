@@ -15,7 +15,7 @@ export const Input = (props: Props) => {
   // --- PROPS ---
   const {
     id, // must be unique in form
-    label,
+    label: _label, // consumed by the Label wrapper; kept out of the input's DOM props
     className,
     type = 'text',
     required,
