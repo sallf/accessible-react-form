@@ -35,8 +35,7 @@ export const FileUpload = (props: Props) => {
   const [mediaPreviewUrl, setMediaPreviewUrl] = useState('')
 
   const defaultValue = formProps?.formState?.defaultValues?.[id] as
-    | string
-    | File
+    string | File
 
   // A file the user picked wins over a File default value
   const file =
