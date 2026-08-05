@@ -62,8 +62,14 @@ jobs:
         run: npm run build-lib
 
       - name: Publish
-        # Auth via npm trusted publishing (OIDC) — no token needed
-        run: npm publish --provenance --access public
+        # Auth via npm trusted publishing (OIDC) — no token needed.
+        # Prereleases publish under the "next" dist-tag so a plain
+        # `npm install` never resolves to them.
+        run: |
+          case "$GITHUB_REF_NAME" in
+            *-*) npm publish --provenance --access public --tag next ;;
+            *) npm publish --provenance --access public ;;
+          esac
 
       - name: Create GitHub release
         env:
