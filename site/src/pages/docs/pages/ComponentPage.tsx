@@ -12,7 +12,8 @@ const docs: Record<string, ComponentDoc> = {
   arform: {
     name: 'ARForm',
     storyId: 'forms-arform--default',
-    summary: 'The form root. Owns the validation schema, registers fields with react-hook-form, and renders a default submit button.',
+    summary:
+      'The form root. Owns the validation schema, registers fields with react-hook-form, and renders a default submit button.',
     example: `<ARForm validationSchema={schema} onSubmit={onSubmit}>
   {/* fields */}
 </ARForm>`,
@@ -32,7 +33,8 @@ const docs: Record<string, ComponentDoc> = {
   select: {
     name: 'Select',
     storyId: 'forms-select--default',
-    summary: 'Native select. Pass options as strings or { label, value } objects.',
+    summary:
+      'Native select. Pass options as strings or { label, value } objects.',
     example: `<Select
   id="country"
   label="Country"
@@ -42,7 +44,8 @@ const docs: Record<string, ComponentDoc> = {
   checkbox: {
     name: 'Checkbox',
     storyId: 'forms-checkbox--default',
-    summary: 'Single checkbox. The label renders in row layout (data-arform-row).',
+    summary:
+      'Single checkbox. The label renders in row layout (data-arform-row).',
     example: `<Checkbox id="terms" label="I agree to the terms" required />`,
   },
   date: {
@@ -54,7 +57,8 @@ const docs: Record<string, ComponentDoc> = {
   fileupload: {
     name: 'FileUpload',
     storyId: 'forms-fileupload--default',
-    summary: 'File input with drag-and-drop, preview for media, and filename for binaries.',
+    summary:
+      'File input with drag-and-drop, preview for media, and filename for binaries.',
     example: `<FileUpload id="avatar" label="Avatar" fileType="media" />`,
   },
 }
@@ -67,7 +71,9 @@ export const ComponentPage = () => {
     return (
       <>
         <h1>Component not found</h1>
-        <p>No component named <code>{name}</code>.</p>
+        <p>
+          No component named <code>{name}</code>.
+        </p>
       </>
     )
   }
@@ -77,7 +83,9 @@ export const ComponentPage = () => {
       <h1>&lt;{doc.name}&gt;</h1>
       <p>{doc.summary}</p>
       <h2>Example</h2>
-      <pre><code>{doc.example}</code></pre>
+      <pre>
+        <code>{doc.example}</code>
+      </pre>
       <h2>Live</h2>
       <StoryEmbed storyId={doc.storyId} title={`${doc.name} — live example`} />
     </>

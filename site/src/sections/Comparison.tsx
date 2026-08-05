@@ -287,7 +287,11 @@ export const Comparison = () => {
           </p>
         </div>
 
-        <div role="tablist" aria-label="Library" className="flex flex-wrap gap-2 mb-6">
+        <div
+          role="tablist"
+          aria-label="Library"
+          className="flex flex-wrap gap-2 mb-6"
+        >
           {variants.map((v) => {
             const lc = lineCount(v.code)
             const delta = lc - baseline
@@ -315,7 +319,9 @@ export const Comparison = () => {
                   }`}
                 >
                   {lc} {lc === 1 ? 'line' : 'lines'}
-                  {delta > 0 && <span className="ml-1 opacity-70">(+{delta})</span>}
+                  {delta > 0 && (
+                    <span className="ml-1 opacity-70">(+{delta})</span>
+                  )}
                 </span>
               </button>
             )
@@ -334,12 +340,26 @@ export const Comparison = () => {
         </div>
 
         <p className="mt-8 text-sm text-fg-muted max-w-3xl leading-relaxed">
-          <strong className="text-fg">Every form library leaves a11y to you.</strong>{' '}
-          The labels, the <code className="font-mono text-xs px-1 py-0.5 rounded bg-bg-subtle">aria-required</code>,
-          the <code className="font-mono text-xs px-1 py-0.5 rounded bg-bg-subtle">aria-invalid</code>,
-          the <code className="font-mono text-xs px-1 py-0.5 rounded bg-bg-subtle">aria-describedby</code>,
-          the <code className="font-mono text-xs px-1 py-0.5 rounded bg-bg-subtle">role="alert"</code> —
-          you write it per field, every time, in every library above. ARForm
+          <strong className="text-fg">
+            Every form library leaves a11y to you.
+          </strong>{' '}
+          The labels, the{' '}
+          <code className="font-mono text-xs px-1 py-0.5 rounded bg-bg-subtle">
+            aria-required
+          </code>
+          , the{' '}
+          <code className="font-mono text-xs px-1 py-0.5 rounded bg-bg-subtle">
+            aria-invalid
+          </code>
+          , the{' '}
+          <code className="font-mono text-xs px-1 py-0.5 rounded bg-bg-subtle">
+            aria-describedby
+          </code>
+          , the{' '}
+          <code className="font-mono text-xs px-1 py-0.5 rounded bg-bg-subtle">
+            role="alert"
+          </code>{' '}
+          — you write it per field, every time, in every library above. ARForm
           does it once, at the framework level, so your form code is just your
           form.
         </p>
@@ -353,8 +373,8 @@ export const Comparison = () => {
             className="underline decoration-fg-muted/40 hover:decoration-fg underline-offset-4"
           >
             Standard Schema
-          </a>
-          {' '}validator — swap yup for zod, valibot, or arktype with no API change.
+          </a>{' '}
+          validator — swap yup for zod, valibot, or arktype with no API change.
         </p>
       </div>
     </section>

@@ -31,6 +31,7 @@ npm run build            # full prod build (lib → storybook → site)
 ## Reporting bugs
 
 Open an issue with:
+
 - A minimal repro (StackBlitz / CodeSandbox preferred over a description)
 - React version, library version
 - Expected vs. actual behavior

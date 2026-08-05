@@ -198,7 +198,12 @@ const schema = v.object({
 </ARForm>`,
     },
     preview: (
-      <Select id="country" label="Country" options={['USA', 'Canada', 'Mexico']} required />
+      <Select
+        id="country"
+        label="Country"
+        options={['USA', 'Canada', 'Mexico']}
+        required
+      />
     ),
   },
   {
@@ -339,13 +344,21 @@ export const Components = () => {
             Every input you need.
           </h2>
           <p className="text-fg-muted text-lg">
-            Drop them into <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">&lt;ARForm&gt;</code>.
-            They wire themselves up — with whatever schema validator you prefer.
+            Drop them into{' '}
+            <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">
+              &lt;ARForm&gt;
+            </code>
+            . They wire themselves up — with whatever schema validator you
+            prefer.
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
-          <div role="tablist" aria-label="Components" className="flex flex-wrap gap-2">
+          <div
+            role="tablist"
+            aria-label="Components"
+            className="flex flex-wrap gap-2"
+          >
             {demos.map((d) => (
               <button
                 key={d.id}
@@ -371,7 +384,9 @@ export const Components = () => {
             aria-label="Schema validator"
             className="flex items-center gap-1 p-1 rounded-md bg-bg-subtle border border-border self-start sm:self-auto"
           >
-            <span className="text-xs text-fg-muted px-2 hidden sm:inline">Schema:</span>
+            <span className="text-xs text-fg-muted px-2 hidden sm:inline">
+              Schema:
+            </span>
             {schemaLibs.map((s) => (
               <button
                 key={s.id}
@@ -398,7 +413,9 @@ export const Components = () => {
           className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start"
         >
           <div className="p-6 rounded-lg bg-bg-subtle border border-border min-h-[200px]">
-            <p className="text-xs font-mono text-fg-muted mb-4 uppercase tracking-wider">Preview</p>
+            <p className="text-xs font-mono text-fg-muted mb-4 uppercase tracking-wider">
+              Preview
+            </p>
             <ARForm
               key={`${active.id}-${schemaLib}`}
               validationSchema={active.schemas[schemaLib]}

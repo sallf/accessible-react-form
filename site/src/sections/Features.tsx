@@ -9,7 +9,17 @@ const features: Feature[] = [
     title: 'WCAG by default',
     body: 'Labels, errors, required states, and focus management are wired correctly the first time. Ship without an a11y audit follow-up.',
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
         <circle cx="12" cy="12" r="10" />
         <path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" />
       </svg>
@@ -19,7 +29,17 @@ const features: Feature[] = [
     title: 'Zero re-render cost',
     body: 'Built on react-hook-form. Uncontrolled inputs mean no re-rendering the entire form when one field changes.',
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
         <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
       </svg>
     ),
@@ -28,7 +48,17 @@ const features: Feature[] = [
     title: 'Yup validation',
     body: 'Schema-first validation. Define your shape once and get types, errors, and required-field hints for free.',
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
         <path d="M22 4L12 14.01l-3-3" />
       </svg>
@@ -38,7 +68,17 @@ const features: Feature[] = [
     title: 'Tiny API',
     body: 'One form component, one input per type. No render props, no controllers, no field-level boilerplate.',
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
         <polyline points="16 18 22 12 16 6" />
         <polyline points="8 6 2 12 8 18" />
       </svg>
@@ -55,7 +95,8 @@ export const Features = () => {
             Less code, fewer bugs.
           </h2>
           <p className="text-fg-muted text-lg">
-            The pieces you'd build yourself anyway — already built, already accessible.
+            The pieces you'd build yourself anyway — already built, already
+            accessible.
           </p>
         </div>
 
