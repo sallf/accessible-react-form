@@ -60,12 +60,8 @@
     "url": "https://github.com/sallf/accessible-react-form/issues"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/preset-react": "^7.28.5",
-    "@babel/preset-typescript": "^7.28.5",
     "@chromatic-com/storybook": "^5.1.2",
     "@eslint/js": "^9.39.4",
-    "@rollup/plugin-babel": "^7.1.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
@@ -81,7 +77,6 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "axe-playwright": "^2.2.2",
-    "babel-loader": "^9.2.1",
     "chromatic": "^18.1.0",
     "concurrently": "^10.0.4",
     "eslint": "^9.39.4",
