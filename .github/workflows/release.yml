@@ -6,8 +6,8 @@ on:
       - 'v*'
 
 permissions:
-  contents: read
-  id-token: write # required for npm provenance
+  contents: write # create the GitHub release
+  id-token: write # npm trusted publishing + provenance
 
 jobs:
   publish:
@@ -15,6 +15,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify tag is on main
+        run: |
+          git fetch origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "Tag ${GITHUB_REF_NAME} does not point to a commit on main"
+            exit 1
+          fi
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -22,6 +32,10 @@ jobs:
           node-version: 20
           registry-url: 'https://registry.npmjs.org'
           cache: npm
+
+      - name: Update npm
+        # Trusted publishing requires npm >= 11.5.1
+        run: npm install -g npm@latest
 
       - name: Install
         run: npm ci
@@ -34,10 +48,28 @@ jobs:
             exit 1
           fi
 
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
       - name: Build library
         run: npm run build-lib
 
       - name: Publish
+        # Auth via npm trusted publishing (OIDC) — no token needed
         run: npm publish --provenance --access public
+
+      - name: Create GitHub release
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          case "$GITHUB_REF_NAME" in
+            *-*) PRERELEASE_FLAG="--prerelease" ;;
+            *) PRERELEASE_FLAG="" ;;
+          esac
+          gh release create "$GITHUB_REF_NAME" --verify-tag --generate-notes $PRERELEASE_FLAG
