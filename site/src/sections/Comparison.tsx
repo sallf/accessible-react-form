@@ -279,7 +279,7 @@ export const Comparison = () => {
       <div className="max-w-6xl mx-auto px-6 py-20 sm:py-24">
         <div className="max-w-2xl mb-10">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
-            Modern form libraries didn't fix this.
+            Modern form libraries didn&apos;t fix this.
           </h2>
           <p className="text-fg-muted text-lg">
             Same form, same accessibility, four implementations. Only one stays
@@ -357,7 +357,7 @@ export const Comparison = () => {
           </code>
           , the{' '}
           <code className="font-mono text-xs px-1 py-0.5 rounded bg-bg-subtle">
-            role="alert"
+            role=&quot;alert&quot;
           </code>{' '}
           — you write it per field, every time, in every library above. ARForm
           does it once, at the framework level, so your form code is just your

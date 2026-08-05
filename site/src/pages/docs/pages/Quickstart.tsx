@@ -47,7 +47,7 @@ export const SignupForm = () => (
 
       <h2>The two-source-of-truth model</h2>
       <p>
-        You'll notice <code>required</code> shows up in both the schema{' '}
+        You&apos;ll notice <code>required</code> shows up in both the schema{' '}
         <em>and</em> as a prop. They drive different things:
       </p>
       <ul>
@@ -60,13 +60,13 @@ export const SignupForm = () => (
             The <code>required</code> prop
           </strong>{' '}
           owns <strong>UI + a11y</strong> — does the label show a <code>*</code>
-          ? Does the input get <code>aria-required="true"</code>?
+          ? Does the input get <code>aria-required=&quot;true&quot;</code>?
         </li>
       </ul>
       <p>
-        Keep them in sync. There's no auto-derivation because Standard Schema
-        only standardizes <code>validate()</code>; libraries genuinely disagree
-        about what "required" means.
+        Keep them in sync. There&apos;s no auto-derivation because Standard
+        Schema only standardizes <code>validate()</code>; libraries genuinely
+        disagree about what &quot;required&quot; means.
       </p>
     </>
   )

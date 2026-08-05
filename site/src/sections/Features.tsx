@@ -95,7 +95,7 @@ export const Features = () => {
             Less code, fewer bugs.
           </h2>
           <p className="text-fg-muted text-lg">
-            The pieces you'd build yourself anyway — already built, already
+            The pieces you&apos;d build yourself anyway — already built, already
             accessible.
           </p>
         </div>

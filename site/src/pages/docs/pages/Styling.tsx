@@ -79,7 +79,7 @@ export const Styling = () => {
               <code>arform__error</code>
             </td>
             <td>
-              Field-level error <code>role="alert"</code>
+              Field-level error <code>role=&quot;alert&quot;</code>
             </td>
           </tr>
           <tr>
@@ -113,7 +113,7 @@ export const Styling = () => {
               <code>arform__text</code>
             </td>
             <td>
-              <code>&lt;input type="text"&gt;</code>
+              <code>&lt;input type=&quot;text&quot;&gt;</code>
             </td>
           </tr>
           <tr>
@@ -121,7 +121,7 @@ export const Styling = () => {
               <code>arform__date</code>
             </td>
             <td>
-              <code>&lt;input type="date"&gt;</code>
+              <code>&lt;input type=&quot;date&quot;&gt;</code>
             </td>
           </tr>
           <tr>
@@ -129,7 +129,7 @@ export const Styling = () => {
               <code>arform__checkbox</code>
             </td>
             <td>
-              <code>&lt;input type="checkbox"&gt;</code>
+              <code>&lt;input type=&quot;checkbox&quot;&gt;</code>
             </td>
           </tr>
           <tr>
@@ -188,13 +188,13 @@ export const Styling = () => {
         <tbody>
           <tr>
             <td>
-              <code>.arform__input[aria-invalid="true"]</code>
+              <code>.arform__input[aria-invalid=&quot;true&quot;]</code>
             </td>
             <td>Field has a validation error</td>
           </tr>
           <tr>
             <td>
-              <code>.arform__input[aria-required="true"]</code>
+              <code>.arform__input[aria-required=&quot;true&quot;]</code>
             </td>
             <td>Field is marked required (UI/a11y)</td>
           </tr>
@@ -258,7 +258,7 @@ export const Styling = () => {
         <code>{`[&[aria-invalid="true"]]:border-red-500`}</code>.
       </p>
 
-      <h3>2. Wrapping div for layout the library doesn't render</h3>
+      <h3>2. Wrapping div for layout the library doesn&apos;t render</h3>
       <CodeBlock
         code={`<ARForm onSubmit={onSubmit}>
   <div className="grid grid-cols-2 gap-4">

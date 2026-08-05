@@ -50,8 +50,9 @@ const schema = v.object({
         The schema controls validation; the <code>required</code> prop controls
         UI and accessibility (the <code>*</code> in the label and{' '}
         <code>aria-required</code> on the input). Each schema library expresses
-        "required" differently, so there's no single introspection API that
-        works across all of them — keep them in sync manually.
+        &quot;required&quot; differently, so there&apos;s no single
+        introspection API that works across all of them — keep them in sync
+        manually.
       </p>
     </>
   )

@@ -45,7 +45,8 @@ export const SchemaPhilosophy = () => {
               required
             </code>{' '}
             in both the schema and the JSX. They drive different things — and
-            there's a real reason we don't try to derive one from the other.
+            there&apos;s a real reason we don&apos;t try to derive one from the
+            other.
           </p>
         </div>
 
@@ -70,7 +71,7 @@ export const SchemaPhilosophy = () => {
               <code className="font-mono text-xs px-1 rounded bg-bg">*</code>?
               Does the input get{' '}
               <code className="font-mono text-xs px-1 rounded bg-bg">
-                aria-required="true"
+                aria-required=&quot;true&quot;
               </code>{' '}
               for screen readers?
             </p>
@@ -79,7 +80,8 @@ export const SchemaPhilosophy = () => {
 
         <p className="text-fg-muted leading-relaxed mb-6 max-w-3xl">
           We could derive one from the other if every validator agreed on what
-          "required" means. They don't. Each library has its own philosophy:
+          &quot;required&quot; means. They don&apos;t. Each library has its own
+          philosophy:
         </p>
 
         <div className="overflow-x-auto rounded-lg border border-border bg-bg-subtle/40 mb-6">
@@ -132,11 +134,12 @@ export const SchemaPhilosophy = () => {
           <code className="font-mono text-xs px-1 py-0.5 rounded bg-bg-subtle">
             validate()
           </code>{' '}
-          — not "describe my fields" — because the libraries genuinely disagree
-          about what required means. So ARForm stays neutral: the schema is the
-          source of truth for validation, and the prop is the source of truth
-          for what the user sees and what assistive tech announces. Keep them in
-          sync and the form behaves consistently across every validator.
+          — not &quot;describe my fields&quot; — because the libraries genuinely
+          disagree about what required means. So ARForm stays neutral: the
+          schema is the source of truth for validation, and the prop is the
+          source of truth for what the user sees and what assistive tech
+          announces. Keep them in sync and the form behaves consistently across
+          every validator.
         </p>
       </div>
     </section>
