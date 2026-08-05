@@ -31,7 +31,7 @@ npm run build            # full prod build (lib → storybook → site)
 ## Reporting bugs
 
 Open an issue with:
-- A minimal repro (StackBlitz / CodeSandbox / Stackblitz preferred over a description)
+- A minimal repro (StackBlitz / CodeSandbox preferred over a description)
 - React version, library version
 - Expected vs. actual behavior
 
@@ -39,11 +39,15 @@ For accessibility regressions, please mention the assistive tech you tested with
 
 ## Pull requests
 
+`main` is protected: all changes land via pull request, and merging requires an
+approving review plus a passing CI run (the **Typecheck & build** check).
+
 1. Fork, branch off `main`, make your changes
-2. Make sure CI passes: typecheck, library build, site build, Storybook build
-3. If you change a component, add or update a Storybook story
-4. Keep PRs focused — one logical change per PR
-5. Include a test plan in the PR description (manual is fine; this repo has no test suite yet)
+2. Run `npm run lint` and `npm run format:check` locally
+3. Make sure CI passes: typecheck, library build, site build, Storybook build
+4. If you change a component, add or update a Storybook story
+5. Keep PRs focused — one logical change per PR
+6. Include a test plan in the PR description (manual is fine; this repo has no test suite yet)
 
 ## Releasing (maintainers only)
 
