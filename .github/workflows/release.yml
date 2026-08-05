@@ -63,8 +63,12 @@ jobs:
 
       - name: Publish
         # Auth via npm trusted publishing (OIDC) — no token needed.
+        # NODE_AUTH_TOKEN must be blanked: setup-node's registry-url writes a
+        # placeholder token into .npmrc that would otherwise shadow OIDC.
         # Prereleases publish under the "next" dist-tag so a plain
         # `npm install` never resolves to them.
+        env:
+          NODE_AUTH_TOKEN: ''
         run: |
           case "$GITHUB_REF_NAME" in
             *-*) npm publish --provenance --access public --tag next ;;
