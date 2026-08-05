@@ -41,9 +41,12 @@ For accessibility regressions, please mention the assistive tech you tested with
 ## Pull requests
 
 `main` is protected: all changes land via pull request, and merging requires an
-approving review plus a passing CI run (the **Typecheck & build** check).
+approving review plus passing CI (the **Typecheck & build** and **Lint &
+format** checks).
 
 1. Fork, branch off `main`, make your changes
+   - We name branches with a `YYMMDD-` date prefix (e.g. `260805-ci-lint-format`)
+     — feel free to follow suit, though it's not required for fork branches
 2. Run `npm run lint` and `npm run format:check` locally
 3. Make sure CI passes: typecheck, library build, site build, Storybook build
 4. If you change a component, add or update a Storybook story
