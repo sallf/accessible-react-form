@@ -53,11 +53,14 @@ export const FileUpload = (props: Props) => {
     | string
     | File
   useEffect(() => {
+    // TODO derive preview state during render instead of syncing via effects
     if (defaultValue instanceof File) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFile(defaultValue)
       return
     }
     if (defaultValue) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPreviewUrl(defaultValue)
     }
   }, [defaultValue])
@@ -73,6 +76,7 @@ export const FileUpload = (props: Props) => {
         setPreviewUrl(img.src)
       }
     } else {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPreviewUrl(file.name)
     }
   }, [file, fileType])
@@ -80,6 +84,7 @@ export const FileUpload = (props: Props) => {
   useEffect(() => {
     // If file is removed, remove the preview & clear the input
     if (file) return
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPreviewUrl('')
     if (!inputRefWrapper.current) return
     const input = Array.from(inputRefWrapper.current.children).find(

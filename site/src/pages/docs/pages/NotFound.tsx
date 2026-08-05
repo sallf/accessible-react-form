@@ -4,7 +4,10 @@ export const NotFound = () => {
   return (
     <>
       <h1>Not found</h1>
-      <p>That docs page doesn't exist. Try the <Link to="/docs">introduction</Link>.</p>
+      <p>
+        That docs page doesn&apos;t exist. Try the{' '}
+        <Link to="/docs">introduction</Link>.
+      </p>
     </>
   )
 }

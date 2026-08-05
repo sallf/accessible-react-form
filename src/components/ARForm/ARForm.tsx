@@ -17,7 +17,7 @@ interface Props extends FormHTMLAttributes<HTMLFormElement> {
     values: FieldValues,
     name: string | undefined,
     type: EventType | undefined,
-    formProps: UseFormReturn<FieldValues, any>
+    formProps: UseFormReturn<FieldValues>
   ) => void
 }
 
@@ -39,7 +39,7 @@ export const ARForm = (props: Props) => {
   const formProps = useForm<FieldValues>({
     ...(validationSchema && { resolver }),
   }) // only add resolver if there's a schema
-  const { handleSubmit, getValues, formState, watch } = formProps
+  const { handleSubmit, formState, watch } = formProps
 
   useEffect(() => {
     if (defaultValues) {

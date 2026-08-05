@@ -40,25 +40,33 @@ export const SignupForm = () => (
 
       <h2>3. Style it</h2>
       <p>
-        The library is unstyled. Pass <code>className</code> to any component, or target the global{' '}
-        <code>arform__*</code> class hooks from your stylesheet. See the{' '}
-        <Link to="/docs/styling">styling guide</Link>.
+        The library is unstyled. Pass <code>className</code> to any component,
+        or target the global <code>arform__*</code> class hooks from your
+        stylesheet. See the <Link to="/docs/styling">styling guide</Link>.
       </p>
 
       <h2>The two-source-of-truth model</h2>
       <p>
-        You'll notice <code>required</code> shows up in both the schema <em>and</em> as a prop. They drive different things:
+        You&apos;ll notice <code>required</code> shows up in both the schema{' '}
+        <em>and</em> as a prop. They drive different things:
       </p>
       <ul>
         <li>
-          <strong>Schema</strong> owns <strong>validation</strong> — will the form reject submission?
+          <strong>Schema</strong> owns <strong>validation</strong> — will the
+          form reject submission?
         </li>
         <li>
-          <strong>The <code>required</code> prop</strong> owns <strong>UI + a11y</strong> — does the label show a <code>*</code>? Does the input get <code>aria-required="true"</code>?
+          <strong>
+            The <code>required</code> prop
+          </strong>{' '}
+          owns <strong>UI + a11y</strong> — does the label show a <code>*</code>
+          ? Does the input get <code>aria-required=&quot;true&quot;</code>?
         </li>
       </ul>
       <p>
-        Keep them in sync. There's no auto-derivation because Standard Schema only standardizes <code>validate()</code>; libraries genuinely disagree about what "required" means.
+        Keep them in sync. There&apos;s no auto-derivation because Standard
+        Schema only standardizes <code>validate()</code>; libraries genuinely
+        disagree about what &quot;required&quot; means.
       </p>
     </>
   )
