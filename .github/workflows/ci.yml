@@ -13,6 +13,30 @@ permissions:
   contents: read
 
 jobs:
+  test:
+    name: Storybook tests (a11y)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install root deps
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      - name: Run Storybook tests (play functions + axe checks)
+        run: npm run test-storybook:ci
+
   build:
     name: Typecheck & build
     runs-on: ubuntu-latest
