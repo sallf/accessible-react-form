@@ -41,11 +41,11 @@ export const CodeBlock = ({ code, lang = 'tsx' }: Props) => {
       {light ? (
         <>
           <div
-            className="dark:hidden text-sm"
+            className="dark:hidden text-sm overflow-x-auto"
             dangerouslySetInnerHTML={{ __html: light }}
           />
           <div
-            className="hidden dark:block text-sm"
+            className="hidden dark:block text-sm overflow-x-auto"
             dangerouslySetInnerHTML={{ __html: dark }}
           />
         </>
