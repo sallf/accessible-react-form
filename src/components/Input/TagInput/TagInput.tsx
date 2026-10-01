@@ -1,16 +1,71 @@
-import type { InputHTMLAttributes, KeyboardEvent } from 'react'
+import type {
+  HTMLAttributes,
+  InputHTMLAttributes,
+  KeyboardEvent,
+  ReactElement,
+} from 'react'
 import { useId, useState } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { FieldError } from '../../FieldError/FieldError'
 import { Tag } from './Tag'
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+interface CommonProps {
   id: string
   label: string
-  onlySuggestions?: boolean
   suggestions?: string[]
   formProps?: UseFormReturn<FieldValues, unknown>
+  required?: boolean
+  disabled?: boolean
+}
+
+type TextProps = CommonProps &
+  InputHTMLAttributes<HTMLInputElement> & { onlySuggestions?: false }
+
+type SuggestionsProps = CommonProps &
+  HTMLAttributes<HTMLDivElement> & { onlySuggestions: true; type?: never }
+
+type DynamicProps = CommonProps &
+  InputHTMLAttributes<HTMLInputElement | HTMLDivElement> & {
+    onlySuggestions: boolean
+  }
+
+type Props = TextProps | SuggestionsProps | DynamicProps
+
+const textAttributes = (props: TextProps | DynamicProps) => {
+  const {
+    id: _id,
+    label: _label,
+    onlySuggestions: _onlySuggestions,
+    suggestions: _suggestions,
+    formProps: _formProps,
+    required: _required,
+    disabled: _disabled,
+    defaultValue: _defaultValue,
+    type: _type,
+    className: _className,
+    style: _style,
+    ...attributes
+  } = props
+  return attributes
+}
+
+const groupAttributes = (props: SuggestionsProps | DynamicProps) => {
+  const {
+    id: _id,
+    label: _label,
+    onlySuggestions: _onlySuggestions,
+    suggestions: _suggestions,
+    formProps: _formProps,
+    required: _required,
+    disabled: _disabled,
+    defaultValue: _defaultValue,
+    type: _type,
+    className: _className,
+    style: _style,
+    ...attributes
+  } = props
+  return attributes
 }
 
 export const tagsToArr = (val: string | undefined) => val?.split(',') || []
@@ -19,7 +74,11 @@ const removeSpaces = (v: string) => v.replace(/\s/g, '')
 const isDuplicate = (v1: string, v2: string) =>
   removeSpaces(v1) === removeSpaces(v2)
 
-export const TagInput = (props: Props) => {
+export function TagInput(props: SuggestionsProps): ReactElement | null
+export function TagInput(props: TextProps): ReactElement | null
+export function TagInput(props: DynamicProps): ReactElement | null
+export function TagInput(props: Props): ReactElement | null
+export function TagInput(props: Props) {
   const {
     id,
     label,
@@ -30,10 +89,13 @@ export const TagInput = (props: Props) => {
     formProps,
     required,
     disabled,
-    defaultValue: _defaultValue,
-    type: _type,
-    ...rest
   } = props
+  const inputAttributes = props.onlySuggestions
+    ? undefined
+    : textAttributes(props)
+  const suggestionAttributes = props.onlySuggestions
+    ? groupAttributes(props)
+    : undefined
 
   const domId = useId()
   const labelId = `${domId}-label`
@@ -83,7 +145,7 @@ export const TagInput = (props: Props) => {
     } else if (event.key === 'Backspace' && !entry && tags.length) {
       removeTag(tags[tags.length - 1])
     }
-    rest.onKeyDown?.(event)
+    inputAttributes?.onKeyDown?.(event)
   }
 
   const tagList = tags.length > 0 && (
@@ -118,6 +180,7 @@ export const TagInput = (props: Props) => {
 
   return (
     <div
+      {...suggestionAttributes}
       className={`arform__field arform__tag-input ${onlySuggestions ? className : ''}`}
       style={onlySuggestions ? style : undefined}
       role={onlySuggestions ? 'group' : undefined}
@@ -125,7 +188,11 @@ export const TagInput = (props: Props) => {
       aria-invalid={onlySuggestions && hasError ? true : undefined}
       aria-describedby={
         onlySuggestions
-          ? [required ? requiredId : '', hasError ? errorId : '']
+          ? [
+              props['aria-describedby'],
+              required ? requiredId : '',
+              hasError ? errorId : '',
+            ]
               .filter(Boolean)
               .join(' ') || undefined
           : undefined
@@ -172,18 +239,18 @@ export const TagInput = (props: Props) => {
         <>
           {tagList}
           <input
-            {...rest}
+            {...inputAttributes}
             id={controlId}
             type="text"
             value={entry}
             onChange={(event) => {
               setEntry(event.target.value)
-              rest.onChange?.(event)
+              inputAttributes?.onChange?.(event)
             }}
             onKeyDown={handleKeyDown}
             aria-required={required ? true : undefined}
             aria-invalid={hasError ? true : false}
-            aria-describedby={hasError ? errorId : rest['aria-describedby']}
+            aria-describedby={hasError ? errorId : props['aria-describedby']}
             disabled={disabled}
             className={`arform__input arform__tag-input-control ${className}`}
             style={style}

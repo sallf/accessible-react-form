@@ -7,11 +7,12 @@ interface Props {
   isRow?: boolean
   className?: string
   children: ReactNode
+  error?: ReactNode
 }
 
 export const Label = (props: Props) => {
   // --- PROPS ---
-  const { label, isRequired, isRow, className, children } = props
+  const { label, isRequired, isRow, className, children, error } = props
 
   // --- RENDER ---
   return (
@@ -31,6 +32,7 @@ export const Label = (props: Props) => {
         </span>
         {!isRow && children}
       </label>
+      {error}
     </div>
   )
 }

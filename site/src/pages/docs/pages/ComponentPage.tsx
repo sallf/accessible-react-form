@@ -1,65 +1,75 @@
 import { useParams } from 'react-router-dom'
-import { StoryEmbed } from '../StoryEmbed'
+import { ExamplePreview } from '../../../components/ExamplePreview'
+import type { ComponentType } from 'react'
+
+import FormExample from '../../../examples/FormExample'
+import FormExampleSource from '../../../examples/FormExample.tsx?raw'
+import TextExample from '../../../examples/TextExample'
+import TextExampleSource from '../../../examples/TextExample.tsx?raw'
+import TextAreaExample from '../../../examples/TextAreaExample'
+import TextAreaExampleSource from '../../../examples/TextAreaExample.tsx?raw'
+import SelectExample from '../../../examples/SelectExample'
+import SelectExampleSource from '../../../examples/SelectExample.tsx?raw'
+import CheckboxExample from '../../../examples/CheckboxExample'
+import CheckboxExampleSource from '../../../examples/CheckboxExample.tsx?raw'
+import DateExample from '../../../examples/DateExample'
+import DateExampleSource from '../../../examples/DateExample.tsx?raw'
+import FileUploadExample from '../../../examples/FileUploadExample'
+import FileUploadExampleSource from '../../../examples/FileUploadExample.tsx?raw'
 
 type ComponentDoc = {
   name: string
-  storyId: string
+  Preview: ComponentType
+  source: string
   summary: string
-  example: string
 }
 
 const docs: Record<string, ComponentDoc> = {
   arform: {
     name: 'ARForm',
-    storyId: 'forms-arform--default',
+    Preview: FormExample,
+    source: FormExampleSource,
     summary:
       'The form root. Owns the validation schema, registers fields with react-hook-form, and includes a visually hidden submit control for Enter submission. Add your own visible submit button when needed.',
-    example: `<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  {/* fields */}
-</ARForm>`,
   },
   text: {
     name: 'Text',
-    storyId: 'forms-text--default',
+    Preview: TextExample,
+    source: TextExampleSource,
     summary: 'Text input. Supports an optional prefix slot.',
-    example: `<Text id="email" label="Email" required />`,
   },
   textarea: {
     name: 'TextArea',
-    storyId: 'forms-textarea--default',
+    Preview: TextAreaExample,
+    source: TextAreaExampleSource,
     summary: 'Multi-line text input. Forwards minLength/maxLength.',
-    example: `<TextArea id="bio" label="Bio" maxLength={500} />`,
   },
   select: {
     name: 'Select',
-    storyId: 'forms-select--default',
+    Preview: SelectExample,
+    source: SelectExampleSource,
     summary:
       'Native select. Pass options as strings or { label, value } objects.',
-    example: `<Select
-  id="country"
-  label="Country"
-  options={['US', 'CA', 'MX']}
-/>`,
   },
   checkbox: {
     name: 'Checkbox',
-    storyId: 'forms-checkbox--default',
+    Preview: CheckboxExample,
+    source: CheckboxExampleSource,
     summary:
-      'Single checkbox before its label text. Use data-arform-row to style the label as a row.',
-    example: `<Checkbox id="terms" label="I agree to the terms" required />`,
+      'Single checkbox before its label text. Style the control with className and the label with labelClassName.',
   },
   date: {
     name: 'Date',
-    storyId: 'forms-date--default',
+    Preview: DateExample,
+    source: DateExampleSource,
     summary: 'Native date input.',
-    example: `<Date id="birthday" label="Birthday" />`,
   },
   fileupload: {
     name: 'FileUpload',
-    storyId: 'forms-fileupload--default',
+    Preview: FileUploadExample,
+    source: FileUploadExampleSource,
     summary:
       'Native file input with an image preview for media and a filename preview for binaries. Files can be dropped onto the native input.',
-    example: `<FileUpload id="avatar" label="Avatar" fileType="media" />`,
   },
 }
 
@@ -82,12 +92,13 @@ export const ComponentPage = () => {
     <>
       <h1>&lt;{doc.name}&gt;</h1>
       <p>{doc.summary}</p>
-      <h2>Example</h2>
-      <pre>
-        <code>{doc.example}</code>
-      </pre>
-      <h2>Live</h2>
-      <StoryEmbed storyId={doc.storyId} title={`${doc.name} — live example`} />
+      <ExamplePreview key={name} source={doc.source}>
+        <doc.Preview />
+      </ExamplePreview>
+      <p className="text-sm text-fg-muted">
+        Copy the Code tab into a React app with Tailwind CSS configured. The
+        preview runs that exact source, including its styling classes.
+      </p>
     </>
   )
 }

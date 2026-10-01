@@ -342,15 +342,35 @@ export const SubmitOnEnter: Story = {
 export const CheckboxOrder: Story = {
   tags: ['zero-css'],
   render: ({ onSubmit }) => (
-    <ARForm onSubmit={onSubmit}>
+    <ARForm
+      onSubmit={onSubmit}
+      validationSchema={z.object({ agree: z.literal(true, 'Please agree') })}
+    >
       <Checkbox id="agree" label="I agree" />
+      <button type="submit">Confirm agreement</button>
     </ARForm>
   ),
   play: async ({ canvasElement }) => {
-    const checkbox = within(canvasElement).getByRole('checkbox', {
+    const canvas = within(canvasElement)
+    const checkbox = canvas.getByRole('checkbox', {
       name: 'I agree',
     })
     await expect(checkbox.parentElement?.firstElementChild).toBe(checkbox)
+    await userEvent.click(
+      canvas.getByRole('button', { name: 'Confirm agreement' })
+    )
+    await expect(await canvas.findByText('Please agree.')).toBeVisible()
+    await expect(checkbox).toHaveAccessibleName('I agree')
+    await expect(checkbox).toHaveAccessibleDescription('Please agree.')
+    const labelText = canvas.getByText('I agree').getBoundingClientRect()
+    const control = checkbox.getBoundingClientRect()
+    await expect(labelText.top).toBeLessThan(control.bottom)
+    await expect(labelText.bottom).toBeGreaterThan(control.top)
+    await userEvent.click(checkbox)
+    await userEvent.click(
+      canvas.getByRole('button', { name: 'Confirm agreement' })
+    )
+    await expect(canvas.queryByRole('alert')).not.toBeInTheDocument()
   },
 }
 
@@ -555,7 +575,11 @@ export const ClassHooksOnly: Story = {
 export const ConsumerStyling: Story = {
   tags: ['zero-css'],
   render: ({ onSubmit }) => (
-    <ARForm onSubmit={onSubmit} className="customForm">
+    <ARForm
+      onSubmit={onSubmit}
+      className="customForm"
+      style={{ color: 'navy' }}
+    >
       <Text
         id="plain"
         label="Plain"
@@ -582,6 +606,35 @@ export const ConsumerStyling: Story = {
         fileType="binary"
         className="filePicker"
         style={{ color: 'maroon' }}
+      />
+      <Date
+        id="styledDate"
+        label="Styled date"
+        className="customControl"
+        labelClassName="customLabel"
+        style={{ color: 'teal' }}
+      />
+      <Checkbox
+        id="styledCheckbox"
+        label="Styled checkbox"
+        className="customControl"
+        labelClassName="customLabel"
+        style={{ color: 'teal' }}
+      />
+      <Select
+        id="styledSelect"
+        label="Styled select"
+        options={['One', 'Two']}
+        className="customControl"
+        labelClassName="customLabel"
+        style={{ color: 'teal' }}
+      />
+      <TextArea
+        id="styledTextArea"
+        label="Styled textarea"
+        className="customControl"
+        labelClassName="customLabel"
+        style={{ color: 'teal' }}
       />
     </ARForm>
   ),
@@ -619,6 +672,20 @@ export const ConsumerStyling: Story = {
     await expect(canvas.getByLabelText('Upload')).toHaveStyle({
       color: 'rgb(128, 0, 0)',
     })
+    await expect(canvasElement.querySelector('form')).toHaveStyle({
+      color: 'rgb(0, 0, 128)',
+    })
+    for (const name of [
+      'Styled date',
+      'Styled checkbox',
+      'Styled select',
+      'Styled textarea',
+    ]) {
+      const control = canvas.getByLabelText(name)
+      await expect(control).toHaveClass('customControl')
+      await expect(control).toHaveStyle({ color: 'rgb(0, 128, 128)' })
+      await expect(control.closest('label')).toHaveClass('customLabel')
+    }
   },
 }
 

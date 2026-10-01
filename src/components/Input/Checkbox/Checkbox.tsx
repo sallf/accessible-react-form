@@ -3,6 +3,7 @@ import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { Label } from '../../Label/Label'
 import { Input } from '../private/Input'
+import { FieldError } from '../../FieldError/FieldError'
 import React from 'react'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -31,6 +32,12 @@ export const Checkbox = (props: Props) => {
       isRequired={!!required}
       className={labelClassName}
       isRow
+      error={
+        <FieldError
+          id={`${id}-error`}
+          error={formProps?.formState.errors[id]}
+        />
+      }
     >
       <Input
         id={id}
@@ -40,6 +47,7 @@ export const Checkbox = (props: Props) => {
         required={!!required}
         formProps={formProps}
         {...rest}
+        showError={false}
       />
     </Label>
   )

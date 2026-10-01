@@ -1,328 +1,28 @@
-import { useState, type ReactNode } from 'react'
-import {
-  ARForm,
-  Text,
-  Checkbox,
-  Date as DateInput,
-  FileUpload,
-  TagInput,
-  Select,
-  TextArea,
-} from 'accessible-react-form'
-import { object as yupObject, string as yupString } from 'yup'
-import { z } from 'zod'
-import * as v from 'valibot'
-import type { StandardSchemaV1 } from '@standard-schema/spec'
+import { useId, useState, type ComponentType, type KeyboardEvent } from 'react'
 import { CodeBlock } from '../components/CodeBlock'
+import { Link } from 'react-router-dom'
 
 type SchemaLib = 'yup' | 'zod' | 'valibot'
+type ExampleModule = { default: ComponentType }
 
-type Demo = {
-  id: string
-  name: string
-  schemas: Record<SchemaLib, StandardSchemaV1>
-  code: Record<SchemaLib, string>
-  preview: ReactNode
-}
-
-const noop = () => {}
-
-const demos: Demo[] = [
-  {
-    id: 'text',
-    name: 'Text',
-    schemas: {
-      yup: yupObject({ name: yupString().required() }),
-      zod: z.object({ name: z.string().min(1) }),
-      valibot: v.object({ name: v.pipe(v.string(), v.minLength(1)) }),
-    },
-    code: {
-      yup: `import { object, string } from 'yup'
-
-const schema = object({
-  name: string().required(),
+// Vite reads the same source files as modules for previews and text for CodeBlock.
+const modules = import.meta.glob<ExampleModule>('../examples/showcase/*.tsx', {
+  eager: true,
+})
+const sources = import.meta.glob<string>('../examples/showcase/*.tsx', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
 })
 
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Text id="name" label="Name" required />
-</ARForm>`,
-      zod: `import { z } from 'zod'
-
-const schema = z.object({
-  name: z.string().min(1),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Text id="name" label="Name" required />
-</ARForm>`,
-      valibot: `import * as v from 'valibot'
-
-const schema = v.object({
-  name: v.pipe(v.string(), v.minLength(1)),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Text id="name" label="Name" required />
-</ARForm>`,
-    },
-    preview: <Text id="name" label="Name" required />,
-  },
-  {
-    id: 'checkbox',
-    name: 'Checkbox',
-    schemas: {
-      yup: yupObject({ terms: yupString().required() }),
-      zod: z.object({ terms: z.string().min(1) }),
-      valibot: v.object({ terms: v.pipe(v.string(), v.minLength(1)) }),
-    },
-    code: {
-      yup: `import { object, string } from 'yup'
-
-const schema = object({
-  terms: string().required(),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Checkbox id="terms" label="I agree to the terms" required />
-</ARForm>`,
-      zod: `import { z } from 'zod'
-
-const schema = z.object({
-  terms: z.string().min(1),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Checkbox id="terms" label="I agree to the terms" required />
-</ARForm>`,
-      valibot: `import * as v from 'valibot'
-
-const schema = v.object({
-  terms: v.pipe(v.string(), v.minLength(1)),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Checkbox id="terms" label="I agree to the terms" required />
-</ARForm>`,
-    },
-    preview: <Checkbox id="terms" label="I agree to the terms" required />,
-  },
-  {
-    id: 'date',
-    name: 'Date',
-    schemas: {
-      yup: yupObject({ dob: yupString().required() }),
-      zod: z.object({ dob: z.string().min(1) }),
-      valibot: v.object({ dob: v.pipe(v.string(), v.minLength(1)) }),
-    },
-    code: {
-      yup: `import { object, string } from 'yup'
-
-const schema = object({
-  dob: string().required(),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Date id="dob" label="Date of Birth" required />
-</ARForm>`,
-      zod: `import { z } from 'zod'
-
-const schema = z.object({
-  dob: z.string().min(1),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Date id="dob" label="Date of Birth" required />
-</ARForm>`,
-      valibot: `import * as v from 'valibot'
-
-const schema = v.object({
-  dob: v.pipe(v.string(), v.minLength(1)),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Date id="dob" label="Date of Birth" required />
-</ARForm>`,
-    },
-    preview: <DateInput id="dob" label="Date of Birth" required />,
-  },
-  {
-    id: 'select',
-    name: 'Select',
-    schemas: {
-      yup: yupObject({ country: yupString().required() }),
-      zod: z.object({ country: z.string().min(1) }),
-      valibot: v.object({ country: v.pipe(v.string(), v.minLength(1)) }),
-    },
-    code: {
-      yup: `import { object, string } from 'yup'
-
-const schema = object({
-  country: string().required(),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Select
-    id="country"
-    label="Country"
-    options={['USA', 'Canada', 'Mexico']}
-    required
-  />
-</ARForm>`,
-      zod: `import { z } from 'zod'
-
-const schema = z.object({
-  country: z.string().min(1),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Select
-    id="country"
-    label="Country"
-    options={['USA', 'Canada', 'Mexico']}
-    required
-  />
-</ARForm>`,
-      valibot: `import * as v from 'valibot'
-
-const schema = v.object({
-  country: v.pipe(v.string(), v.minLength(1)),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Select
-    id="country"
-    label="Country"
-    options={['USA', 'Canada', 'Mexico']}
-    required
-  />
-</ARForm>`,
-    },
-    preview: (
-      <Select
-        id="country"
-        label="Country"
-        options={['USA', 'Canada', 'Mexico']}
-        required
-      />
-    ),
-  },
-  {
-    id: 'textarea',
-    name: 'TextArea',
-    schemas: {
-      yup: yupObject({ comments: yupString().required() }),
-      zod: z.object({ comments: z.string().min(1) }),
-      valibot: v.object({ comments: v.pipe(v.string(), v.minLength(1)) }),
-    },
-    code: {
-      yup: `import { object, string } from 'yup'
-
-const schema = object({
-  comments: string().required(),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <TextArea id="comments" label="Comments" required />
-</ARForm>`,
-      zod: `import { z } from 'zod'
-
-const schema = z.object({
-  comments: z.string().min(1),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <TextArea id="comments" label="Comments" required />
-</ARForm>`,
-      valibot: `import * as v from 'valibot'
-
-const schema = v.object({
-  comments: v.pipe(v.string(), v.minLength(1)),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <TextArea id="comments" label="Comments" required />
-</ARForm>`,
-    },
-    preview: <TextArea id="comments" label="Comments" required />,
-  },
-  {
-    id: 'file',
-    name: 'FileUpload',
-    schemas: {
-      yup: yupObject({ file: yupString() }),
-      zod: z.object({ file: z.string().optional() }),
-      valibot: v.object({ file: v.optional(v.string()) }),
-    },
-    code: {
-      yup: `import { object, string } from 'yup'
-
-const schema = object({
-  file: string(),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <FileUpload id="file" label="Upload a file" fileType="media" />
-</ARForm>`,
-      zod: `import { z } from 'zod'
-
-const schema = z.object({
-  file: z.string().optional(),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <FileUpload id="file" label="Upload a file" fileType="media" />
-</ARForm>`,
-      valibot: `import * as v from 'valibot'
-
-const schema = v.object({
-  file: v.optional(v.string()),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <FileUpload id="file" label="Upload a file" fileType="media" />
-</ARForm>`,
-    },
-    preview: <FileUpload id="file" label="Upload a file" fileType="media" />,
-  },
-  {
-    id: 'tag',
-    name: 'TagInput',
-    schemas: {
-      yup: yupObject({ tags: yupString() }),
-      zod: z.object({ tags: z.string().optional() }),
-      valibot: v.object({ tags: v.optional(v.string()) }),
-    },
-    code: {
-      yup: `import { object, string } from 'yup'
-
-const schema = object({
-  tags: string(),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <TagInput id="tags" label="Tags" />
-</ARForm>`,
-      zod: `import { z } from 'zod'
-
-const schema = z.object({
-  tags: z.string().optional(),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <TagInput id="tags" label="Tags" />
-</ARForm>`,
-      valibot: `import * as v from 'valibot'
-
-const schema = v.object({
-  tags: v.optional(v.string()),
-})
-
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <TagInput id="tags" label="Tags" />
-</ARForm>`,
-    },
-    preview: <TagInput id="tags" label="Tags" />,
-  },
+const demos = [
+  { id: 'text', name: 'Text' },
+  { id: 'checkbox', name: 'Checkbox' },
+  { id: 'date', name: 'Date' },
+  { id: 'select', name: 'Select' },
+  { id: 'textarea', name: 'TextArea' },
+  { id: 'file', name: 'FileUpload' },
+  { id: 'tag', name: 'TagInput' },
 ]
 
 const schemaLibs: { id: SchemaLib; name: string }[] = [
@@ -331,10 +31,41 @@ const schemaLibs: { id: SchemaLib; name: string }[] = [
   { id: 'valibot', name: 'valibot' },
 ]
 
+const moveSelection = <T extends string>(
+  event: KeyboardEvent<HTMLButtonElement>,
+  items: { id: T }[],
+  current: T,
+  select: (value: T) => void,
+  radio = false
+) => {
+  const keys = ['ArrowLeft', 'ArrowRight', 'Home', 'End']
+  if (radio) keys.push('ArrowUp', 'ArrowDown')
+  if (!keys.includes(event.key)) return
+  event.preventDefault()
+  const currentIndex = items.findIndex((item) => item.id === current)
+  const nextIndex =
+    event.key === 'Home'
+      ? 0
+      : event.key === 'End'
+        ? items.length - 1
+        : (currentIndex +
+            (['ArrowLeft', 'ArrowUp'].includes(event.key) ? -1 : 1) +
+            items.length) %
+          items.length
+  select(items[nextIndex].id)
+  event.currentTarget.parentElement
+    ?.querySelectorAll<HTMLButtonElement>('button')
+    [nextIndex]?.focus()
+}
+
 export const Components = () => {
   const [activeId, setActiveId] = useState(demos[0].id)
   const [schemaLib, setSchemaLib] = useState<SchemaLib>('yup')
+  const panelId = useId()
   const active = demos.find((d) => d.id === activeId)!
+  const examplePath = `../examples/showcase/${active.id}.${schemaLib}.tsx`
+  const Example = modules[examplePath]?.default
+  const source = sources[examplePath]
 
   return (
     <section id="components" className="border-t border-border">
@@ -364,10 +95,14 @@ export const Components = () => {
                 key={d.id}
                 role="tab"
                 aria-selected={activeId === d.id}
-                aria-controls={`panel-${d.id}`}
+                aria-controls={panelId}
+                tabIndex={activeId === d.id ? 0 : -1}
                 id={`tab-${d.id}`}
                 type="button"
                 onClick={() => setActiveId(d.id)}
+                onKeyDown={(event) =>
+                  moveSelection(event, demos, activeId, setActiveId)
+                }
                 className={`px-3 py-1.5 rounded-md text-sm font-medium border transition-colors ${
                   activeId === d.id
                     ? 'bg-accent text-white border-accent'
@@ -392,8 +127,18 @@ export const Components = () => {
                 key={s.id}
                 role="radio"
                 aria-checked={schemaLib === s.id}
+                tabIndex={schemaLib === s.id ? 0 : -1}
                 type="button"
                 onClick={() => setSchemaLib(s.id)}
+                onKeyDown={(event) =>
+                  moveSelection(
+                    event,
+                    schemaLibs,
+                    schemaLib,
+                    setSchemaLib,
+                    true
+                  )
+                }
                 className={`px-2.5 py-1 rounded text-xs font-mono transition-colors ${
                   schemaLib === s.id
                     ? 'bg-bg text-fg shadow-sm'
@@ -408,7 +153,7 @@ export const Components = () => {
 
         <div
           role="tabpanel"
-          id={`panel-${active.id}`}
+          id={panelId}
           aria-labelledby={`tab-${active.id}`}
           className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start"
         >
@@ -416,19 +161,21 @@ export const Components = () => {
             <p className="text-xs font-mono text-fg-muted mb-4 uppercase tracking-wider">
               Preview
             </p>
-            <ARForm
-              key={`${active.id}-${schemaLib}`}
-              validationSchema={active.schemas[schemaLib]}
-              onSubmit={noop}
-            >
-              {active.preview}
-            </ARForm>
+            {Example && <Example key={examplePath} />}
           </div>
           <div>
             <p className="text-xs font-mono text-fg-muted mb-4 uppercase tracking-wider">
               Code <span className="text-fg-muted/60">· {schemaLib}</span>
             </p>
-            <CodeBlock code={active.code[schemaLib]} lang="tsx" />
+            <CodeBlock key={examplePath} code={source ?? ''} lang="tsx" />
+            <p className="mt-3 text-sm text-fg-muted">
+              The preview uses the Tailwind classes shown above. Add Tailwind to
+              your app to use them.{' '}
+              <Link to="/docs/styling" className="text-accent underline">
+                Read the styling guide
+              </Link>
+              .
+            </p>
           </div>
         </div>
       </div>

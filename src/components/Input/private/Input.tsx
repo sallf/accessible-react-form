@@ -9,6 +9,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className: string
   formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
   prefix?: string
+  showError?: boolean
 }
 
 export const Input = (props: Props) => {
@@ -21,6 +22,7 @@ export const Input = (props: Props) => {
     required,
     formProps,
     prefix,
+    showError = true,
     ...rest
   } = props
 
@@ -61,7 +63,7 @@ export const Input = (props: Props) => {
       ) : (
         input
       )}
-      <FieldError id={errorId} error={error} />
+      {showError && <FieldError id={errorId} error={error} />}
     </>
   )
 }
