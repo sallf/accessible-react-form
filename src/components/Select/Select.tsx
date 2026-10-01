@@ -4,6 +4,7 @@ import type { FieldValues, UseFormReturn } from 'react-hook-form'
 import { FieldError } from '../FieldError/FieldError'
 import { Label } from '../Label/Label'
 import React from 'react'
+import { useFieldForm } from '../../hooks/formContext'
 
 interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
   label: string
@@ -26,10 +27,11 @@ export const Select = (props: Props) => {
     labelClassName,
     className = '',
     options,
-    formProps,
+    formProps: explicitFormProps,
     required,
     ...rest
   } = props
+  const formProps = useFieldForm(explicitFormProps)
 
   // --- RENDER ---
   if (!formProps?.register || !id) return null // type help
@@ -68,5 +70,3 @@ export const Select = (props: Props) => {
     </Label>
   )
 }
-
-Select.displayName = 'Select'

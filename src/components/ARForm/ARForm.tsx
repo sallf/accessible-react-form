@@ -1,10 +1,9 @@
 import type { FormHTMLAttributes, ReactNode } from 'react'
 import { useEffect } from 'react'
 import type { EventType, FieldValues, UseFormReturn } from 'react-hook-form'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import type { StandardSchemaV1 } from '@standard-schema/spec'
 
-import { ChildrenLoop } from './ChildrenLoop'
 import { useStandardSchemaResolver } from '../../hooks/standardSchema'
 import { visuallyHidden } from '../visuallyHidden'
 
@@ -68,7 +67,7 @@ export const ARForm = (props: Props) => {
       className={`arform ${className}`}
       {...rest}
     >
-      <ChildrenLoop formProps={formProps}>{children}</ChildrenLoop>
+      <FormProvider {...formProps}>{children}</FormProvider>
       {errorsCount > 0 && (
         <div role="alert">{`You have (${errorsCount}) error${errorsCount > 1 ? 's' : ''}`}</div>
       )}

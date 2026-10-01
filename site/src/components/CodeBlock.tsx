@@ -8,7 +8,7 @@ const highlighterPromise = createHighlighterCore({
     import('shiki/themes/github-light.mjs'),
     import('shiki/themes/github-dark.mjs'),
   ],
-  langs: [import('shiki/langs/tsx.mjs')],
+  langs: [import('shiki/langs/tsx.mjs'), import('shiki/langs/bash.mjs')],
   engine: createOnigurumaEngine(import('shiki/wasm')),
 })
 

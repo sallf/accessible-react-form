@@ -3,6 +3,7 @@ import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { FieldError } from '../FieldError/FieldError'
 import { Label } from '../Label/Label'
+import { useFieldForm } from '../../hooks/formContext'
 
 interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   id: string
@@ -18,12 +19,13 @@ export const TextArea = (props: Props) => {
     label,
     labelClassName,
     className = '',
-    formProps,
+    formProps: explicitFormProps,
     required,
     minLength,
     maxLength,
     ...rest
   } = props
+  const formProps = useFieldForm(explicitFormProps)
 
   // --- RENDER ---
   if (!formProps?.register || !id) return null // type help
@@ -48,5 +50,3 @@ export const TextArea = (props: Props) => {
     </Label>
   )
 }
-
-TextArea.displayName = 'TextArea'

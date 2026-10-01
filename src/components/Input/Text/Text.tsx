@@ -3,6 +3,7 @@ import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { Label } from '../../Label/Label'
 import { Input } from '../private/Input'
+import { useFieldForm } from '../../../hooks/formContext'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
@@ -20,11 +21,12 @@ export const Text = (props: Props) => {
     label,
     labelClassName,
     className = '',
-    formProps,
+    formProps: explicitFormProps,
     required,
     prefix,
     ...rest
   } = props
+  const formProps = useFieldForm(explicitFormProps)
 
   // --- RENDER ---
   return (
@@ -42,5 +44,3 @@ export const Text = (props: Props) => {
     </Label>
   )
 }
-
-Text.displayName = 'Text'

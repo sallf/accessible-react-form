@@ -1,6 +1,12 @@
 import { useState } from 'react'
 
-export const CopyButton = ({ text }: { text: string }) => {
+export const CopyButton = ({
+  text,
+  label = 'Copy to clipboard',
+}: {
+  text: string
+  label?: string
+}) => {
   const [copied, setCopied] = useState(false)
   const [failed, setFailed] = useState(false)
 
@@ -22,7 +28,7 @@ export const CopyButton = ({ text }: { text: string }) => {
         type="button"
         onClick={onClick}
         className="text-xs px-2 py-1 rounded border border-border text-fg-muted hover:text-fg hover:bg-bg-subtle transition-colors"
-        aria-label={copied ? 'Copied' : 'Copy to clipboard'}
+        aria-label={copied ? 'Copied' : label}
       >
         {copied ? 'Copied' : 'Copy'}
       </button>

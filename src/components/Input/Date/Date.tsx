@@ -4,6 +4,7 @@ import type { FieldValues, UseFormReturn } from 'react-hook-form'
 import { Label } from '../../Label/Label'
 import { Input } from '../private/Input'
 import React from 'react'
+import { useFieldForm } from '../../../hooks/formContext'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
@@ -19,10 +20,11 @@ export const Date = (props: Props) => {
     label,
     labelClassName,
     className = '',
-    formProps,
+    formProps: explicitFormProps,
     required,
     ...rest
   } = props
+  const formProps = useFieldForm(explicitFormProps)
 
   // --- RENDER ---
   return (
@@ -39,5 +41,3 @@ export const Date = (props: Props) => {
     </Label>
   )
 }
-
-Date.displayName = 'Date'

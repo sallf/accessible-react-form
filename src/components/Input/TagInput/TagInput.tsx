@@ -9,6 +9,7 @@ import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { FieldError } from '../../FieldError/FieldError'
 import { Tag } from './Tag'
+import { useFieldForm } from '../../../hooks/formContext'
 
 interface CommonProps {
   id: string
@@ -86,10 +87,11 @@ export function TagInput(props: Props) {
     style,
     onlySuggestions = false,
     suggestions = [],
-    formProps,
+    formProps: explicitFormProps,
     required,
     disabled,
   } = props
+  const formProps = useFieldForm(explicitFormProps)
   const inputAttributes = props.onlySuggestions
     ? undefined
     : textAttributes(props)
@@ -262,5 +264,3 @@ export function TagInput(props: Props) {
     </div>
   )
 }
-
-TagInput.displayName = 'TagInput'

@@ -97,6 +97,12 @@ jobs:
           npx tsc -b site
           npx vite build site
 
+      - name: Install recipe test browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify recipe docs and copied consumer
+        run: node scripts/test-recipes.mjs
+
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
         with:

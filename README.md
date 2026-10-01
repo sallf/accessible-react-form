@@ -6,6 +6,8 @@
 
 **[Docs & live demos](https://ar-form-sallf.netlify.app)** · **[Storybook](https://ar-form-sallf.netlify.app/storybook/)**
 
+Copy the [contact form recipe](https://ar-form-sallf.netlify.app/docs/recipes/contact) for a complete Tailwind form with validation and reusable fields.
+
 A minimal, accessible React form library. Built on [react-hook-form](https://react-hook-form.com/) for performance, with first-class support for any [Standard Schema](https://standardschema.dev) validator — yup, zod, valibot, arktype, or any other compliant library.
 
 WCAG-compliant by default. No ARIA wiring required.

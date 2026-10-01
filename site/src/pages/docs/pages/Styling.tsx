@@ -1,10 +1,17 @@
 import { CodeBlock } from '../../../components/CodeBlock'
 import TextExampleSource from '../../../examples/TextExample.tsx?raw'
+import { Link } from 'react-router-dom'
 
 export const Styling = () => {
   return (
     <>
       <h1>Styling</h1>
+      <p>
+        The <Link to="/docs/recipes/contact">contact form recipe</Link> includes
+        a complete Tailwind form and a reusable <code>ContactText</code>{' '}
+        component. Its copied files contain every styling class used in the
+        preview.
+      </p>
       <p>
         The library ships <strong>no CSS</strong>. In a React app with Tailwind
         configured, add utilities through <code>className</code> and, where

@@ -6,6 +6,11 @@ export const Quickstart = () => {
     <>
       <h1>Quickstart</h1>
       <p>Get a validated, accessible form running in five minutes.</p>
+      <p>
+        For a complete styled example, copy the{' '}
+        <Link to="/docs/recipes/contact">contact form recipe</Link>, including
+        its Tailwind classes and reusable fields.
+      </p>
 
       <h2>1. Install</h2>
       <CodeBlock

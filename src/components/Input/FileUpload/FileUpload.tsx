@@ -5,6 +5,7 @@ import type { FieldValues, UseFormReturn } from 'react-hook-form'
 import { Label } from '../../Label/Label'
 import { Input } from '../private/Input'
 import React from 'react'
+import { useFieldForm } from '../../../hooks/formContext'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
@@ -22,11 +23,12 @@ export const FileUpload = (props: Props) => {
     labelClassName,
     className = '',
     fileType = 'binary',
-    formProps,
+    formProps: explicitFormProps,
     required,
     disabled,
     ...rest
   } = props
+  const formProps = useFieldForm(explicitFormProps)
 
   // --- STATE ---
   const [isActive, setIsActive] = useState(false)
@@ -129,5 +131,3 @@ export const FileUpload = (props: Props) => {
     </Label>
   )
 }
-
-FileUpload.displayName = 'FileUpload'

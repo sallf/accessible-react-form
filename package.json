@@ -23,15 +23,16 @@
     "test": "npm run build-storybook && npm run test-storybook:ci",
     "test-storybook": "test-storybook",
     "test-storybook:ci": "concurrently -k -s first -n SB,TEST \"http-server storybook-static --port 6006 --silent\" \"wait-on tcp:127.0.0.1:6006 && test-storybook --url http://127.0.0.1:6006\"",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "storybook": "npm run build-lib && storybook dev -p 6006",
+    "build-storybook": "npm run build-lib && storybook build",
     "build-lib": "rollup -c",
     "check:package-css": "node scripts/assert-no-package-stylesheets.mjs",
     "chromatic": "chromatic --exit-zero-on-changes",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepublishOnly": "npm run build-lib"
+    "prepublishOnly": "npm run build-lib",
+    "test:recipes": "npm run build-lib && npm --prefix site run build && node scripts/test-recipes.mjs"
   },
   "keywords": [
     "react",
@@ -86,6 +87,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "http-server": "^14.1.1",
+    "playwright": "^1.59.1",
     "prettier": "^3.8.3",
     "prop-types": "^15.8.1",
     "react": "^19.2.5",

@@ -4,11 +4,17 @@ import { CodeBlock } from './CodeBlock'
 export const ExamplePreview = ({
   children,
   source,
+  files,
 }: {
   children: ReactNode
-  source: string
-}) => {
+} & (
+  | { source: string; files?: never }
+  | { source?: never; files: { name: string; source: string }[] }
+)) => {
   const [tab, setTab] = useState<'preview' | 'code'>('preview')
+  const [fileName, setFileName] = useState(files?.[0]?.name)
+  const selectedFile =
+    files?.find((file) => file.name === fileName) ?? files?.[0]
   const id = useId()
   const onKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
@@ -70,7 +76,26 @@ export const ExamplePreview = ({
         tabIndex={0}
         className="min-w-0 p-4"
       >
-        <CodeBlock code={source} />
+        {files && (
+          <label className="mb-4 flex flex-wrap items-center gap-3 text-sm text-fg">
+            Source file
+            <select
+              value={selectedFile?.name}
+              onChange={(event) => setFileName(event.target.value)}
+              className="min-w-0 rounded-md border border-border bg-bg px-3 py-2 text-fg"
+            >
+              {files.map((file) => (
+                <option key={file.name} value={file.name}>
+                  {file.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+        <CodeBlock
+          key={selectedFile?.name}
+          code={selectedFile?.source ?? source ?? ''}
+        />
       </div>
     </div>
   )

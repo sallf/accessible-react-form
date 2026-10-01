@@ -5,6 +5,7 @@ import { Label } from '../../Label/Label'
 import { Input } from '../private/Input'
 import { FieldError } from '../../FieldError/FieldError'
 import React from 'react'
+import { useFieldForm } from '../../../hooks/formContext'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
@@ -20,10 +21,11 @@ export const Checkbox = (props: Props) => {
     label,
     labelClassName,
     className = '',
-    formProps,
+    formProps: explicitFormProps,
     required,
     ...rest
   } = props
+  const formProps = useFieldForm(explicitFormProps)
 
   // --- RENDER ---
   return (
@@ -52,5 +54,3 @@ export const Checkbox = (props: Props) => {
     </Label>
   )
 }
-
-Checkbox.displayName = 'Checkbox'

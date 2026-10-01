@@ -14,6 +14,7 @@ export const docsNav: DocSection[] = [
     links: [
       { title: 'Introduction', path: '/docs' },
       { title: 'Quickstart', path: '/docs/quickstart' },
+      { title: 'Contact form', path: '/docs/recipes/contact' },
     ],
   },
   {
