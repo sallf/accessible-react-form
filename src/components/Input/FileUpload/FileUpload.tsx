@@ -81,12 +81,12 @@ export const FileUpload = (props: Props) => {
       >
         {!disabled && (
           <svg
+            className="arform__upload-icon"
             viewBox="0 0 21.5 17.62"
-            style={{
-              width: '2rem',
-              fill: 'rgb(149 155 165)',
-              opacity: 0.75,
-            }}
+            width="32"
+            height="32"
+            fill="currentColor"
+            aria-hidden="true"
           >
             <path d="m11.28,7.22s-.02,0-.02-.02c-.06-.06-.14-.11-.22-.15,0,0,0,0,0,0,0,0-.01,0-.02,0-.08-.03-.16-.04-.24-.05-.03,0-.05,0-.08,0-.06,0-.12.02-.18.04-.03,0-.05.02-.07.03-.08.04-.16.08-.22.15l-2,2c-.29.29-.29.77,0,1.06s.77.29,1.06,0l.72-.72v4.19c0,.41.34.75.75.75s.75-.34.75-.75v-4.19l.72.72c.29.29.77.29,1.06,0s.29-.77,0-1.06l-2-2Z" />
             <path d="m16.87,5.63c-.5-2.25-1.69-3.82-3.23-4.72C12.01-.05,10.06-.21,8.3.25s-3.38,1.56-4.34,3.2c-.85,1.45-1.15,3.28-.62,5.34-4.74,1.14-4.42,8.46.87,8.84.02,0,.04,0,.05,0h11.12c1.54.01,3.02-.57,4.15-1.59,3.63-3.18,1.91-9.38-2.67-10.4Zm1.68,9.27h-.01c-.87.8-1.99,1.23-3.14,1.22H4.3c-3.74-.29-3.72-5.68,0-5.97.09,0,.18-.01.27-.04.39-.14.59-.57.45-.96-.74-2.05-.49-3.71.23-4.94.73-1.25,2-2.13,3.43-2.5,1.43-.37,2.96-.23,4.21.5,1.23.72,2.25,2.05,2.61,4.2.05.33.32.58.65.62,3.7.47,5.22,5.43,2.41,7.88Z" />
@@ -99,17 +99,6 @@ export const FileUpload = (props: Props) => {
           ) : (
             <span className="arform__upload-preview-label">{previewUrl}</span>
           ))}
-        {!disabled && (
-          <>
-            <span className={`arform__upload-text`}>
-              Drag and drop files here <br /> or
-            </span>
-            <span className="arform__upload-button">
-              {file ? 'Change File' : 'Choose File'}
-            </span>
-          </>
-        )}
-
         {/* NOTE
         We can't manually set the value of a file input, so in the case that a
         defaultValue exists, we need to disable the required attribute.

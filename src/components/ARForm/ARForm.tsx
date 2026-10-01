@@ -6,6 +6,7 @@ import type { StandardSchemaV1 } from '@standard-schema/spec'
 
 import { ChildrenLoop } from './ChildrenLoop'
 import { useStandardSchemaResolver } from '../../hooks/standardSchema'
+import { visuallyHidden } from '../visuallyHidden'
 
 interface Props extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode
@@ -71,7 +72,13 @@ export const ARForm = (props: Props) => {
       {errorsCount > 0 && (
         <div role="alert">{`You have (${errorsCount}) error${errorsCount > 1 ? 's' : ''}`}</div>
       )}
-      <input type="submit" className="arform__submit" />
+      <input
+        type="submit"
+        className="arform__submit"
+        tabIndex={-1}
+        aria-hidden="true"
+        style={visuallyHidden}
+      />
     </form>
   )
 }

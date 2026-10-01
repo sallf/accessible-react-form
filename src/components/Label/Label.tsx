@@ -15,19 +15,22 @@ export const Label = (props: Props) => {
 
   // --- RENDER ---
   return (
-    <label
-      className={`arform__label ${className || ''}`}
-      data-arform-row={isRow ? '' : undefined}
-    >
-      <div className="arform__label-inner">
-        {label}
-        {isRequired && (
-          <span aria-hidden="true" className="arform__label-required">
-            *
-          </span>
-        )}
-      </div>
-      {children}
-    </label>
+    <div className="arform__field">
+      <label
+        className={`arform__label ${className || ''}`}
+        data-arform-row={isRow ? '' : undefined}
+      >
+        {isRow && children}
+        <span className="arform__label-inner">
+          {label}
+          {isRequired && (
+            <span aria-hidden="true" className="arform__label-required">
+              *
+            </span>
+          )}
+        </span>
+        {!isRow && children}
+      </label>
+    </div>
   )
 }

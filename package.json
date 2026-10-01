@@ -26,6 +26,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build-lib": "rollup -c",
+    "check:package-css": "node scripts/assert-no-package-stylesheets.mjs",
     "chromatic": "chromatic --exit-zero-on-changes",
     "lint": "eslint .",
     "format": "prettier --write .",
