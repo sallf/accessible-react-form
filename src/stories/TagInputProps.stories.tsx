@@ -7,8 +7,10 @@ import { ARForm } from '../components/ARForm/ARForm'
 import { TagInput } from '../components/Input/TagInput/TagInput'
 
 const meta: Meta<typeof ARForm> = {
-  title: 'TagInput/Props',
+  title: 'Unstyled/TagInput props',
+  id: 'taginput-props',
   component: ARForm,
+  parameters: { tailwind: false },
   args: { onSubmit: fn() },
 }
 

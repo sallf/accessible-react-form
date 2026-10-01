@@ -87,7 +87,7 @@ export function ContactForm({
         <button
           type="submit"
           disabled={disabled}
-          className="w-full rounded-lg bg-violet-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-violet-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-400 disabled:opacity-50 sm:w-auto"
+          className="w-full rounded-lg bg-violet-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-violet-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-400 disabled:opacity-50 sm:w-auto"
         >
           Send message
         </button>

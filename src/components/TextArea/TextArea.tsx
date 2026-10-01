@@ -23,6 +23,8 @@ export const TextArea = (props: Props) => {
     required,
     minLength,
     maxLength,
+    onChange,
+    onBlur,
     ...rest
   } = props
   const formProps = useFieldForm(explicitFormProps)
@@ -33,12 +35,25 @@ export const TextArea = (props: Props) => {
   const error = formProps.formState.errors[id]
   const hasError = !!error?.message
   const errorId = `${id}-error`
+  const {
+    onChange: registeredOnChange,
+    onBlur: registeredOnBlur,
+    ...registration
+  } = formProps.register(id)
 
   return (
     <Label label={label} isRequired={!!required} className={labelClassName}>
       <textarea
-        {...formProps.register(id)}
         {...rest}
+        {...registration}
+        onChange={(event) => {
+          void registeredOnChange(event)
+          onChange?.(event)
+        }}
+        onBlur={(event) => {
+          void registeredOnBlur(event)
+          onBlur?.(event)
+        }}
         aria-required={required ? true : undefined}
         aria-invalid={hasError ? 'true' : 'false'}
         aria-describedby={hasError ? errorId : undefined}

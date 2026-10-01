@@ -23,6 +23,8 @@ export const Input = (props: Props) => {
     formProps,
     prefix,
     showError = true,
+    onChange,
+    onBlur,
     ...rest
   } = props
 
@@ -35,11 +37,24 @@ export const Input = (props: Props) => {
   const error = formProps.formState.errors[id]
   const hasError = !!error?.message
   const errorId = `${id}-error`
+  const {
+    onChange: registeredOnChange,
+    onBlur: registeredOnBlur,
+    ...registration
+  } = formProps.register(id, { required })
 
   const input = (
     <input
-      {...formProps.register(id, { required })}
       {...rest}
+      {...registration}
+      onChange={(event) => {
+        void registeredOnChange(event)
+        onChange?.(event)
+      }}
+      onBlur={(event) => {
+        void registeredOnBlur(event)
+        onBlur?.(event)
+      }}
       type={type}
       aria-required={required ? true : undefined}
       aria-invalid={hasError ? 'true' : 'false'}

@@ -14,8 +14,9 @@ import { TagInput } from '../components/Input/TagInput/TagInput'
 
 const meta: Meta<typeof ARForm> = {
   component: ARForm,
-  title: 'ARForm',
-  // title: 'ARForm/ARForm',
+  title: 'Unstyled/ARForm',
+  id: 'arform',
+  parameters: { tailwind: false },
   args: {
     onSubmit: fn(),
   },

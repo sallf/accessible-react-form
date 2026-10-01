@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-vite'
+import tailwindcss from '@tailwindcss/vite'
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -17,6 +18,7 @@ const config: StorybookConfig = {
   },
   viteFinal: (config) => ({
     ...config,
+    plugins: [...(config.plugins ?? []), tailwindcss()],
     resolve: {
       ...config.resolve,
       dedupe: ['react', 'react-dom', 'react-hook-form'],

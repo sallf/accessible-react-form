@@ -15,8 +15,10 @@ import { FileUpload } from '../components/Input/FileUpload/FileUpload'
 import { TagInput } from '../components/Input/TagInput/TagInput'
 
 const meta: Meta<typeof ARForm> = {
-  title: 'FormContext',
+  title: 'Unstyled/Form context',
+  id: 'formcontext',
   component: ARForm,
+  parameters: { tailwind: false },
 }
 
 export default meta

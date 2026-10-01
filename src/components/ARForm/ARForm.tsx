@@ -1,10 +1,18 @@
 import type { FormHTMLAttributes, ReactNode } from 'react'
 import { useEffect } from 'react'
-import type { EventType, FieldValues, UseFormReturn } from 'react-hook-form'
+import type {
+  EventType,
+  FieldError,
+  FieldValues,
+  UseFormReturn,
+} from 'react-hook-form'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { StandardSchemaV1 } from '@standard-schema/spec'
 
-import { useStandardSchemaResolver } from '../../hooks/standardSchema'
+import {
+  FORM_ERROR_TYPE,
+  useStandardSchemaResolver,
+} from '../../hooks/standardSchema'
 import { visuallyHidden } from '../visuallyHidden'
 
 interface Props extends FormHTMLAttributes<HTMLFormElement> {
@@ -57,9 +65,19 @@ export const ARForm = (props: Props) => {
   }, [watch]) // only watch (could probably be a mountEffect)
 
   // --- RENDER ---
-  const errorsCount = formState.errors
-    ? Object.keys(formState.errors).length
-    : 0
+  const allErrors = Object.values(formState.errors)
+  const formError = allErrors.find(
+    (error) => error?.type === FORM_ERROR_TYPE
+  ) as FieldError | undefined
+  const formMessages = formError?.types
+    ? Object.values(formError.types).filter(
+        (message): message is string => typeof message === 'string'
+      )
+    : formError?.message
+      ? [formError.message]
+      : []
+  const errorsCount =
+    allErrors.length - (formError ? 1 : 0) + formMessages.length
 
   return (
     <form
@@ -69,7 +87,16 @@ export const ARForm = (props: Props) => {
     >
       <FormProvider {...formProps}>{children}</FormProvider>
       {errorsCount > 0 && (
-        <div role="alert">{`You have (${errorsCount}) error${errorsCount > 1 ? 's' : ''}`}</div>
+        <div role="alert">
+          {`You have (${errorsCount}) error${errorsCount > 1 ? 's' : ''}`}
+          {formMessages.length > 0 && (
+            <ul>
+              {formMessages.map((message, index) => (
+                <li key={index}>{message}</li>
+              ))}
+            </ul>
+          )}
+        </div>
       )}
       <input
         type="submit"

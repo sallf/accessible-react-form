@@ -26,6 +26,7 @@ export const FileUpload = (props: Props) => {
     formProps: explicitFormProps,
     required,
     disabled,
+    onChangeCapture,
     ...rest
   } = props
   const formProps = useFieldForm(explicitFormProps)
@@ -124,8 +125,11 @@ export const FileUpload = (props: Props) => {
           onDrop={(evt) => {
             handleDrag(evt, false)
           }}
-          onChangeCapture={handleChange}
           {...rest}
+          onChangeCapture={(event) => {
+            handleChange(event)
+            onChangeCapture?.(event)
+          }}
         />
       </div>
     </Label>
