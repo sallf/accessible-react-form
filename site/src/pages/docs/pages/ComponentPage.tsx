@@ -13,7 +13,7 @@ const docs: Record<string, ComponentDoc> = {
     name: 'ARForm',
     storyId: 'forms-arform--default',
     summary:
-      'The form root. Owns the validation schema, registers fields with react-hook-form, and renders a default submit button.',
+      'The form root. Owns the validation schema, registers fields with react-hook-form, and includes a visually hidden submit control for Enter submission. Add your own visible submit button when needed.',
     example: `<ARForm validationSchema={schema} onSubmit={onSubmit}>
   {/* fields */}
 </ARForm>`,
@@ -45,7 +45,7 @@ const docs: Record<string, ComponentDoc> = {
     name: 'Checkbox',
     storyId: 'forms-checkbox--default',
     summary:
-      'Single checkbox. The label renders in row layout (data-arform-row).',
+      'Single checkbox before its label text. Use data-arform-row to style the label as a row.',
     example: `<Checkbox id="terms" label="I agree to the terms" required />`,
   },
   date: {
@@ -58,7 +58,7 @@ const docs: Record<string, ComponentDoc> = {
     name: 'FileUpload',
     storyId: 'forms-fileupload--default',
     summary:
-      'File input with drag-and-drop, preview for media, and filename for binaries.',
+      'Native file input with an image preview for media and a filename preview for binaries. Files can be dropped onto the native input.',
     example: `<FileUpload id="avatar" label="Avatar" fileType="media" />`,
   },
 }

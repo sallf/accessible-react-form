@@ -5,17 +5,30 @@ export const Styling = () => {
     <>
       <h1>Styling</h1>
       <p>
-        The library ships <strong>completely unstyled</strong>. Every element
-        gets a stable <code>arform__*</code> class hook so you can style
-        globally from your own CSS, and stateful elements expose state via
-        attributes you can target with attribute selectors.
+        The library ships <strong>no CSS</strong> and works with native browser
+        styling. Use the <code>arform__*</code> hooks and state attributes to
+        apply your own theme. Your Tailwind utilities and CSS Modules classes
+        pass through unchanged; the library adds no utility classes.
+      </p>
+
+      <p>
+        Each field has a block <code>arform__field</code> container, so fields
+        start on separate lines without CSS. Checkboxes stay beside their
+        labels. Use the field containers for grid placement or spacing.
+      </p>
+      <p>
+        Only the internal submit control and screen-reader text use inline
+        hiding styles. Add your own visible submit button when needed. The
+        internal control supports Enter submission and is skipped by Tab.
       </p>
 
       <h2>Per-form / per-field styling</h2>
       <p>
         <code>&lt;ARForm&gt;</code> and every input component forward{' '}
         <code>className</code> and <code>style</code> to the underlying DOM
-        element, so you can style a single instance directly:
+        element. TagInput targets its visible textbox, or the named group when{' '}
+        <code>onlySuggestions</code> is enabled. Its hidden value input never
+        receives your styling props. Style a single instance directly:
       </p>
       <CodeBlock
         code={`<ARForm className="checkout-form" style={{ maxWidth: 480 }} onSubmit={onSubmit}>
@@ -32,6 +45,25 @@ export const Styling = () => {
   <Text id="last" label="Last" />
 </div>`}
       />
+
+      <p>
+        Text, Date, Checkbox, Select, TextArea, and FileUpload also accept
+        <code> labelClassName</code> for the wrapping label. Use TagInput&apos;s
+        class hooks to style its separate label and internal parts.
+      </p>
+      <p>
+        FileUpload uses a native file input and an optional preview. Style
+        <code> ::file-selector-button</code> for the native button and
+        <code> arform__upload-icon</code> for its decorative icon. The old
+        <code> arform__upload-text</code> and
+        <code> arform__upload-button</code> spans are removed.
+      </p>
+      <p>
+        When updating a theme, note that TagInput&apos;s
+        <code> className</code> previously targeted its label and
+        <code> style</code> targeted its backing input. Move wrapper styles to
+        <code> .arform__tag-input</code>.
+      </p>
 
       <h2>Global styling</h2>
       <p>
@@ -72,7 +104,7 @@ export const Styling = () => {
             <td>
               <code>arform__submit</code>
             </td>
-            <td>Default submit button</td>
+            <td>Internal submit input, visually hidden and skipped by Tab</td>
           </tr>
           <tr>
             <td>
@@ -86,7 +118,7 @@ export const Styling = () => {
             <td>
               <code>arform__label</code>
             </td>
-            <td>Wraps every input</td>
+            <td>Field label; separate label or group heading for TagInput</td>
           </tr>
           <tr>
             <td>
@@ -160,7 +192,7 @@ export const Styling = () => {
             <td>
               <code>arform__upload-wrapper</code>
             </td>
-            <td>Drop target around file input</td>
+            <td>Wrapper around the native file input and preview</td>
           </tr>
           <tr>
             <td>
@@ -170,6 +202,28 @@ export const Styling = () => {
               Wraps inputs with a <code>prefix</code>
             </td>
           </tr>
+          {[
+            ['arform__field', 'Block container for each field'],
+            ['arform__upload-icon', 'Decorative SVG using currentColor'],
+            ['arform__upload-preview', 'Image preview'],
+            ['arform__upload-preview-label', 'Filename preview'],
+            [
+              'arform__tag-input',
+              'TagInput container; named group in suggestions-only mode',
+            ],
+            ['arform__tag-input-control', 'Visible tag-entry textbox'],
+            ['arform__tag-list', 'Selected tags'],
+            ['arform__tag', 'Tag action button'],
+            ['arform__tag-remove', 'Remove a selected tag'],
+            ['arform__tag-suggestions', 'Suggested tag buttons'],
+          ].map(([hook, description]) => (
+            <tr key={hook}>
+              <td>
+                <code>{hook}</code>
+              </td>
+              <td>{description}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
@@ -229,9 +283,14 @@ export const Styling = () => {
         </tbody>
       </table>
       <p>
-        <code>aria-invalid</code> and <code>aria-required</code> double as
-        accessibility hooks, so no separate <code>data-*</code> is needed for
-        them. Same for native <code>:disabled</code>.
+        TagInput exposes <code>data-arform-invalid</code> and
+        <code> data-arform-disabled</code> on its container. Its visible textbox
+        also carries <code>aria-invalid</code>,<code> aria-required</code>, and
+        native <code>disabled</code>. In suggestions-only mode, the named group
+        carries invalid state and an accessible description of the required
+        indication/error; its buttons use native <code>disabled</code>. Target
+        <code> .arform__tag[data-arform-suggestion]</code> to style suggestions
+        separately from selected tags.
       </p>
 
       <h2>Tailwind CSS</h2>
