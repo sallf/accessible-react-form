@@ -1,11 +1,12 @@
 import type { FormHTMLAttributes, ReactNode } from 'react'
 import { useEffect } from 'react'
 import type { EventType, FieldValues, UseFormReturn } from 'react-hook-form'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import type { StandardSchemaV1 } from '@standard-schema/spec'
 
-import { ChildrenLoop } from './ChildrenLoop'
 import { useStandardSchemaResolver } from '../../hooks/standardSchema'
+import { visuallyHidden } from '../visuallyHidden'
+import { getErrorSummary } from '../fieldErrors'
 
 interface Props extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode
@@ -30,7 +31,7 @@ export const ARForm = (props: Props) => {
     // ctaLayout = 'modal',
     className = '',
     defaultValues = null, // can be passed as array here, or individually to each component
-    onChangeCallback = () => null,
+    onChangeCallback,
     ...rest
   } = props
 
@@ -49,17 +50,15 @@ export const ARForm = (props: Props) => {
   }, [defaultValues]) // only default values
 
   useEffect(() => {
+    if (!onChangeCallback) return
     const subscription = watch((value, { name, type }) => {
       onChangeCallback(value, name, type, formProps)
     })
     return () => subscription.unsubscribe()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch]) // only watch (could probably be a mountEffect)
+  }, [watch, onChangeCallback, formProps])
 
   // --- RENDER ---
-  const errorsCount = formState.errors
-    ? Object.keys(formState.errors).length
-    : 0
+  const { errorsCount, formMessages } = getErrorSummary(formState.errors)
 
   return (
     <form
@@ -67,11 +66,26 @@ export const ARForm = (props: Props) => {
       className={`arform ${className}`}
       {...rest}
     >
-      <ChildrenLoop formProps={formProps}>{children}</ChildrenLoop>
+      <FormProvider {...formProps}>{children}</FormProvider>
       {errorsCount > 0 && (
-        <div role="alert">{`You have (${errorsCount}) error${errorsCount > 1 ? 's' : ''}`}</div>
+        <div role="alert">
+          {`You have (${errorsCount}) error${errorsCount > 1 ? 's' : ''}`}
+          {formMessages.length > 0 && (
+            <ul>
+              {formMessages.map((message, index) => (
+                <li key={index}>{message}</li>
+              ))}
+            </ul>
+          )}
+        </div>
       )}
-      <input type="submit" className="arform__submit" />
+      <input
+        type="submit"
+        className="arform__submit"
+        tabIndex={-1}
+        aria-hidden="true"
+        style={visuallyHidden}
+      />
     </form>
   )
 }

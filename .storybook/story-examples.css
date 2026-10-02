@@ -1,0 +1,15 @@
+/* Tailwind's reset is confined to styled examples; Unstyled stays native. */
+@layer theme, base, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@layer base {
+  @scope (.tailwind-example) {
+    @import 'tailwindcss/preflight.css';
+  }
+}
+@import 'tailwindcss/utilities.css' layer(utilities) source(none);
+/* Match the light Storybook canvas rather than the operating-system theme. */
+@custom-variant dark (&:where([data-example-theme='dark'], [data-example-theme='dark'] *));
+@source './preview.ts';
+@source '../src/stories';
+@source '../site/src/examples';
+@source '../site/src/recipes/contact';

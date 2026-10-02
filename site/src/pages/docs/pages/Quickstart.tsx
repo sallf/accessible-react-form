@@ -6,12 +6,21 @@ export const Quickstart = () => {
     <>
       <h1>Quickstart</h1>
       <p>Get a validated, accessible form running in five minutes.</p>
+      <p>
+        For a complete styled example, copy the{' '}
+        <Link to="/docs/recipes/contact">contact form recipe</Link>, including
+        its Tailwind classes and reusable fields.
+      </p>
 
       <h2>1. Install</h2>
       <CodeBlock
         lang="bash"
-        code={`npm install accessible-react-form react-hook-form`}
+        code={`npm install accessible-react-form@next react-hook-form`}
       />
+      <p>
+        These alpha docs use the next dist-tag. You can pin an exact prerelease
+        instead.
+      </p>
       <p>Plus the validator of your choice:</p>
       <CodeBlock
         lang="bash"
@@ -67,6 +76,12 @@ export const SignupForm = () => (
         Keep them in sync. There&apos;s no auto-derivation because Standard
         Schema only standardizes <code>validate()</code>; libraries genuinely
         disagree about what &quot;required&quot; means.
+      </p>
+      <p>
+        Without a schema, the <code>required</code> prop also registers required
+        validation. With a schema, its resolver owns validation and transformed
+        submit values. See the{' '}
+        <Link to="/docs/validation">validation guide</Link>.
       </p>
     </>
   )

@@ -14,6 +14,7 @@ export default [
       'site/dist/**',
       'site/public/storybook/**',
       '**/*.tsbuildinfo',
+      'playground/**',
     ],
   },
   js.configs.recommended,
@@ -43,6 +44,12 @@ export default [
         'warn',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
+    },
+  },
+  {
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      globals: { console: 'readonly', process: 'readonly' },
     },
   },
   prettier,

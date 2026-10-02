@@ -1,4 +1,5 @@
 node_modules
+.DS_Store
 /dist
 *.log
 storybook-static
@@ -6,3 +7,5 @@ chromatic-build-*.xml
 chromatic-diagnostics.json
 .nx
 .claude/settings.local.json
+/playground
+*.tsbuildinfo

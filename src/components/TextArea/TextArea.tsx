@@ -1,14 +1,17 @@
+import { describedBy } from '../describedBy'
 import type { TextareaHTMLAttributes } from 'react'
-import type { FieldValues, UseFormReturn } from 'react-hook-form'
+import type { FieldFormMethods } from '../../hooks/formContext'
 
 import { FieldError } from '../FieldError/FieldError'
+import { getFieldError } from '../fieldErrors'
 import { Label } from '../Label/Label'
+import { useFieldForm } from '../../hooks/formContext'
 
 interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   id: string
   label: string
   labelClassName?: string
-  formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
+  formProps?: FieldFormMethods
 }
 
 export const TextArea = (props: Props) => {
@@ -18,28 +21,53 @@ export const TextArea = (props: Props) => {
     label,
     labelClassName,
     className = '',
-    formProps,
+    formProps: explicitFormProps,
     required,
+    disabled: explicitlyDisabled,
     minLength,
     maxLength,
+    onChange,
+    onBlur,
     ...rest
   } = props
+  const formProps = useFieldForm(explicitFormProps)
+  const disabled = explicitlyDisabled || formProps?.formState.disabled
 
   // --- RENDER ---
   if (!formProps?.register || !id) return null // type help
 
-  const error = formProps.formState.errors[id]
-  const hasError = !!error?.message
+  const error = getFieldError(formProps.formState.errors, id)
+  const hasError = !!error
   const errorId = `${id}-error`
+  const {
+    onChange: registeredOnChange,
+    onBlur: registeredOnBlur,
+    ...registration
+  } = formProps.register(id, {
+    ...(required === undefined ? {} : { required }),
+    disabled,
+  })
 
   return (
     <Label label={label} isRequired={!!required} className={labelClassName}>
       <textarea
-        {...formProps.register(id)}
         {...rest}
+        {...registration}
+        id={id}
+        onChange={(event) => {
+          void registeredOnChange(event)
+          onChange?.(event)
+        }}
+        onBlur={(event) => {
+          void registeredOnBlur(event)
+          onBlur?.(event)
+        }}
         aria-required={required ? true : undefined}
         aria-invalid={hasError ? 'true' : 'false'}
-        aria-describedby={hasError ? errorId : undefined}
+        aria-describedby={describedBy(
+          props['aria-describedby'],
+          hasError ? errorId : undefined
+        )}
         className={`arform__textarea ${className}`}
         minLength={minLength}
         maxLength={maxLength}
@@ -48,5 +76,3 @@ export const TextArea = (props: Props) => {
     </Label>
   )
 }
-
-TextArea.displayName = 'TextArea'

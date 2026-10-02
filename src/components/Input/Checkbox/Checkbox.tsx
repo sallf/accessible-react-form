@@ -1,15 +1,18 @@
 import type { InputHTMLAttributes } from 'react'
-import type { FieldValues, UseFormReturn } from 'react-hook-form'
+import type { FieldFormMethods } from '../../../hooks/formContext'
 
 import { Label } from '../../Label/Label'
 import { Input } from '../private/Input'
+import { FieldError } from '../../FieldError/FieldError'
+import { getFieldError } from '../../fieldErrors'
 import React from 'react'
+import { useFieldForm } from '../../../hooks/formContext'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
   label: string
   labelClassName?: string
-  formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
+  formProps?: FieldFormMethods
 }
 
 export const Checkbox = (props: Props) => {
@@ -19,10 +22,11 @@ export const Checkbox = (props: Props) => {
     label,
     labelClassName,
     className = '',
-    formProps,
+    formProps: explicitFormProps,
     required,
     ...rest
   } = props
+  const formProps = useFieldForm(explicitFormProps)
 
   // --- RENDER ---
   return (
@@ -31,18 +35,23 @@ export const Checkbox = (props: Props) => {
       isRequired={!!required}
       className={labelClassName}
       isRow
+      error={
+        <FieldError
+          id={`${id}-error`}
+          error={formProps && getFieldError(formProps.formState.errors, id)}
+        />
+      }
     >
       <Input
         id={id}
         label={label}
         className={`arform__checkbox ${className}`}
         type="checkbox"
-        required={!!required}
+        required={required}
         formProps={formProps}
         {...rest}
+        showError={false}
       />
     </Label>
   )
 }
-
-Checkbox.displayName = 'Checkbox'

@@ -1,15 +1,16 @@
 import type { InputHTMLAttributes } from 'react'
-import type { FieldValues, UseFormReturn } from 'react-hook-form'
+import type { FieldFormMethods } from '../../../hooks/formContext'
 
 import { Label } from '../../Label/Label'
 import { Input } from '../private/Input'
+import { useFieldForm } from '../../../hooks/formContext'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
   label: string
   labelClassName?: string
   className?: string
-  formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
+  formProps?: FieldFormMethods
   prefix?: string
 }
 
@@ -20,11 +21,12 @@ export const Text = (props: Props) => {
     label,
     labelClassName,
     className = '',
-    formProps,
+    formProps: explicitFormProps,
     required,
     prefix,
     ...rest
   } = props
+  const formProps = useFieldForm(explicitFormProps)
 
   // --- RENDER ---
   return (
@@ -34,7 +36,7 @@ export const Text = (props: Props) => {
         label={label}
         className={`arform__text ${className}`}
         type="text"
-        required={!!required}
+        required={required}
         formProps={formProps}
         prefix={prefix}
         {...rest}
@@ -42,5 +44,3 @@ export const Text = (props: Props) => {
     </Label>
   )
 }
-
-Text.displayName = 'Text'

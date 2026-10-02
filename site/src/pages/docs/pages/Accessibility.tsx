@@ -3,52 +3,50 @@ export const Accessibility = () => {
     <>
       <h1>Accessibility</h1>
       <p>
-        Forms are the highest-stakes part of most apps for accessibility —
-        failures here block real users from completing real tasks. This library
-        is WCAG-compliant by default, with zero ARIA wiring required from you.
+        Fields provide labels, required/invalid states, and linked validation
+        feedback. These features support accessibility; WCAG conformance depends
+        on your completed application, including its styling and content.
       </p>
-
-      <h2>What you get for free</h2>
+      <h2>What the fields provide</h2>
       <ul>
         <li>
-          Every input is associated with its <code>&lt;label&gt;</code> via the
-          parent-label pattern.
+          Native controls have associated labels. TagInput uses a labelled
+          textbox or, in suggestions-only mode, a named group of buttons.
         </li>
         <li>
-          Required fields get <code>aria-required=&quot;true&quot;</code>{' '}
-          announced by screen readers.
+          Required controls expose their required state. The suggestions-only
+          group uses descriptive required text.
         </li>
         <li>
-          Invalid fields get <code>aria-invalid=&quot;true&quot;</code> and are
-          linked to their error message via <code>aria-describedby</code>.
+          Invalid controls expose <code>aria-invalid</code> and link their
+          feedback with <code>aria-describedby</code>, preserving your help-text
+          references.
         </li>
         <li>
-          Error messages render with <code>role=&quot;alert&quot;</code>, so
-          they&apos;re announced as they appear.
+          Field errors and the form-wide summary use{' '}
+          <code>role=&quot;alert&quot;</code>. Actual announcements depend on
+          the browser and assistive technology.
         </li>
         <li>
-          Required indicators in labels use{' '}
-          <code>aria-hidden=&quot;true&quot;</code> on the visual <code>*</code>{' '}
-          — assistive tech reads &quot;required&quot; from the input&apos;s
-          ARIA, not the asterisk.
+          The visual required asterisk is hidden from assistive technology; the
+          control&apos;s required state or group description provides that
+          information.
         </li>
       </ul>
-
-      <h2>What&apos;s still on you</h2>
+      <h2>What to check in your application</h2>
       <ul>
         <li>
-          <strong>Visible focus styles.</strong> The library doesn&apos;t ship
-          CSS — make sure your styles preserve <code>:focus-visible</code>{' '}
-          outlines.
+          <strong>Visible focus styles.</strong> Preserve keyboard focus
+          indicators when styling controls.
         </li>
         <li>
-          <strong>Color contrast.</strong> If you use color to indicate error
-          state, ensure the contrast meets WCAG AA.
+          <strong>Contrast and error feedback.</strong> Check text and control
+          contrast and keep text errors alongside color cues.
         </li>
         <li>
-          <strong>Don&apos;t use color alone.</strong> Pair red borders with
-          text-based error messages (the library does this for you out of the
-          box).
+          <strong>Keyboard and assistive technology.</strong> Test the complete
+          form, including custom content and validation recovery. The library
+          does not provide a custom error-summary focus workflow.
         </li>
       </ul>
     </>

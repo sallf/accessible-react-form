@@ -5,6 +5,9 @@
     "module": "esnext",
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
+    "paths": {
+      "accessible-react-form": ["./src/index.ts"]
+    },
     "sourceMap": true,
     "noImplicitAny": true,
     "strict": true,

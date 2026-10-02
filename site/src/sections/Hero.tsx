@@ -1,27 +1,10 @@
-import { ARForm, Text, Select } from 'accessible-react-form'
-import { object, string, type AnyObjectSchema } from 'yup'
+import HeroExample from '../examples/HeroExample'
+import demoCode from '../examples/HeroExample.tsx?raw'
 import { useEffect, useRef, useState } from 'react'
-import type { FieldValues } from 'react-hook-form'
 import { CopyButton } from '../components/CopyButton'
 import { CodeBlock } from '../components/CodeBlock'
 
-const schema: AnyObjectSchema = object({
-  name: string().required(),
-  email: string().email().required(),
-  plan: string(),
-})
-
-const installCmd = 'npm install accessible-react-form react-hook-form'
-
-const demoCode = `<ARForm validationSchema={schema} onSubmit={save}>
-  <Text id="name" label="Name" required />
-  <Text id="email" label="Email" type="email" required />
-  <Select
-    id="plan"
-    label="Plan"
-    options={['Free', 'Pro', 'Team']}
-  />
-</ARForm>`
+const installCmd = 'npm install accessible-react-form@next react-hook-form yup'
 
 // Read live from the rendered DOM so the readout is the real thing the
 // library emits — not a hand-written mock of it.
@@ -85,12 +68,12 @@ export const Hero = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div>
           <p className="text-xs font-mono text-accent mb-4 tracking-wider">
-            ALPHA · v0.1.0
+            ALPHA
           </p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] mb-6">
             Write the fields.{' '}
             <span className="text-fg-muted">
-              The accessibility wires itself.
+              Labels and errors are connected.
             </span>
           </h1>
           <p className="text-lg text-fg-muted mb-8 max-w-xl leading-relaxed">
@@ -98,8 +81,8 @@ export const Hero = () => {
             <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">
               aria-*
             </code>{' '}
-            wiring, focus management, and screen-reader error announcements.
-            WCAG-compliant by default, built on{' '}
+            attributes and linked validation feedback. Test your completed form
+            for accessibility. Built on{' '}
             <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">
               react-hook-form
             </code>
@@ -178,19 +161,10 @@ export const Hero = () => {
             </div>
 
             <div className="px-5 py-5" ref={formRef}>
-              <ARForm
-                validationSchema={schema}
-                onSubmit={(_data: FieldValues) => setSubmitted(true)}
-                onChangeCallback={() => setSubmitted(false)}
-              >
-                <Text id="name" label="Name" required />
-                <Text id="email" label="Email" type="email" required />
-                <Select
-                  id="plan"
-                  label="Plan"
-                  options={['Free', 'Pro', 'Team']}
-                />
-              </ARForm>
+              <HeroExample
+                onSubmit={() => setSubmitted(true)}
+                onChange={() => setSubmitted(false)}
+              />
               {submitted ? (
                 <div
                   role="status"

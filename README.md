@@ -6,15 +6,19 @@
 
 **[Docs & live demos](https://ar-form-sallf.netlify.app)** · **[Storybook](https://ar-form-sallf.netlify.app/storybook/)**
 
+Copy the [contact form recipe](https://ar-form-sallf.netlify.app/docs/recipes/contact) for a complete Tailwind form with validation and reusable fields.
+
 A minimal, accessible React form library. Built on [react-hook-form](https://react-hook-form.com/) for performance, with first-class support for any [Standard Schema](https://standardschema.dev) validator — yup, zod, valibot, arktype, or any other compliant library.
 
-WCAG-compliant by default. No ARIA wiring required.
+Provides labels, required/invalid states, and linked validation feedback. Test the completed form with your styling, content, and assistive technology.
 
 ## Install
 
 ```sh
-npm install accessible-react-form react-hook-form
+npm install accessible-react-form@next react-hook-form
 ```
+
+These docs describe the alpha package, published under the `next` dist-tag. You can pin an exact prerelease instead of `@next`.
 
 Plus your validator of choice:
 
@@ -69,8 +73,8 @@ The `<ARForm>` JSX is identical regardless of which validator you chose.
 
 You'll notice the field above declares `required` _both_ in the schema and as a prop on `<Text>`. They drive different things:
 
-- **Schema** owns **validation** — will the form reject submission?
-- **`required` prop** owns **UI + a11y** — does the label show a `*`? Does the input get `aria-required="true"`?
+- With a schema, the schema determines whether submission succeeds. A `required` prop does not override a schema that allows an empty value.
+- The `required` prop marks the field visually and announces its required state to assistive technology.
 
 It would be nice to derive one from the other, but each schema library expresses "required" differently:
 
@@ -83,7 +87,11 @@ It would be nice to derive one from the other, but each schema library expresses
 
 There's no single introspection API that works across all of them — the [Standard Schema](https://standardschema.dev) spec only standardizes `validate()`, not "describe my fields," because the libraries genuinely disagree about what required means.
 
-So `<ARForm>` stays neutral: the schema is the source of truth for _validation_, and the `required` prop is the source of truth for _what the user sees and what assistive tech announces_. Keep them in sync and the form behaves consistently.
+With a schema, keep its rules and the `required` props in sync. The schema determines validation and the transformed values passed to `onSubmit`; registered field rules do not add validation alongside the resolver.
+
+Without `validationSchema`, `required` uses React Hook Form's required validation across all controls, including Select, TextArea, and both TagInput modes. Empty values and unchecked required checkboxes block submission. Optional fields remain optional; disabled fields skip this validation. Text values use React Hook Form's semantics without added whitespace trimming.
+
+Fields with errors expose invalid state and associated feedback alongside any consumer help text. Errors without a usable message display `This field is required` for required errors or `Please check this field` for other errors. Nonblank validation messages are preserved.
 
 ## Components
 
@@ -95,15 +103,50 @@ So `<ARForm>` stays neutral: the schema is the source of truth for _validation_,
 - `<FileUpload>` — `fileType` prop
 - `<TagInput>`
 
-All accept the standard HTML attributes for their underlying element (`required`, `minLength`, `maxLength`, etc.) plus `id` and `label`.
+Fields accept attributes for their rendered controls, plus `id` and `label`. Forwarding an HTML attribute such as `minLength` does not register a React Hook Form validation rule. Put those rules in your schema or external form registration; browser constraints may also affect submission unless the form uses `noValidate`.
+
+## Nested fields and typed forms
+
+Use React Hook Form field paths such as `profile.name` or `items.0.name` as field ids. Errors at those paths appear beside the matching control. Pathless issues, unsupported paths, and parent issues that overlap child issues appear in the form-wide alert and still block submission.
+
+ARForm uses `FieldValues` for its values and submit callback; it does not infer input/output types from your schema or check field paths against them. For a typed form, create your own `useForm<Values, Context, Output>()` and use `FormProvider` or pass its methods through each field's `formProps`. Explicit `formProps` takes precedence over inherited context. Your external form owns its resolver and submit handler.
+
+## File and tag values
+
+FileUpload submits a `FileList` after native file selection. Form defaults may contain a `File`, `FileList`, or nonempty string; these are logical form values, not preloaded browser file selections. Native `value` and `defaultValue` props are ignored. A reset clears the native picker; browsers cannot preload it with a file. Media previews create temporary URLs for file values; string previews use the supplied value.
+
+Without a schema, `<FileUpload required>` accepts those nonempty logical values after rendering. If you omit its `required` prop, existing consumer registration rules remain unchanged: React Hook Form's native-file `required` rule checks the empty browser picker and can reject a logical default. Use the component's `required` prop for logical-value required handling, or a schema resolver for validation independent of the picker.
+
+Prefer ARForm's `defaultValues` or external `reset`/`resetField` for replacement or clearing. After any programmatic update, render the new values before validating or submitting. Avoid immediate `handleSubmit`/`trigger` or `setValue` with `shouldValidate: true` before that render. Waiting alone does not create a render. If you use `setValue` on a parent path or equivalent dot/bracket path, subscribe in the owning form component so the update renders:
+
+```tsx
+// In the owning form component's render, using its useForm methods:
+methods.watch()
+
+// In a separate update handler:
+methods.setValue('profile', { attachment: 'saved.txt' })
+// Submit in a later interaction, after the preview shows the new value.
+```
+
+RHF 7.75 can suppress notifications when `setValue` replaces one `File` with another; use `reset`/`resetField` for those replacements.
+
+TagInput stores tags as a comma-separated string. Use values and suggestions without commas; a comma-containing value cannot represent a single tag. Suggestions are trimmed, and empty or single-comma entries are omitted. Duplicate detection ignores whitespace differences but treats letter case as distinct, so `React` and `react` remain separate tags. Selected equivalents disappear until removed.
 
 ## Styling
 
-The library ships **completely unstyled**. Every element gets a stable `arform__*` class hook so you can style globally from your own CSS, and stateful elements expose state via attributes you can target with attribute selectors.
+The library ships **no CSS** and works with native browser styling. Use the `arform__*` hooks for your own styles. State attributes let you target invalid, required, and disabled controls. The library adds no Tailwind classes; your own utility classes and CSS Modules classes pass through unchanged.
+
+Each field has a block `arform__field` container, so fields start on separate lines even without CSS. Checkboxes stay with their labels. Apply layout rules to these containers when building a grid or adding spacing.
+
+Only the internal submit control and screen-reader text use inline hiding styles. Add your own visible submit button when the form needs one. The internal control supports Enter submission and is skipped by Tab navigation.
 
 ### Per-form / per-field styling
 
-`<ARForm>` and every input component forward `className` and `style` to the underlying DOM element, so you can style a single instance directly:
+`<ARForm>` forwards `className` and `style` to the form. Field components forward them to the native control. For `<TagInput>`, they target the visible textbox, or the named group when `onlySuggestions` is enabled. They never target its hidden value input.
+
+`<Text>`, `<Date>`, `<Checkbox>`, `<Select>`, `<TextArea>`, and `<FileUpload>` also accept `labelClassName` for the wrapping label. Use the tag hooks below for TagInput's label and internal parts.
+
+Style a single instance directly:
 
 ```tsx
 <ARForm className="checkout-form" style={{ maxWidth: 480 }} onSubmit={...}>
@@ -119,6 +162,10 @@ For wrapping markup (e.g., a custom row layout), wrap the input in your own elem
   <Text id="last" label="Last" />
 </div>
 ```
+
+FileUpload shows a native file input and an optional preview. The old `arform__upload-text` and `arform__upload-button` spans are removed. Style the input's `::file-selector-button` for its native button and `arform__upload-icon` for the decorative icon.
+
+TagInput's `className` previously styled its outer label, while `style` reached its backing input. Move wrapper rules to `.arform__tag-input` when updating an existing theme.
 
 ### Global styling
 
@@ -144,29 +191,35 @@ Target the `arform__*` classes from your global stylesheet:
 
 #### Class hooks
 
-| Class                          | Element                    | Notes                                    |
-| ------------------------------ | -------------------------- | ---------------------------------------- |
-| `arform`                       | `<form>`                   | Root form element                        |
-| `arform__submit`               | `<input type="submit">`    | Default submit button                    |
-| `arform__error`                | error `<div role="alert">` | Field-level error message                |
-| `arform__label`                | `<label>`                  | Wraps every input                        |
-| `arform__label-inner`          | `<div>` inside label       | Holds label text + required mark         |
-| `arform__label-required`       | `<span>`                   | The `*` for required fields              |
-| `arform__input`                | `<input>`                  | Base class on all inputs                 |
-| `arform__text`                 | `<input type="text">`      |                                          |
-| `arform__date`                 | `<input type="date">`      |                                          |
-| `arform__checkbox`             | `<input type="checkbox">`  |                                          |
-| `arform__select`               | `<select>`                 |                                          |
-| `arform__textarea`             | `<textarea>`               |                                          |
-| `arform__upload`               | file `<input>`             |                                          |
-| `arform__upload-wrapper`       | `<div>`                    | Drop target around file input            |
-| `arform__upload-preview`       | `<img>`                    | Image preview for `fileType="media"`     |
-| `arform__upload-preview-label` | `<span>`                   | Filename preview for `fileType="binary"` |
-| `arform__upload-text`          | `<span>`                   | "Drag and drop…" prompt                  |
-| `arform__upload-button`        | `<span>`                   | "Choose File" / "Change File"            |
-| `arform__prefix`               | `<span>`                   | Wraps inputs with a `prefix`             |
-| `arform__prefix-inner`         | `<span>`                   | Holds the prefix text                    |
-| `arform__prefix-input`         | `<span>`                   | Holds the input itself                   |
+| Class                          | Element / purpose                                           |
+| ------------------------------ | ----------------------------------------------------------- |
+| `arform`                       | Root `<form>`                                               |
+| `arform__field`                | Block container for each field                              |
+| `arform__submit`               | Internal, visually hidden submit input; skipped by Tab      |
+| `arform__error`                | Field-level error with `role="alert"`                       |
+| `arform__label`                | Field label; a separate label or group heading for TagInput |
+| `arform__label-inner`          | Label text and required mark                                |
+| `arform__label-required`       | Required-field `*`                                          |
+| `arform__input`                | Base class on native inputs                                 |
+| `arform__text`                 | Text input                                                  |
+| `arform__date`                 | Date input                                                  |
+| `arform__checkbox`             | Checkbox, before its label text                             |
+| `arform__select`               | Select                                                      |
+| `arform__textarea`             | Textarea                                                    |
+| `arform__upload`               | Native file input                                           |
+| `arform__upload-wrapper`       | Wrapper around file input and preview                       |
+| `arform__upload-icon`          | Decorative SVG; uses `currentColor`                         |
+| `arform__upload-preview`       | Image preview for `fileType="media"`                        |
+| `arform__upload-preview-label` | Filename preview for `fileType="binary"`                    |
+| `arform__prefix`               | Wrapper for an input with a prefix                          |
+| `arform__prefix-inner`         | Prefix text                                                 |
+| `arform__prefix-input`         | Input inside a prefix wrapper                               |
+| `arform__tag-input`            | TagInput container; named group in suggestions-only mode    |
+| `arform__tag-input-control`    | Visible tag-entry textbox                                   |
+| `arform__tag-list`             | Selected tags                                               |
+| `arform__tag`                  | Tag action button                                           |
+| `arform__tag-remove`           | Button for removing a selected tag                          |
+| `arform__tag-suggestions`      | Suggested tag buttons                                       |
 
 #### State attributes
 
@@ -181,7 +234,7 @@ State lives on attributes rather than modifier classes — pair them with the cl
 | `.arform__label[data-arform-row]`             | Label uses a row layout (e.g., checkbox)   |
 | `.arform__upload-wrapper[data-arform-active]` | File is being dragged over the drop target |
 
-`aria-invalid` and `aria-required` work as CSS selectors and double as the accessibility hooks — no separate `data-*` is needed for them. Same for native `:disabled`.
+TagInput exposes `data-arform-invalid` and `data-arform-disabled` on its container. Target `.arform__tag[data-arform-suggestion]` to distinguish suggestions from selected tags. Its visible textbox also exposes `aria-invalid`, `aria-required`, and native `:disabled`. In suggestions-only mode, the named group carries invalid state and an accessible description for the required indication/error; individual buttons carry native `disabled`.
 
 ```css
 .arform__input[aria-invalid='true'] {

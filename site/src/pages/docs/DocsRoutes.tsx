@@ -8,6 +8,7 @@ import { Accessibility } from './pages/Accessibility'
 import { ComponentsOverview } from './pages/ComponentsOverview'
 import { ComponentPage } from './pages/ComponentPage'
 import { NotFound } from './pages/NotFound'
+import { ContactRecipe } from './pages/ContactRecipe'
 
 export const DocsRoutes = () => {
   return (
@@ -15,6 +16,7 @@ export const DocsRoutes = () => {
       <Routes>
         <Route index element={<Introduction />} />
         <Route path="quickstart" element={<Quickstart />} />
+        <Route path="recipes/contact" element={<ContactRecipe />} />
         <Route path="styling" element={<Styling />} />
         <Route path="validation" element={<Validation />} />
         <Route path="accessibility" element={<Accessibility />} />

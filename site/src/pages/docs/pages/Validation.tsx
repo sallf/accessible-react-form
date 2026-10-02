@@ -54,6 +54,36 @@ const schema = v.object({
         introspection API that works across all of them — keep them in sync
         manually.
       </p>
+      <p>
+        With a schema, the resolver determines whether submission succeeds and
+        supplies the transformed values to <code>onSubmit</code>. Registered
+        field rules do not add validation alongside the resolver.
+      </p>
+      <h2>Without a schema</h2>
+      <p>
+        Without <code>validationSchema</code>, <code>required</code> uses React
+        Hook Form validation. Empty values and unchecked required checkboxes
+        block submission; optional fields remain optional and disabled fields
+        skip this validation. Text is not trimmed before this check.
+      </p>
+      <p>
+        Forwarded attributes such as <code>minLength</code> are not registered
+        validation rules. Put those rules in your schema or external form
+        registration. Native browser constraints may also affect submission; use{' '}
+        <code>noValidate</code> when your form should rely on its resolver.
+      </p>
+      <h2>Nested fields and form-wide errors</h2>
+      <p>
+        Use paths such as <code>profile.name</code> or <code>items.0.name</code>
+        as field ids. Matching nested errors appear at the control. Pathless
+        issues, unsupported paths, and parent issues that overlap child issues
+        appear in the form-wide alert and still block submission.
+      </p>
+      <p>
+        A required error without a usable message displays &quot;This field is
+        required&quot;; other errors display &quot;Please check this
+        field&quot;. Nonblank messages are preserved.
+      </p>
     </>
   )
 }

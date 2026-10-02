@@ -1,14 +1,19 @@
+import { describedBy } from '../../describedBy'
 import type { InputHTMLAttributes } from 'react'
-import type { FieldValues, UseFormReturn } from 'react-hook-form'
+import type { FieldValues, RegisterOptions } from 'react-hook-form'
+import type { FieldFormMethods } from '../../../hooks/formContext'
 
 import { FieldError } from '../../FieldError/FieldError'
+import { getFieldError } from '../../fieldErrors'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
   label: string
   className: string
-  formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
+  formProps?: FieldFormMethods
   prefix?: string
+  showError?: boolean
+  registrationOptions?: Pick<RegisterOptions<FieldValues>, 'required'>
 }
 
 export const Input = (props: Props) => {
@@ -19,8 +24,13 @@ export const Input = (props: Props) => {
     className,
     type = 'text',
     required,
+    disabled: explicitlyDisabled,
     formProps,
     prefix,
+    showError = true,
+    registrationOptions,
+    onChange,
+    onBlur,
     ...rest
   } = props
 
@@ -30,21 +40,43 @@ export const Input = (props: Props) => {
     return null // type help
   }
 
-  const error = formProps.formState.errors[id]
-  const hasError = !!error?.message
+  const disabled = explicitlyDisabled || formProps.formState.disabled
+  const error = getFieldError(formProps.formState.errors, id)
+  const hasError = !!error
   const errorId = `${id}-error`
+  const {
+    onChange: registeredOnChange,
+    onBlur: registeredOnBlur,
+    ...registration
+  } = formProps.register(id, {
+    ...(required === undefined ? {} : { required }),
+    ...registrationOptions,
+    disabled,
+  })
 
   const input = (
     <input
-      {...formProps.register(id, { required })}
       {...rest}
+      {...registration}
+      id={id}
+      onChange={(event) => {
+        void registeredOnChange(event)
+        onChange?.(event)
+      }}
+      onBlur={(event) => {
+        void registeredOnBlur(event)
+        onBlur?.(event)
+      }}
       type={type}
       aria-required={required ? true : undefined}
       aria-invalid={hasError ? 'true' : 'false'}
-      aria-describedby={hasError ? errorId : undefined}
+      aria-describedby={describedBy(
+        props['aria-describedby'],
+        hasError ? errorId : undefined
+      )}
       data-arform-has-prefix={prefix ? '' : undefined}
       className={`arform__input ${className}`}
-      // HTML required intentionally omitted — schema validation drives behavior;
+      // HTML required is omitted so form validation controls submission.
       // aria-required announces the state to assistive tech.
     />
   )
@@ -61,7 +93,7 @@ export const Input = (props: Props) => {
       ) : (
         input
       )}
-      <FieldError id={errorId} error={error} />
+      {showError && <FieldError id={errorId} error={error} />}
     </>
   )
 }
