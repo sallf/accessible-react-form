@@ -1,3 +1,4 @@
+import { describedBy } from '../describedBy'
 import type { OptionHTMLAttributes, SelectHTMLAttributes } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
@@ -52,6 +53,7 @@ export const Select = (props: Props) => {
       <select
         {...rest}
         {...registration}
+        id={id}
         onChange={(event) => {
           void registeredOnChange(event)
           onChange?.(event)
@@ -62,7 +64,10 @@ export const Select = (props: Props) => {
         }}
         aria-required={required ? true : undefined}
         aria-invalid={hasError ? 'true' : 'false'}
-        aria-describedby={hasError ? errorId : undefined}
+        aria-describedby={describedBy(
+          props['aria-describedby'],
+          hasError ? errorId : undefined
+        )}
         className={`arform__select ${className}`}
       >
         {options.map((opt) => {

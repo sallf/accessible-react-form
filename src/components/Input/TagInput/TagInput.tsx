@@ -1,3 +1,4 @@
+import { describedBy } from '../../describedBy'
 import type {
   HTMLAttributes,
   InputHTMLAttributes,
@@ -186,17 +187,23 @@ export function TagInput(props: Props) {
       className={`arform__field arform__tag-input ${onlySuggestions ? className : ''}`}
       style={onlySuggestions ? style : undefined}
       role={onlySuggestions ? 'group' : undefined}
-      aria-labelledby={onlySuggestions ? labelId : undefined}
+      aria-labelledby={
+        onlySuggestions
+          ? props['aria-labelledby']?.trim()
+            ? props['aria-labelledby']
+            : props['aria-label']?.trim()
+              ? undefined
+              : labelId
+          : undefined
+      }
       aria-invalid={onlySuggestions && hasError ? true : undefined}
       aria-describedby={
         onlySuggestions
-          ? [
+          ? describedBy(
               props['aria-describedby'],
-              required ? requiredId : '',
-              hasError ? errorId : '',
-            ]
-              .filter(Boolean)
-              .join(' ') || undefined
+              required ? requiredId : undefined,
+              hasError ? errorId : undefined
+            )
           : undefined
       }
       data-arform-disabled={disabled ? '' : undefined}
@@ -252,7 +259,10 @@ export function TagInput(props: Props) {
             onKeyDown={handleKeyDown}
             aria-required={required ? true : undefined}
             aria-invalid={hasError ? true : false}
-            aria-describedby={hasError ? errorId : props['aria-describedby']}
+            aria-describedby={describedBy(
+              props['aria-describedby'],
+              hasError ? errorId : undefined
+            )}
             disabled={disabled}
             className={`arform__input arform__tag-input-control ${className}`}
             style={style}

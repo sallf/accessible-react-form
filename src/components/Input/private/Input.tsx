@@ -1,3 +1,4 @@
+import { describedBy } from '../../describedBy'
 import type { InputHTMLAttributes } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
@@ -47,6 +48,7 @@ export const Input = (props: Props) => {
     <input
       {...rest}
       {...registration}
+      id={id}
       onChange={(event) => {
         void registeredOnChange(event)
         onChange?.(event)
@@ -58,7 +60,10 @@ export const Input = (props: Props) => {
       type={type}
       aria-required={required ? true : undefined}
       aria-invalid={hasError ? 'true' : 'false'}
-      aria-describedby={hasError ? errorId : undefined}
+      aria-describedby={describedBy(
+        props['aria-describedby'],
+        hasError ? errorId : undefined
+      )}
       data-arform-has-prefix={prefix ? '' : undefined}
       className={`arform__input ${className}`}
       // HTML required intentionally omitted — schema validation drives behavior;

@@ -1,3 +1,4 @@
+import { describedBy } from '../describedBy'
 import type { TextareaHTMLAttributes } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
@@ -46,6 +47,7 @@ export const TextArea = (props: Props) => {
       <textarea
         {...rest}
         {...registration}
+        id={id}
         onChange={(event) => {
           void registeredOnChange(event)
           onChange?.(event)
@@ -56,7 +58,10 @@ export const TextArea = (props: Props) => {
         }}
         aria-required={required ? true : undefined}
         aria-invalid={hasError ? 'true' : 'false'}
-        aria-describedby={hasError ? errorId : undefined}
+        aria-describedby={describedBy(
+          props['aria-describedby'],
+          hasError ? errorId : undefined
+        )}
         className={`arform__textarea ${className}`}
         minLength={minLength}
         maxLength={maxLength}
