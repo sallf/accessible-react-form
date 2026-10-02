@@ -1,0 +1,7 @@
+Baseline: git archive8950b1d, fresh temp directory; root installed dependency tree symlinked; no dist or site/node_modules.
+Baseline root tsc --noEmit: exit2, TS2307 accessible-react-form imports.
+Baseline npm run build-storybook: exit1, unresolved accessible-react-form from canonical site examples.
+Fixed: only .storybook/main.ts and tsconfig.json overlaid on same baseline archive; dist and storybook-static removed before retry; site/node_modules remained absent.
+Fixed root tsc --noEmit before build: exit0.
+Fixed npm run build-storybook: exit0, package build and static Storybook succeed.
+No workflow/source/story/canonical-example/lockfile edits. No Git mutations. Full tests deferred to coordinator gates.
