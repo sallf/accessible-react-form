@@ -90,9 +90,10 @@ export function TagInput(props: Props) {
     suggestions = [],
     formProps: explicitFormProps,
     required,
-    disabled,
+    disabled: explicitlyDisabled,
   } = props
   const formProps = useFieldForm(explicitFormProps)
+  const disabled = explicitlyDisabled || formProps?.formState.disabled
   const inputAttributes = props.onlySuggestions
     ? undefined
     : textAttributes(props)
@@ -109,7 +110,7 @@ export function TagInput(props: Props) {
   const tags = tagsToArr(currentVal).filter(Boolean)
   const [entry, setEntry] = useState('')
   const error = formProps?.formState.errors[id]
-  const hasError = !!error?.message
+  const hasError = !!error
 
   if (!formProps?.register) return null
 
@@ -236,8 +237,7 @@ export function TagInput(props: Props) {
       )}
       <input
         type="hidden"
-        {...formProps.register(id, { required })}
-        disabled={disabled}
+        {...formProps.register(id, { required, disabled })}
       />
       {onlySuggestions ? (
         <>

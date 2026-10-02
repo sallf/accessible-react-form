@@ -71,8 +71,8 @@ The `<ARForm>` JSX is identical regardless of which validator you chose.
 
 You'll notice the field above declares `required` _both_ in the schema and as a prop on `<Text>`. They drive different things:
 
-- **Schema** owns **validation** — will the form reject submission?
-- **`required` prop** owns **UI + a11y** — does the label show a `*`? Does the input get `aria-required="true"`?
+- With a schema, the schema determines whether submission succeeds. A `required` prop does not override a schema that allows an empty value.
+- The `required` prop marks the field visually and announces its required state to assistive technology.
 
 It would be nice to derive one from the other, but each schema library expresses "required" differently:
 
@@ -85,7 +85,11 @@ It would be nice to derive one from the other, but each schema library expresses
 
 There's no single introspection API that works across all of them — the [Standard Schema](https://standardschema.dev) spec only standardizes `validate()`, not "describe my fields," because the libraries genuinely disagree about what required means.
 
-So `<ARForm>` stays neutral: the schema is the source of truth for _validation_, and the `required` prop is the source of truth for _what the user sees and what assistive tech announces_. Keep them in sync and the form behaves consistently.
+With a schema, keep its rules and the `required` props in sync.
+
+Without `validationSchema`, `required` uses React Hook Form's required validation across all controls, including Select, TextArea, and both TagInput modes. Empty values and unchecked required checkboxes block submission. Optional fields remain optional; disabled fields skip this validation. Text values use React Hook Form's semantics without added whitespace trimming.
+
+Fields with errors expose invalid state and associated feedback alongside any consumer help text. Errors without a usable message display `This field is required` for required errors or `Please check this field` for other errors. Nonblank validation messages are preserved.
 
 ## Components
 

@@ -30,23 +30,25 @@ export const Select = (props: Props) => {
     options,
     formProps: explicitFormProps,
     required,
+    disabled: explicitlyDisabled,
     onChange,
     onBlur,
     ...rest
   } = props
   const formProps = useFieldForm(explicitFormProps)
+  const disabled = explicitlyDisabled || formProps?.formState.disabled
 
   // --- RENDER ---
   if (!formProps?.register || !id) return null // type help
 
   const error = formProps.formState.errors[id]
-  const hasError = !!error?.message
+  const hasError = !!error
   const errorId = `${id}-error`
   const {
     onChange: registeredOnChange,
     onBlur: registeredOnBlur,
     ...registration
-  } = formProps.register(id)
+  } = formProps.register(id, { required, disabled })
 
   return (
     <Label label={label} isRequired={!!required} className={labelClassName}>

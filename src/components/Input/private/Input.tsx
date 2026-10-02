@@ -21,6 +21,7 @@ export const Input = (props: Props) => {
     className,
     type = 'text',
     required,
+    disabled: explicitlyDisabled,
     formProps,
     prefix,
     showError = true,
@@ -35,14 +36,15 @@ export const Input = (props: Props) => {
     return null // type help
   }
 
+  const disabled = explicitlyDisabled || formProps.formState.disabled
   const error = formProps.formState.errors[id]
-  const hasError = !!error?.message
+  const hasError = !!error
   const errorId = `${id}-error`
   const {
     onChange: registeredOnChange,
     onBlur: registeredOnBlur,
     ...registration
-  } = formProps.register(id, { required })
+  } = formProps.register(id, { required, disabled })
 
   const input = (
     <input
@@ -66,7 +68,7 @@ export const Input = (props: Props) => {
       )}
       data-arform-has-prefix={prefix ? '' : undefined}
       className={`arform__input ${className}`}
-      // HTML required intentionally omitted — schema validation drives behavior;
+      // HTML required is omitted so form validation controls submission.
       // aria-required announces the state to assistive tech.
     />
   )
