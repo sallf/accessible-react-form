@@ -1,6 +1,6 @@
 # Required validation
 
-Status: ready-for-agent
+Status: complete, independent review and QA passed
 
 Spec: [SPEC-required-validation.md](../../SPEC-required-validation.md)
 

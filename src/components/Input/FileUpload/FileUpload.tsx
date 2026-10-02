@@ -1,4 +1,4 @@
-import type { DragEvent, FormEvent, InputHTMLAttributes } from 'react'
+import type { DragEvent, InputHTMLAttributes } from 'react'
 import { useEffect, useState } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
@@ -26,53 +26,51 @@ export const FileUpload = (props: Props) => {
     formProps: explicitFormProps,
     required,
     disabled,
-    onChangeCapture,
+    value: _value,
+    defaultValue: _defaultValue,
     ...rest
   } = props
   const formProps = useFieldForm(explicitFormProps)
 
   // --- STATE ---
   const [isActive, setIsActive] = useState(false)
-  const [pickedFile, setPickedFile] = useState<File | null>(null)
-  // Object URL for media previews; set asynchronously once the image loads
-  const [mediaPreviewUrl, setMediaPreviewUrl] = useState('')
+  const [mediaPreview, setMediaPreview] = useState<{
+    file: File
+    url: string
+  } | null>(null)
 
-  const defaultValue = formProps?.formState?.defaultValues?.[id] as
-    string | File
-
-  // A file the user picked wins over a File default value
+  const value = formProps?.watch(id)
   const file =
-    pickedFile ?? (defaultValue instanceof File ? defaultValue : null)
+    typeof File !== 'undefined' && value instanceof File
+      ? value
+      : typeof FileList !== 'undefined' && value instanceof FileList
+        ? value.item(0)
+        : null
 
   // --- HANDLERS ---
   const handleDrag = (evt: DragEvent<HTMLInputElement>, isEnter: boolean) => {
     setIsActive(isEnter)
   }
 
-  const handleChange = (evt: FormEvent<HTMLInputElement>) => {
-    setPickedFile((evt.target as HTMLInputElement).files?.[0] ?? null)
-    setMediaPreviewUrl('') // drop any object URL from a previous pick
-  }
-
   // --- EFFECTS ---
   useEffect(() => {
-    // Media previews need an async round-trip: create an object URL and wait
-    // for the image to load before showing it
     if (!file || fileType !== 'media') return
-    const img = new Image()
-    img.src = URL.createObjectURL(file)
-    img.onload = () => {
-      setMediaPreviewUrl(img.src)
-    }
+    const url = URL.createObjectURL(file)
+    // The URL is a browser resource created after commit and owned by this effect.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMediaPreview({ file, url })
+    return () => URL.revokeObjectURL(url)
   }, [file, fileType])
 
   // --- RENDER ---
   const previewUrl = file
     ? fileType === 'media'
-      ? mediaPreviewUrl
+      ? mediaPreview?.file === file
+        ? mediaPreview.url
+        : ''
       : file.name
-    : typeof defaultValue === 'string'
-      ? defaultValue
+    : typeof value === 'string'
+      ? value
       : ''
 
   // TODO this has another layer of complexity. Not sure how to pass className
@@ -102,18 +100,24 @@ export const FileUpload = (props: Props) => {
           ) : (
             <span className="arform__upload-preview-label">{previewUrl}</span>
           ))}
-        {/* NOTE
-        We can't manually set the value of a file input, so in the case that a
-        defaultValue exists, we need to disable the required attribute.
-        There's no way around this since we're using the form's onSubmit, thus
-        required inputs will fail via the browser's native validation before
-        it gets to yup. */}
         <Input
           id={id}
           label={label}
           className={`arform__upload ${className || ''}`}
           type="file"
-          required={!!required && !defaultValue}
+          required={!!required}
+          registrationOptions={{
+            required: false,
+            validate: required
+              ? (value) =>
+                  (typeof File !== 'undefined' && value instanceof File) ||
+                  (typeof FileList !== 'undefined' &&
+                    value instanceof FileList &&
+                    value.length > 0) ||
+                  (typeof value === 'string' && value.length > 0) ||
+                  'This field is required'
+              : undefined,
+          }}
           disabled={disabled}
           formProps={formProps}
           onDragEnter={(evt) => {
@@ -126,10 +130,6 @@ export const FileUpload = (props: Props) => {
             handleDrag(evt, false)
           }}
           {...rest}
-          onChangeCapture={(event) => {
-            handleChange(event)
-            onChangeCapture?.(event)
-          }}
         />
       </div>
     </Label>
