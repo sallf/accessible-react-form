@@ -1,6 +1,6 @@
 import type { DragEvent, InputHTMLAttributes } from 'react'
 import { useEffect, useState } from 'react'
-import type { FieldValues, UseFormReturn } from 'react-hook-form'
+import type { FieldFormMethods } from '../../../hooks/formContext'
 
 import { Label } from '../../Label/Label'
 import { Input } from '../private/Input'
@@ -12,7 +12,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label: string
   labelClassName?: string
   fileType: 'media' | 'binary'
-  formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
+  formProps?: FieldFormMethods
 }
 
 export const FileUpload = (props: Props) => {

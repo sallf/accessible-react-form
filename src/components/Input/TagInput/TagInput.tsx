@@ -6,9 +6,10 @@ import type {
   ReactElement,
 } from 'react'
 import { useId, useState } from 'react'
-import type { FieldValues, UseFormReturn } from 'react-hook-form'
+import type { FieldFormMethods } from '../../../hooks/formContext'
 
 import { FieldError } from '../../FieldError/FieldError'
+import { getFieldError } from '../../fieldErrors'
 import { Tag } from './Tag'
 import { useFieldForm } from '../../../hooks/formContext'
 
@@ -16,7 +17,7 @@ interface CommonProps {
   id: string
   label: string
   suggestions?: string[]
-  formProps?: UseFormReturn<FieldValues, unknown>
+  formProps?: FieldFormMethods
   required?: boolean
   disabled?: boolean
 }
@@ -109,7 +110,7 @@ export function TagInput(props: Props) {
   const currentVal = (formProps?.watch(id) as string | undefined) ?? ''
   const tags = tagsToArr(currentVal).filter(Boolean)
   const [entry, setEntry] = useState('')
-  const error = formProps?.formState.errors[id]
+  const error = formProps && getFieldError(formProps.formState.errors, id)
   const hasError = !!error
 
   if (!formProps?.register) return null

@@ -1,18 +1,16 @@
 import { describedBy } from '../../describedBy'
 import type { InputHTMLAttributes } from 'react'
-import type {
-  FieldValues,
-  RegisterOptions,
-  UseFormReturn,
-} from 'react-hook-form'
+import type { FieldValues, RegisterOptions } from 'react-hook-form'
+import type { FieldFormMethods } from '../../../hooks/formContext'
 
 import { FieldError } from '../../FieldError/FieldError'
+import { getFieldError } from '../../fieldErrors'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
   label: string
   className: string
-  formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
+  formProps?: FieldFormMethods
   prefix?: string
   showError?: boolean
   registrationOptions?: Pick<
@@ -46,7 +44,7 @@ export const Input = (props: Props) => {
   }
 
   const disabled = explicitlyDisabled || formProps.formState.disabled
-  const error = formProps.formState.errors[id]
+  const error = getFieldError(formProps.formState.errors, id)
   const hasError = !!error
   const errorId = `${id}-error`
   const {

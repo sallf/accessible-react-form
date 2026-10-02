@@ -1,9 +1,10 @@
 import type { InputHTMLAttributes } from 'react'
-import type { FieldValues, UseFormReturn } from 'react-hook-form'
+import type { FieldFormMethods } from '../../../hooks/formContext'
 
 import { Label } from '../../Label/Label'
 import { Input } from '../private/Input'
 import { FieldError } from '../../FieldError/FieldError'
+import { getFieldError } from '../../fieldErrors'
 import React from 'react'
 import { useFieldForm } from '../../../hooks/formContext'
 
@@ -11,7 +12,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   id: string
   label: string
   labelClassName?: string
-  formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
+  formProps?: FieldFormMethods
 }
 
 export const Checkbox = (props: Props) => {
@@ -37,7 +38,7 @@ export const Checkbox = (props: Props) => {
       error={
         <FieldError
           id={`${id}-error`}
-          error={formProps?.formState.errors[id]}
+          error={formProps && getFieldError(formProps.formState.errors, id)}
         />
       }
     >

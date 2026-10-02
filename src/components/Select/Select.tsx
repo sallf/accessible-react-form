@@ -1,8 +1,9 @@
 import { describedBy } from '../describedBy'
 import type { OptionHTMLAttributes, SelectHTMLAttributes } from 'react'
-import type { FieldValues, UseFormReturn } from 'react-hook-form'
+import type { FieldFormMethods } from '../../hooks/formContext'
 
 import { FieldError } from '../FieldError/FieldError'
+import { getFieldError } from '../fieldErrors'
 import { Label } from '../Label/Label'
 import React from 'react'
 import { useFieldForm } from '../../hooks/formContext'
@@ -17,7 +18,7 @@ interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
         value: string
       })
   )[] // can be a simple string or more complex option obj
-  formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
+  formProps?: FieldFormMethods
 }
 
 export const Select = (props: Props) => {
@@ -41,7 +42,7 @@ export const Select = (props: Props) => {
   // --- RENDER ---
   if (!formProps?.register || !id) return null // type help
 
-  const error = formProps.formState.errors[id]
+  const error = getFieldError(formProps.formState.errors, id)
   const hasError = !!error
   const errorId = `${id}-error`
   const {

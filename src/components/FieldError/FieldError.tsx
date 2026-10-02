@@ -9,13 +9,14 @@ export const FieldError = (props: Props) => {
   // --- PROPS ---
   const { id, error } = props
 
-  const message = error?.message?.trim()
-    ? error.message
-    : error
-      ? error.type === 'required'
-        ? 'This field is required'
-        : 'Please check this field'
-      : undefined
+  const message =
+    typeof error?.message === 'string' && error.message.trim()
+      ? error.message
+      : error
+        ? error.type === 'required'
+          ? 'This field is required'
+          : 'Please check this field'
+        : undefined
 
   // --- RENDER ---
   return message ? (

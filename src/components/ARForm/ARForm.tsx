@@ -1,19 +1,12 @@
 import type { FormHTMLAttributes, ReactNode } from 'react'
 import { useEffect } from 'react'
-import type {
-  EventType,
-  FieldError,
-  FieldValues,
-  UseFormReturn,
-} from 'react-hook-form'
+import type { EventType, FieldValues, UseFormReturn } from 'react-hook-form'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { StandardSchemaV1 } from '@standard-schema/spec'
 
-import {
-  FORM_ERROR_TYPE,
-  useStandardSchemaResolver,
-} from '../../hooks/standardSchema'
+import { useStandardSchemaResolver } from '../../hooks/standardSchema'
 import { visuallyHidden } from '../visuallyHidden'
+import { getErrorSummary } from '../fieldErrors'
 
 interface Props extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode
@@ -38,7 +31,7 @@ export const ARForm = (props: Props) => {
     // ctaLayout = 'modal',
     className = '',
     defaultValues = null, // can be passed as array here, or individually to each component
-    onChangeCallback = () => null,
+    onChangeCallback,
     ...rest
   } = props
 
@@ -57,27 +50,15 @@ export const ARForm = (props: Props) => {
   }, [defaultValues]) // only default values
 
   useEffect(() => {
+    if (!onChangeCallback) return
     const subscription = watch((value, { name, type }) => {
       onChangeCallback(value, name, type, formProps)
     })
     return () => subscription.unsubscribe()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch]) // only watch (could probably be a mountEffect)
+  }, [watch, onChangeCallback, formProps])
 
   // --- RENDER ---
-  const allErrors = Object.values(formState.errors)
-  const formError = allErrors.find(
-    (error) => error?.type === FORM_ERROR_TYPE
-  ) as FieldError | undefined
-  const formMessages = formError?.types
-    ? Object.values(formError.types).filter(
-        (message): message is string => typeof message === 'string'
-      )
-    : formError?.message
-      ? [formError.message]
-      : []
-  const errorsCount =
-    allErrors.length - (formError ? 1 : 0) + formMessages.length
+  const { errorsCount, formMessages } = getErrorSummary(formState.errors)
 
   return (
     <form

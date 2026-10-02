@@ -1,8 +1,9 @@
 import { describedBy } from '../describedBy'
 import type { TextareaHTMLAttributes } from 'react'
-import type { FieldValues, UseFormReturn } from 'react-hook-form'
+import type { FieldFormMethods } from '../../hooks/formContext'
 
 import { FieldError } from '../FieldError/FieldError'
+import { getFieldError } from '../fieldErrors'
 import { Label } from '../Label/Label'
 import { useFieldForm } from '../../hooks/formContext'
 
@@ -10,7 +11,7 @@ interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   id: string
   label: string
   labelClassName?: string
-  formProps?: UseFormReturn<FieldValues, unknown> // gets added via RHForm
+  formProps?: FieldFormMethods
 }
 
 export const TextArea = (props: Props) => {
@@ -35,7 +36,7 @@ export const TextArea = (props: Props) => {
   // --- RENDER ---
   if (!formProps?.register || !id) return null // type help
 
-  const error = formProps.formState.errors[id]
+  const error = getFieldError(formProps.formState.errors, id)
   const hasError = !!error
   const errorId = `${id}-error`
   const {
