@@ -103,6 +103,8 @@ Fields with errors expose invalid state and associated feedback alongside any co
 
 All accept the standard HTML attributes for their underlying element (`required`, `minLength`, `maxLength`, etc.) plus `id` and `label`.
 
+TagInput stores tags as a comma-separated string. Use values and suggestions without commas; a comma-containing value cannot represent a single tag. Suggestions are trimmed, and empty or single-comma entries are omitted. Duplicate detection ignores whitespace differences but treats letter case as distinct, so `React` and `react` remain separate tags.
+
 ## Styling
 
 The library ships **no CSS** and works with native browser styling. Use the `arform__*` hooks for your own styles. State attributes let you target invalid, required, and disabled controls. The library adds no Tailwind classes; your own utility classes and CSS Modules classes pass through unchanged.

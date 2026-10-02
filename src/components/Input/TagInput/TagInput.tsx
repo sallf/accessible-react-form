@@ -166,8 +166,22 @@ export function TagInput(props: Props) {
     </span>
   )
 
-  const availableSuggestions = suggestions.filter(
-    (suggestion) => !tags.includes(suggestion)
+  const normalizedSuggestions = suggestions.reduce<string[]>(
+    (unique, suggestion) => {
+      const value = suggestion.trim()
+      if (
+        value &&
+        value !== ',' &&
+        !unique.some((existing) => isDuplicate(existing, value))
+      ) {
+        unique.push(value)
+      }
+      return unique
+    },
+    []
+  )
+  const availableSuggestions = normalizedSuggestions.filter(
+    (suggestion) => !tags.some((tag) => isDuplicate(tag, suggestion))
   )
   const suggestionList = (
     <span className="arform__tag-suggestions">

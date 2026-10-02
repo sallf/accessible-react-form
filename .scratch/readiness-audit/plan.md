@@ -8,7 +8,7 @@ Authorized by the user's request to continue through the remaining steps and mak
 2. Complete: consistent schema-free required validation and message-less error feedback (SPEC-required-validation.md). Independent review and QA passed, including 60 interaction/accessibility tests.
 3. Complete: file reset/default synchronization, logical required validation, and object-URL cleanup. Independent review and QA passed with 67 interaction/accessibility tests.
 4. Complete: typed/nested form integration, current callbacks, safe schema path handling, and accurate error feedback/counts. Independent review and QA passed with 81 interaction/accessibility tests and a built declaration consumer fixture.
-5. Normalize TagInput suggestions consistently with selected tags.
+5. Complete: TagInput suggestion normalization. Independent review and QA passed with 84 interaction/accessibility tests.
 6. Replace blanket accessibility claims with precise behavior/limits and verify consumer/release guidance.
 7. Address dependency advisories with compatible updates where available, retaining separate production/tooling findings. Current package production audit is clear; site has a Valibot advisory; tooling has transitive advisories.
 8. Final full-branch independent review, public interaction/axe suite, builds/typechecks/lint/format, clean install/package/isolated-consumer checks, and GitHub CI on the final commit.
