@@ -613,14 +613,14 @@ export const ConsumerStyling: Story = {
         label="Styled date"
         className="customControl"
         labelClassName="customLabel"
-        style={{ color: 'teal' }}
+        style={{ color: '#006666' }}
       />
       <Checkbox
         id="styledCheckbox"
         label="Styled checkbox"
         className="customControl"
         labelClassName="customLabel"
-        style={{ color: 'teal' }}
+        style={{ color: '#006666' }}
       />
       <Select
         id="styledSelect"
@@ -628,14 +628,14 @@ export const ConsumerStyling: Story = {
         options={['One', 'Two']}
         className="customControl"
         labelClassName="customLabel"
-        style={{ color: 'teal' }}
+        style={{ color: '#006666' }}
       />
       <TextArea
         id="styledTextArea"
         label="Styled textarea"
         className="customControl"
         labelClassName="customLabel"
-        style={{ color: 'teal' }}
+        style={{ color: '#006666' }}
       />
     </ARForm>
   ),
@@ -684,7 +684,7 @@ export const ConsumerStyling: Story = {
     ]) {
       const control = canvas.getByLabelText(name)
       await expect(control).toHaveClass('customControl')
-      await expect(control).toHaveStyle({ color: 'rgb(0, 128, 128)' })
+      await expect(control).toHaveStyle({ color: 'rgb(0, 102, 102)' })
       await expect(control.closest('label')).toHaveClass('customLabel')
     }
   },
