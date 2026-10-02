@@ -1,4 +1,4 @@
-Compatible lock updates clear both site findings and all root high/low findings. No checkout manifests, locks, installed dependencies, or Git state were changed during these experiments.
+Compatible lock updates clear both site findings and all root high/low findings. The preparation experiments ran in isolated manifest/lock copies. The chosen locks have now been applied in the consumer-readiness batch; manifests and Git state remain unchanged.
 
 | Experiment                        | Audit before              | Audit after | Changed lock package entries   |
 | --------------------------------- | ------------------------- | ----------- | ------------------------------ |
@@ -23,3 +23,7 @@ The five remaining moderate root entries are `uuid`, `@storybook/test-runner`, `
 This preparation verified dependency resolution and audit results only. After applying chosen locks, run clean installs and the final build/test gates, especially Storybook and Valibot recipes. No full suite ran during preparation.
 
 Ignored local evidence: `root-before.json.log`, `root-targeted-after.json.log`, `root-targeted-changes.json.log` (all 70 exact changes), `site-before.json.log`, `site-after.json.log`, and `site-changes.json.log`. `targeted-temp-path.log` locates the targeted root lock; `temp-path.txt.log` locates the audit-fix root/site locks. These local paths and raw artifacts should remain uncommitted.
+
+Applied results: the exact targeted root lock and site audit-fix lock passed clean `npm ci` installs. Root React Hook Form remains 7.75.0. Root/site production audits both report zero; the full site audit reports zero and the full root audit retains the five moderate uuid-related development-tool entries described above. Root/site typechecks, library/Storybook/site production builds, and the no-package-CSS check pass. Focused docs browser checks pass. Full Storybook/recipe regression gates remain with the coordinator. Logs are in `.scratch/consumer-readiness/*.log`. The site lock also refreshes stale root devDependency metadata to match the unchanged current manifest.
+
+Final regression gates passed: 98 interaction/accessibility tests, recipe/isolated-consumer checks, and all root/site builds and checks. See ../consumer-readiness/final-gates.md.

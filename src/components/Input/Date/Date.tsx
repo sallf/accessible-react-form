@@ -34,7 +34,7 @@ export const Date = (props: Props) => {
         label={label}
         className={`arform__date ${className}`}
         type="date"
-        required={!!required}
+        required={required}
         formProps={formProps}
         {...rest}
       />

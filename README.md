@@ -10,13 +10,15 @@ Copy the [contact form recipe](https://ar-form-sallf.netlify.app/docs/recipes/co
 
 A minimal, accessible React form library. Built on [react-hook-form](https://react-hook-form.com/) for performance, with first-class support for any [Standard Schema](https://standardschema.dev) validator — yup, zod, valibot, arktype, or any other compliant library.
 
-WCAG-compliant by default. No ARIA wiring required.
+Provides labels, required/invalid states, and linked validation feedback. Test the completed form with your styling, content, and assistive technology.
 
 ## Install
 
 ```sh
-npm install accessible-react-form react-hook-form
+npm install accessible-react-form@next react-hook-form
 ```
+
+These docs describe the alpha package, published under the `next` dist-tag. You can pin an exact prerelease instead of `@next`.
 
 Plus your validator of choice:
 
@@ -85,7 +87,7 @@ It would be nice to derive one from the other, but each schema library expresses
 
 There's no single introspection API that works across all of them — the [Standard Schema](https://standardschema.dev) spec only standardizes `validate()`, not "describe my fields," because the libraries genuinely disagree about what required means.
 
-With a schema, keep its rules and the `required` props in sync.
+With a schema, keep its rules and the `required` props in sync. The schema determines validation and the transformed values passed to `onSubmit`; registered field rules do not add validation alongside the resolver.
 
 Without `validationSchema`, `required` uses React Hook Form's required validation across all controls, including Select, TextArea, and both TagInput modes. Empty values and unchecked required checkboxes block submission. Optional fields remain optional; disabled fields skip this validation. Text values use React Hook Form's semantics without added whitespace trimming.
 
@@ -101,9 +103,34 @@ Fields with errors expose invalid state and associated feedback alongside any co
 - `<FileUpload>` — `fileType` prop
 - `<TagInput>`
 
-All accept the standard HTML attributes for their underlying element (`required`, `minLength`, `maxLength`, etc.) plus `id` and `label`.
+Fields accept attributes for their rendered controls, plus `id` and `label`. Forwarding an HTML attribute such as `minLength` does not register a React Hook Form validation rule. Put those rules in your schema or external form registration; browser constraints may also affect submission unless the form uses `noValidate`.
 
-TagInput stores tags as a comma-separated string. Use values and suggestions without commas; a comma-containing value cannot represent a single tag. Suggestions are trimmed, and empty or single-comma entries are omitted. Duplicate detection ignores whitespace differences but treats letter case as distinct, so `React` and `react` remain separate tags.
+## Nested fields and typed forms
+
+Use React Hook Form field paths such as `profile.name` or `items.0.name` as field ids. Errors at those paths appear beside the matching control. Pathless issues, unsupported paths, and parent issues that overlap child issues appear in the form-wide alert and still block submission.
+
+ARForm uses `FieldValues` for its values and submit callback; it does not infer input/output types from your schema or check field paths against them. For a typed form, create your own `useForm<Values, Context, Output>()` and use `FormProvider` or pass its methods through each field's `formProps`. Explicit `formProps` takes precedence over inherited context. Your external form owns its resolver and submit handler.
+
+## File and tag values
+
+FileUpload submits a `FileList` after native file selection. Form defaults may contain a `File`, `FileList`, or nonempty string; these are logical form values, not preloaded browser file selections. Native `value` and `defaultValue` props are ignored. A reset clears the native picker; browsers cannot preload it with a file. Media previews create temporary URLs for file values; string previews use the supplied value.
+
+Without a schema, `<FileUpload required>` accepts those nonempty logical values after rendering. If you omit its `required` prop, existing consumer registration rules remain unchanged: React Hook Form's native-file `required` rule checks the empty browser picker and can reject a logical default. Use the component's `required` prop for logical-value required handling, or a schema resolver for validation independent of the picker.
+
+Prefer ARForm's `defaultValues` or external `reset`/`resetField` for replacement or clearing. After any programmatic update, render the new values before validating or submitting. Avoid immediate `handleSubmit`/`trigger` or `setValue` with `shouldValidate: true` before that render. Waiting alone does not create a render. If you use `setValue` on a parent path or equivalent dot/bracket path, subscribe in the owning form component so the update renders:
+
+```tsx
+// In the owning form component's render, using its useForm methods:
+methods.watch()
+
+// In a separate update handler:
+methods.setValue('profile', { attachment: 'saved.txt' })
+// Submit in a later interaction, after the preview shows the new value.
+```
+
+RHF 7.75 can suppress notifications when `setValue` replaces one `File` with another; use `reset`/`resetField` for those replacements.
+
+TagInput stores tags as a comma-separated string. Use values and suggestions without commas; a comma-containing value cannot represent a single tag. Suggestions are trimmed, and empty or single-comma entries are omitted. Duplicate detection ignores whitespace differences but treats letter case as distinct, so `React` and `react` remain separate tags. Selected equivalents disappear until removed.
 
 ## Styling
 

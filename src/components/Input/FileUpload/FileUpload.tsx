@@ -15,6 +15,13 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   formProps?: FieldFormMethods
 }
 
+const hasFileValue = (value: unknown) =>
+  (typeof File !== 'undefined' && value instanceof File) ||
+  (typeof FileList !== 'undefined' &&
+    value instanceof FileList &&
+    value.length > 0) ||
+  (typeof value === 'string' && value.length > 0)
+
 export const FileUpload = (props: Props) => {
   // --- PROPS ---
   const {
@@ -26,6 +33,7 @@ export const FileUpload = (props: Props) => {
     formProps: explicitFormProps,
     required,
     disabled,
+    onChangeCapture,
     value: _value,
     defaultValue: _defaultValue,
     ...rest
@@ -53,6 +61,15 @@ export const FileUpload = (props: Props) => {
   }
 
   // --- EFFECTS ---
+  const effectiveDisabled = disabled || formProps?.formState.disabled
+  const fileRules = (currentValue: unknown) =>
+    required === undefined
+      ? undefined
+      : {
+          required:
+            required && !effectiveDisabled && !hasFileValue(currentValue),
+        }
+
   useEffect(() => {
     if (!file || fileType !== 'media') return
     const url = URL.createObjectURL(file)
@@ -105,19 +122,8 @@ export const FileUpload = (props: Props) => {
           label={label}
           className={`arform__upload ${className || ''}`}
           type="file"
-          required={!!required}
-          registrationOptions={{
-            required: false,
-            validate: required
-              ? (value) =>
-                  (typeof File !== 'undefined' && value instanceof File) ||
-                  (typeof FileList !== 'undefined' &&
-                    value instanceof FileList &&
-                    value.length > 0) ||
-                  (typeof value === 'string' && value.length > 0) ||
-                  'This field is required'
-              : undefined,
-          }}
+          required={required}
+          registrationOptions={fileRules(value)}
           disabled={disabled}
           formProps={formProps}
           onDragEnter={(evt) => {
@@ -130,6 +136,14 @@ export const FileUpload = (props: Props) => {
             handleDrag(evt, false)
           }}
           {...rest}
+          onChangeCapture={(event) => {
+            onChangeCapture?.(event)
+            // Observe the consumer's final selection before RHF decides whether
+            // its bubble handler should run onChange validation.
+            const rules = fileRules(event.currentTarget.files)
+            if (rules)
+              formProps?.register(id, { ...rules, disabled: effectiveDisabled })
+          }}
         />
       </div>
     </Label>

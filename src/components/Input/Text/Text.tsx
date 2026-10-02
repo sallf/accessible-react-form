@@ -36,7 +36,7 @@ export const Text = (props: Props) => {
         label={label}
         className={`arform__text ${className}`}
         type="text"
-        required={!!required}
+        required={required}
         formProps={formProps}
         prefix={prefix}
         {...rest}

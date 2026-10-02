@@ -31,8 +31,9 @@ export const ComponentsOverview = () => {
     <>
       <h1>Components</h1>
       <p>
-        All components accept the standard HTML attributes for their underlying
-        element, plus <code>id</code> and <code>label</code>.
+        Fields accept attributes for their rendered controls, plus
+        <code>id</code> and <code>label</code>. File and tag values have the
+        behavior described below.
       </p>
       <ul>
         {components.map((c) => (
@@ -45,6 +46,21 @@ export const ComponentsOverview = () => {
           </li>
         ))}
       </ul>
+      <h2>Typed external forms</h2>
+      <p>
+        Create your own typed <code>useForm</code> methods and provide them with
+        <code>FormProvider</code> or each field&apos;s <code>formProps</code>.
+        Explicit methods take precedence over context. Your external form owns
+        its resolver and submit handler. ARForm uses <code>FieldValues</code>;
+        it does not infer schema types or check field names against them.
+      </p>
+      <h2>TagInput values</h2>
+      <p>
+        TagInput stores tags as a comma-separated string; a comma within one tag
+        cannot be represented. It supports textbox and suggestions-only modes.
+        Suggestions are trimmed and deduplicated using whitespace-insensitive,
+        case-sensitive comparison. Selected equivalents disappear until removed.
+      </p>
     </>
   )
 }

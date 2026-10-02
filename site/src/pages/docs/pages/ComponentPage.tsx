@@ -92,6 +92,53 @@ export const ComponentPage = () => {
     <>
       <h1>&lt;{doc.name}&gt;</h1>
       <p>{doc.summary}</p>
+      {name === 'arform' && (
+        <p>
+          Schema validation supplies transformed submit values. ARForm uses
+          FieldValues and does not infer schema input/output types. For a typed
+          external form, use your own useForm methods with FormProvider or field
+          formProps; explicit methods take precedence over context.
+        </p>
+      )}
+      {name === 'fileupload' && (
+        <>
+          <p>
+            Native selection submits a FileList. Form defaults may contain a
+            File, FileList, or nonempty string. Native value/defaultValue props
+            are ignored. Reset clears the native picker, which browsers cannot
+            preload. Media previews use temporary URLs for files and supplied
+            values for strings.
+          </p>
+          <p>
+            Without a schema, FileUpload with required accepts nonempty logical
+            defaults after rendering. Omit required to leave consumer
+            registration rules unchanged: RHF&apos;s native-file required rule
+            checks the browser picker and can reject logical defaults. Use the
+            component&apos;s required prop for logical-value required handling,
+            or a schema resolver for validation independent of the picker.
+          </p>
+          <p>
+            Prefer defaults or reset/resetField for replacement or clearing.
+            After any programmatic update, render the values before validating
+            or submitting. Avoid immediate handleSubmit/trigger or setValue with
+            shouldValidate: true before that render. Waiting alone does not
+            create a render. For parent-path or dot/bracket alias setValue
+            updates, subscribe in the owning form component:
+          </p>
+          <pre>
+            <code>{`// In the owning form component's render:
+methods.watch()
+
+// In a separate update handler:
+methods.setValue('profile', { attachment: 'saved.txt' })
+// Submit after the preview renders the new value.`}</code>
+          </pre>
+          <p>
+            RHF 7.75 can suppress notifications when setValue replaces one File
+            with another; use reset/resetField for those replacements.
+          </p>
+        </>
+      )}
       <ExamplePreview key={name} source={doc.source}>
         <doc.Preview />
       </ExamplePreview>

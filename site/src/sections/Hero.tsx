@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { CopyButton } from '../components/CopyButton'
 import { CodeBlock } from '../components/CodeBlock'
 
-const installCmd = 'npm install accessible-react-form react-hook-form yup'
+const installCmd = 'npm install accessible-react-form@next react-hook-form yup'
 
 // Read live from the rendered DOM so the readout is the real thing the
 // library emits — not a hand-written mock of it.
@@ -68,12 +68,12 @@ export const Hero = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div>
           <p className="text-xs font-mono text-accent mb-4 tracking-wider">
-            ALPHA · v0.1.0
+            ALPHA
           </p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] mb-6">
             Write the fields.{' '}
             <span className="text-fg-muted">
-              The accessibility wires itself.
+              Labels and errors are connected.
             </span>
           </h1>
           <p className="text-lg text-fg-muted mb-8 max-w-xl leading-relaxed">
@@ -81,8 +81,8 @@ export const Hero = () => {
             <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">
               aria-*
             </code>{' '}
-            wiring, focus management, and screen-reader error announcements.
-            WCAG-compliant by default, built on{' '}
+            attributes and linked validation feedback. Test your completed form
+            for accessibility. Built on{' '}
             <code className="font-mono text-sm px-1 py-0.5 rounded bg-bg-subtle">
               react-hook-form
             </code>

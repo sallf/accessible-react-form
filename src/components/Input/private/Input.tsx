@@ -13,10 +13,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   formProps?: FieldFormMethods
   prefix?: string
   showError?: boolean
-  registrationOptions?: Pick<
-    RegisterOptions<FieldValues>,
-    'required' | 'validate'
-  >
+  registrationOptions?: Pick<RegisterOptions<FieldValues>, 'required'>
 }
 
 export const Input = (props: Props) => {
@@ -51,7 +48,11 @@ export const Input = (props: Props) => {
     onChange: registeredOnChange,
     onBlur: registeredOnBlur,
     ...registration
-  } = formProps.register(id, { required, ...registrationOptions, disabled })
+  } = formProps.register(id, {
+    ...(required === undefined ? {} : { required }),
+    ...registrationOptions,
+    disabled,
+  })
 
   const input = (
     <input

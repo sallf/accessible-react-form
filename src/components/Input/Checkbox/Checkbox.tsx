@@ -47,7 +47,7 @@ export const Checkbox = (props: Props) => {
         label={label}
         className={`arform__checkbox ${className}`}
         type="checkbox"
-        required={!!required}
+        required={required}
         formProps={formProps}
         {...rest}
         showError={false}

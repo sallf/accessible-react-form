@@ -252,7 +252,10 @@ export function TagInput(props: Props) {
       )}
       <input
         type="hidden"
-        {...formProps.register(id, { required, disabled })}
+        {...formProps.register(id, {
+          ...(required === undefined ? {} : { required }),
+          disabled,
+        })}
       />
       {onlySuggestions ? (
         <>

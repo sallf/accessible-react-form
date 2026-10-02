@@ -17,18 +17,16 @@ export const Introduction = () => {
         validator — yup, zod, valibot, arktype, or anything else compliant.
       </p>
       <p>
-        It ships <strong>completely unstyled</strong> and{' '}
-        <strong>WCAG-compliant by default</strong>. No ARIA wiring required. You
-        bring the design system; the library handles correctness.
+        It ships <strong>completely unstyled</strong>, with labels,
+        required/invalid states, and linked validation feedback. Test the
+        completed form with your styling, content, and assistive technology.
       </p>
 
       <h2>Why this exists</h2>
       <p>
-        Most form libraries either lock you into a design system or leave
-        accessibility as homework. This library does neither: every field gets
-        the right ARIA attributes, error messaging is announced, and
-        required-state and invalid-state are exposed both as a11y attributes and
-        as CSS hooks for styling.
+        The fields connect labels and validation feedback while leaving visual
+        design to your application. Required and invalid states are available to
+        assistive technology and through CSS hooks for styling.
       </p>
 
       <h2>Where to go next</h2>

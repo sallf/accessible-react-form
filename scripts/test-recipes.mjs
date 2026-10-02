@@ -22,7 +22,8 @@ const site = join(root, 'site')
 const recipe = join(site, 'src/recipes/contact')
 const consumerTemplate = join(root, 'scripts/fixtures/consumer')
 const fromSite = createRequire(join(site, 'package.json'))
-const expectedInstall = 'npm install accessible-react-form react-hook-form zod'
+const expectedInstall =
+  'npm install accessible-react-form@next react-hook-form zod'
 const children = new Set()
 const work = await mkdtemp(join(tmpdir(), 'arform-recipe-test-'))
 let browser
@@ -83,8 +84,12 @@ const command = (program, args, cwd, { quiet = false } = {}) => {
   return result.stdout
 }
 
+const availableChecks = []
+let executedChecks = 0
 const run = async (name, fn) => {
+  availableChecks.push(name)
   if (process.env.RECIPES_TEST && process.env.RECIPES_TEST !== name) return
+  executedChecks += 1
   process.stdout.write(`\n${name}\n`)
   await fn()
   process.stdout.write(`${name}: PASS\n`)
@@ -493,6 +498,10 @@ try {
     await consumer.getByText('Reusable works').waitFor()
     await consumer.close()
   })
+  assert.ok(
+    executedChecks > 0,
+    `No recipe checks matched RECIPES_TEST=${JSON.stringify(process.env.RECIPES_TEST)}. Available checks: ${availableChecks.join(', ')}`
+  )
 } finally {
   await browser?.close()
   for (const child of children) child.kill('SIGTERM')

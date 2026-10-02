@@ -6,8 +6,8 @@ type Feature = {
 
 const features: Feature[] = [
   {
-    title: 'WCAG by default',
-    body: 'Labels, errors, required states, and focus management are wired correctly the first time. Ship without an a11y audit follow-up.',
+    title: 'Connected labels and errors',
+    body: 'Fields connect labels, required and invalid states, and validation feedback. Test accessibility in your completed application.',
     icon: (
       <svg
         width="20"
@@ -26,8 +26,8 @@ const features: Feature[] = [
     ),
   },
   {
-    title: 'Zero re-render cost',
-    body: 'Built on react-hook-form. Uncontrolled inputs mean no re-rendering the entire form when one field changes.',
+    title: 'Built on React Hook Form',
+    body: 'Native inputs use React Hook Form registration. Subscribed values and validation state can trigger renders.',
     icon: (
       <svg
         width="20"
@@ -45,8 +45,8 @@ const features: Feature[] = [
     ),
   },
   {
-    title: 'Yup validation',
-    body: 'Schema-first validation. Define your shape once and get types, errors, and required-field hints for free.',
+    title: 'Standard Schema validation',
+    body: 'Use yup, zod, valibot, or another Standard Schema validator. Keep schema rules and required props in sync.',
     icon: (
       <svg
         width="20"
@@ -95,8 +95,8 @@ export const Features = () => {
             Less code, fewer bugs.
           </h2>
           <p className="text-fg-muted text-lg">
-            The pieces you&apos;d build yourself anyway — already built, already
-            accessible.
+            Reusable form controls with connected labels and validation
+            feedback.
           </p>
         </div>
 

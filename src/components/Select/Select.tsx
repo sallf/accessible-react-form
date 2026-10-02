@@ -49,7 +49,10 @@ export const Select = (props: Props) => {
     onChange: registeredOnChange,
     onBlur: registeredOnBlur,
     ...registration
-  } = formProps.register(id, { required, disabled })
+  } = formProps.register(id, {
+    ...(required === undefined ? {} : { required }),
+    disabled,
+  })
 
   return (
     <Label label={label} isRequired={!!required} className={labelClassName}>

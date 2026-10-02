@@ -4,7 +4,8 @@ import { ExamplePreview } from '../../../components/ExamplePreview'
 import formSource from '../../../recipes/contact/ContactForm.tsx?raw'
 import usageSource from '../../../recipes/contact/Usage.tsx?raw'
 
-const installCommand = 'npm install accessible-react-form react-hook-form zod'
+const installCommand =
+  'npm install accessible-react-form@next react-hook-form zod'
 const files = [
   { name: 'ContactForm.tsx', source: formSource },
   { name: 'Usage.tsx', source: usageSource },
