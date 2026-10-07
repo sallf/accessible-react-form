@@ -1,9 +1,10 @@
 import type { FormHTMLAttributes, ReactNode } from 'react'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import type { EventType, FieldValues, UseFormReturn } from 'react-hook-form'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { StandardSchemaV1 } from '@standard-schema/spec'
 
+import { defaultValuesEqual } from '../../hooks/defaultValuesEqual'
 import { useStandardSchemaResolver } from '../../hooks/standardSchema'
 import { visuallyHidden } from '../visuallyHidden'
 import { getErrorSummary } from '../fieldErrors'
@@ -40,14 +41,14 @@ export const ARForm = (props: Props) => {
   const formProps = useForm<FieldValues>({
     ...(validationSchema && { resolver }),
   }) // only add resolver if there's a schema
-  const { handleSubmit, formState, watch } = formProps
+  const { handleSubmit, formState, watch, reset } = formProps
+  const appliedDefaults = useRef<FieldValues | null | undefined>(undefined)
 
   useEffect(() => {
-    if (defaultValues) {
-      formProps.reset(defaultValues)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultValues]) // only default values
+    if (defaultValuesEqual(appliedDefaults.current, defaultValues)) return
+    appliedDefaults.current = defaultValues
+    if (defaultValues) reset(defaultValues)
+  }, [defaultValues, reset])
 
   useEffect(() => {
     if (!onChangeCallback) return

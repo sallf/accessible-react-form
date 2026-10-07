@@ -10,6 +10,7 @@ import React from 'react'
 import { useFieldForm } from '../../hooks/formContext'
 
 interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
+  id: string
   label: string
   labelClassName?: string
   options: (

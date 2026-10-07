@@ -14,6 +14,7 @@ import { Tag } from './Tag'
 import { useFieldForm } from '../../../hooks/formContext'
 
 interface CommonProps {
+  value?: never
   id: string
   label: string
   suggestions?: string[]

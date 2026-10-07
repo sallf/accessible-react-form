@@ -78,8 +78,12 @@ export const NativePropChecks = () => {
   const wrongEvent = <Text id="e" label="E" onChange={textareaChange} />
   // @ts-expect-error Select requires options.
   const missingOptions = <Select id="country" label="Country" />
+  // @ts-expect-error Select requires the field id used for registration.
+  const missingSelectId = <Select label="Country" options={['Canada']} />
   // @ts-expect-error FileUpload retains its media/binary discriminant.
   const wrongFileType = <FileUpload id="file" label="File" fileType="text" />
+  // @ts-expect-error Stored tags are controlled through React Hook Form.
+  const controlledTags = <TagInput id="tags" label="Tags" value="React" />
   // @ts-expect-error TagInput does not accept link attributes.
   const wrongTagProps = <TagInput id="topics" label="Topics" href="/topics" />
   return (
@@ -87,8 +91,10 @@ export const NativePropChecks = () => {
       {wrongInput}
       {wrongEvent}
       {missingOptions}
+      {missingSelectId}
       {wrongFileType}
       {wrongTagProps}
+      {controlledTags}
     </>
   )
 }
