@@ -38,7 +38,8 @@
     "format:check": "prettier --check .",
     "test:recipes": "npm run build-lib && npm --prefix site run build && node scripts/test-recipes.mjs",
     "prepack": "npm run build-lib",
-    "check:package-formats": "node scripts/test-package-formats.mjs"
+    "check:package-formats": "node scripts/test-package-formats.mjs",
+    "check:tag-defaults": "node scripts/test-tag-defaults.mjs"
   },
   "keywords": [
     "react",
@@ -88,6 +89,7 @@
     "axe-playwright": "^2.2.2",
     "chromatic": "^18.1.0",
     "concurrently": "^10.0.4",
+    "esbuild": "^0.28.2",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsx-a11y": "^6.10.2",

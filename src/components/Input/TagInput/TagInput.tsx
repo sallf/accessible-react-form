@@ -108,7 +108,8 @@ export function TagInput(props: Props) {
   const controlId = `${domId}-control`
   const errorId = `${domId}-error`
   const requiredId = `${domId}-required`
-  const currentVal = (formProps?.watch(id) as string | undefined) ?? ''
+  const watchedValue = formProps?.watch(id) as string | undefined
+  const currentVal = watchedValue ?? ''
   const tags = tagsToArr(currentVal).filter(Boolean)
   const [entry, setEntry] = useState('')
   const error = formProps && getFieldError(formProps.formState.errors, id)
@@ -253,6 +254,7 @@ export function TagInput(props: Props) {
       )}
       <input
         type="hidden"
+        defaultValue={watchedValue ?? props.defaultValue}
         {...formProps.register(id, {
           ...(required === undefined ? {} : { required }),
           disabled,

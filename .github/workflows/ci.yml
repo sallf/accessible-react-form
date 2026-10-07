@@ -52,6 +52,9 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
+      - name: Check tag defaults on supported React versions
+        run: npm run check:tag-defaults
+
       - name: Build Storybook
         run: npm run build-storybook
 
