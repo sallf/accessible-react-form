@@ -61,18 +61,18 @@ export const NestedSchemaErrorsRecover: Story = {
     submit.mockClear()
     const name = canvas.getByRole('textbox', { name: 'Name' })
     await userEvent.click(canvas.getByRole('button', { name: 'Save name' }))
-    await expect(await canvas.findByText('Enter a name.')).toBeVisible()
+    await expect(await canvas.findByText('Enter a name')).toBeVisible()
     await expect(name).toHaveAccessibleDescription(
-      'Use at least three characters. Enter a name.'
+      'Use at least three characters. Enter a name'
     )
     await expect(canvas.getByText('You have (1) error')).toBeVisible()
     await userEvent.type(name, 'X')
-    await expect(await canvas.findByText('Name too short.')).toBeVisible()
-    await expect(canvas.queryByText('Enter a name.')).not.toBeInTheDocument()
+    await expect(await canvas.findByText('Name too short')).toBeVisible()
+    await expect(canvas.queryByText('Enter a name')).not.toBeInTheDocument()
     await expect(canvas.getByText('You have (1) error')).toBeVisible()
     await expect(name).toHaveAttribute('aria-invalid', 'true')
     await expect(name).toHaveAccessibleDescription(
-      'Use at least three characters. Name too short.'
+      'Use at least three characters. Name too short'
     )
     await expect(submit).not.toHaveBeenCalled()
     await userEvent.clear(name)
@@ -120,12 +120,12 @@ export const ArrayAndMetadataErrors: Story = {
     await userEvent.click(canvas.getByRole('button', { name: 'Save profile' }))
     await expect(await canvas.findByText('You have (6) errors')).toBeVisible()
     for (const [label, message] of [
-      ['First person', 'Enter this name.'],
-      ['Second person', 'Enter this name.'],
-      ['Type', 'Enter a type.'],
-      ['Message', 'Enter a message.'],
-      ['Reference', 'Enter a reference.'],
-      ['Available types', 'Enter available types.'],
+      ['First person', 'Enter this name'],
+      ['Second person', 'Enter this name'],
+      ['Type', 'Enter a type'],
+      ['Message', 'Enter a message'],
+      ['Reference', 'Enter a reference'],
+      ['Available types', 'Enter available types'],
     ]) {
       const control = canvas.getByRole('textbox', {
         name: new RegExp(`^${label}`),
@@ -229,9 +229,9 @@ export const ParentAndChildSchemaErrors: Story = {
       const form = within(canvas.getByRole('form', { name }))
       await userEvent.click(form.getByRole('button'))
       await expect(await form.findByText('Review the account')).toBeVisible()
-      await expect(form.getByText('Review the name.')).toBeVisible()
+      await expect(form.getByText('Review the name')).toBeVisible()
       await expect(form.getByRole('textbox')).toHaveAccessibleDescription(
-        'Review the name.'
+        'Review the name'
       )
       await expect(form.getByText('You have (2) errors')).toBeVisible()
     }
@@ -348,7 +348,7 @@ export const ReservedRootSchemaErrorsRemainBlocking: Story = {
         ])}
         onSubmit={submit}
       >
-        <Text id="root" label="Root value" />
+        <Text id="name" label="Name" />
         <Text id="__arform_form_errors__" label="Existing marker value" />
         <button type="submit">Check exact root</button>
       </ARForm>
@@ -359,7 +359,7 @@ export const ReservedRootSchemaErrorsRemainBlocking: Story = {
         ])}
         onSubmit={submit}
       >
-        <Text id="root.name" label="Root name" />
+        <Text id="name" label="Name" />
         <button type="submit">Check nested root</button>
       </ARForm>
       <ARForm
@@ -394,10 +394,10 @@ export const ReservedRootSchemaErrorsRemainBlocking: Story = {
       canvas.getByRole('form', { name: 'Ordinary nested root' })
     )
     await userEvent.click(form.getByRole('button'))
-    await expect(await form.findByText('Review ordinary root.')).toBeVisible()
+    await expect(await form.findByText('Review ordinary root')).toBeVisible()
     await expect(
       form.getByRole('textbox', { name: /^Ordinary root/ })
-    ).toHaveAccessibleDescription('Review ordinary root.')
+    ).toHaveAccessibleDescription('Review ordinary root')
     await expect(submit).not.toHaveBeenCalled()
   },
 }
@@ -452,15 +452,15 @@ export const ArrayLengthPathsRemainBlocking: Story = {
       const form = within(canvas.getByRole('form', { name }))
       await userEvent.click(form.getByRole('button'))
       await expect(await form.findByText('Review array length')).toBeVisible()
-      await expect(form.getByText('Review this item.')).toBeVisible()
-      await expect(form.getByText('Review record length.')).toBeVisible()
+      await expect(form.getByText('Review this item')).toBeVisible()
+      await expect(form.getByText('Review record length')).toBeVisible()
       await expect(form.getByText('You have (3) errors')).toBeVisible()
       await expect(
         form.getByRole('textbox', { name: /^Item/ })
-      ).toHaveAccessibleDescription('Review this item.')
+      ).toHaveAccessibleDescription('Review this item')
       await expect(
         form.getByRole('textbox', { name: /^Record length/ })
-      ).toHaveAccessibleDescription('Review record length.')
+      ).toHaveAccessibleDescription('Review record length')
       await expect(submit).not.toHaveBeenCalled()
     }
     const form = within(canvas.getByRole('form', { name: 'Array length only' }))
@@ -582,10 +582,10 @@ export const ExternalNestedErrors: Story = {
       for (const control of controls) {
         await expect(control).toHaveAttribute('aria-invalid', 'true')
         await expect(control).toHaveAccessibleDescription(
-          'External help. Nested field feedback.'
+          'External help. Nested field feedback'
         )
       }
-      await expect(form.getAllByText('Nested field feedback.')).toHaveLength(8)
+      await expect(form.getAllByText('Nested field feedback')).toHaveLength(8)
       await userEvent.click(
         form.getByRole('button', { name: 'Clear nested errors' })
       )
@@ -673,12 +673,12 @@ export const ExternalParentAndChildErrorCount: Story = {
     for (const name of ['Set parent first', 'Set child first']) {
       await userEvent.click(canvas.getByRole('button', { name }))
       await expect(await canvas.findByText('You have (3) errors')).toBeVisible()
-      await expect(canvas.getByText('Review the child field.')).toBeVisible()
+      await expect(canvas.getByText('Review the child field')).toBeVisible()
       await expect(field).toHaveAccessibleDescription(
-        'Branch help. Review the child field.'
+        'Branch help. Review the child field'
       )
       await expect(typesChild).toHaveAccessibleDescription(
-        'Branch help. Review the types child.'
+        'Branch help. Review the types child'
       )
       await userEvent.click(
         canvas.getByRole('button', { name: 'Clear branch errors' })
@@ -767,17 +767,17 @@ export const ErrorContainersAreNotFieldErrors: Story = {
     ).toHaveAccessibleDescription('Container help.')
     await expect(
       canvas.getByRole('textbox', { name: /^Message child/ })
-    ).toHaveAccessibleDescription('Review the message child.')
+    ).toHaveAccessibleDescription('Review the message child')
     await userEvent.click(
       canvas.getByRole('button', { name: 'Set parent and message child' })
     )
     await expect(await canvas.findByText('You have (2) errors')).toBeVisible()
     await expect(
       canvas.getByRole('textbox', { name: /^Account parent/ })
-    ).toHaveAccessibleDescription('Container help. Please check this field.')
+    ).toHaveAccessibleDescription('Container help. Please check this field')
     await expect(
       canvas.getByRole('textbox', { name: /^Message child/ })
-    ).toHaveAccessibleDescription('Review the message child.')
+    ).toHaveAccessibleDescription('Review the message child')
   },
 }
 
@@ -866,7 +866,7 @@ export const MetadataDescendantErrors: Story = {
       await userEvent.click(canvas.getByRole('button', { name }))
       await expect(await canvas.findByText('You have (2) errors')).toBeVisible()
       await expect(child).toHaveAccessibleDescription(
-        'Descendant help. Review the descendant.'
+        'Descendant help. Review the descendant'
       )
       await expect(container).toHaveAttribute('aria-invalid', 'false')
       await expect(container).toHaveAccessibleDescription('Descendant help.')

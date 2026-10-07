@@ -19,7 +19,7 @@ export const ContactRecipe: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     await userEvent.click(canvas.getByRole('button', { name: 'Send message' }))
-    await expect(await canvas.findByText('Enter your name.')).toBeVisible()
+    await expect(await canvas.findByText('Enter your name')).toBeVisible()
     await expect(canvas.queryByRole('status')).not.toBeInTheDocument()
     await userEvent.type(
       canvas.getByRole('textbox', { name: /Your name/ }),

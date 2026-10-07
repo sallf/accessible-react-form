@@ -261,12 +261,12 @@ export const RequiredLogicalFileValues: Story = {
       )
       await expect(submit).toHaveBeenCalledTimes(4)
       await expect(
-        await canvas.findByText('This field is required.')
+        await canvas.findByText('This field is required')
       ).toBeVisible()
       await expect(control).toHaveAttribute('aria-invalid', 'true')
       await expect(control).toHaveAttribute('aria-required', 'true')
       await expect(control).toHaveAccessibleDescription(
-        'Choose a file or retain the saved attachment. This field is required.'
+        'Choose a file or retain the saved attachment. This field is required'
       )
     }
     await userEvent.upload(control, new File(['recovered'], 'recovered.txt'))
@@ -479,7 +479,7 @@ export const FileCallbacksAndDisabled: Story = {
     )
     await expect(blockedSubmit).toHaveBeenCalledTimes(1)
     await expect(
-      canvas.queryByText('This field is required.')
+      canvas.queryByText('This field is required')
     ).not.toBeInTheDocument()
   },
 }
@@ -496,7 +496,7 @@ export const FileInvalidAccessibility: Story = {
       canvas.getByRole('button', { name: 'Submit required file' })
     )
     await expect(
-      await canvas.findByText('This field is required.')
+      await canvas.findByText('This field is required')
     ).toBeVisible()
   },
 }

@@ -138,12 +138,12 @@ const assertRequiredErrors = async (canvas: ReturnType<typeof within>) => {
       expect.stringContaining('Complete this field.')
     )
     await expect(control).toHaveAccessibleDescription(
-      expect.stringContaining('This field is required.')
+      expect.stringContaining('This field is required')
     )
     const references = control.getAttribute('aria-describedby')!.split(/\s+/)
-    const error = control.ownerDocument.getElementById(references.at(-1)!)
+    const error = control.ownerDocument.getElementById(references.slice(-1)[0]!)
     await expect(error).toHaveAttribute('role', 'alert')
-    await expect(error).toHaveTextContent('This field is required.')
+    await expect(error).toHaveTextContent('This field is required')
   }
 }
 export const SchemaFreeRequiredFields: Story = {
@@ -177,7 +177,7 @@ export const SchemaFreeRequiredFields: Story = {
       )
     }
     await expect(
-      canvas.queryByText('This field is required.')
+      canvas.queryByText('This field is required')
     ).not.toBeInTheDocument()
   },
 }
@@ -220,7 +220,7 @@ export const OptionalAndDisabledFields: Story = {
       expect.anything()
     )
     await expect(
-      canvas.queryByText('This field is required.')
+      canvas.queryByText('This field is required')
     ).not.toBeInTheDocument()
     for (const prefix of ['Optional ', 'Disabled ']) {
       for (const control of controls(canvas, prefix))
@@ -270,8 +270,8 @@ export const MessageLessFieldErrors: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     for (const [button, message] of [
-      ['Set required errors', 'This field is required.'],
-      ['Set other errors', 'Please check this field.'],
+      ['Set required errors', 'This field is required'],
+      ['Set other errors', 'Please check this field'],
     ]) {
       await userEvent.click(canvas.getByRole('button', { name: button }))
       for (const control of controls(canvas)) {
@@ -285,7 +285,7 @@ export const MessageLessFieldErrors: Story = {
         const errorId = control
           .getAttribute('aria-describedby')!
           .split(/\s+/)
-          .at(-1)!
+          .slice(-1)[0]!
         await expect(
           control.ownerDocument.getElementById(errorId)
         ).toHaveTextContent(message)
@@ -293,11 +293,13 @@ export const MessageLessFieldErrors: Story = {
       const custom = canvas.getByLabelText(/^Custom message/)
       await expect(custom).toHaveAttribute('aria-invalid', 'true')
       await expect(custom).toHaveAccessibleDescription(
-        'Complete this field. Keep this exact message .'
+        'Complete this field. Keep this exact message'
       )
       await expect(
-        canvasElement.ownerDocument.getElementById('custom-error')!.textContent
-      ).toBe(' Keep this exact message .')
+        canvasElement.ownerDocument.getElementById(
+          custom.getAttribute('aria-describedby')!.split(/\s+/).slice(-1)[0]!
+        )!.textContent
+      ).toBe(' Keep this exact message ')
       await userEvent.click(
         canvas.getByRole('button', { name: 'Clear errors' })
       )
@@ -366,12 +368,12 @@ export const SchemaOwnsRequiredValidation: Story = {
       canvas.getByRole('button', { name: 'Submit required schema' })
     )
     await expect(schemaSubmit).not.toHaveBeenCalled()
-    const error = await canvas.findByText('Schema owns this rejection.')
+    const error = await canvas.findByText('Schema owns this rejection')
     const control = canvas.getByLabelText(/^Schema field/)
     await expect(control).toHaveAttribute('aria-invalid', 'true')
     await expect(control).toHaveAttribute('aria-describedby', error.id)
     await expect(control).toHaveAccessibleDescription(
-      'Schema owns this rejection.'
+      'Schema owns this rejection'
     )
     await userEvent.type(control, 'accepted')
     await userEvent.click(
@@ -405,7 +407,7 @@ export const MessageLessInvalidAccessibility: Story = {
     )
     for (const control of controls(canvas))
       await expect(control).toHaveAccessibleDescription(
-        expect.stringContaining('Please check this field.')
+        expect.stringContaining('Please check this field')
       )
   },
 }
@@ -479,7 +481,7 @@ export const FormWideDisabledLateMount: Story = {
       canvas.getByRole('button', { name: 'Submit supplied methods' })
     )
     await expect(suppliedSubmit).toHaveBeenCalledTimes(1)
-    await expect(canvas.queryAllByText('This field is required.')).toHaveLength(
+    await expect(canvas.queryAllByText('This field is required')).toHaveLength(
       0
     )
     for (const prefix of ['Global ', 'False ']) {
@@ -520,7 +522,7 @@ export const FormWideDisabledLateMount: Story = {
       for (const control of controls(canvas, prefix).slice(1, 6)) {
         await expect(control).toHaveAttribute('aria-invalid', 'true')
         await expect(control).toHaveAccessibleDescription(
-          expect.stringContaining('This field is required.')
+          expect.stringContaining('This field is required')
         )
       }
     }

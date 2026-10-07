@@ -93,7 +93,7 @@ export function TagInput(props: Props) {
     required,
     disabled: explicitlyDisabled,
   } = props
-  const formProps = useFieldForm(explicitFormProps)
+  const formProps = useFieldForm(explicitFormProps, id)
   const disabled = explicitlyDisabled || formProps?.formState.disabled
   const inputAttributes = props.onlySuggestions
     ? undefined

@@ -360,9 +360,9 @@ export const CheckboxOrder: Story = {
     await userEvent.click(
       canvas.getByRole('button', { name: 'Confirm agreement' })
     )
-    await expect(await canvas.findByText('Please agree.')).toBeVisible()
+    await expect(await canvas.findByText('Please agree')).toBeVisible()
     await expect(checkbox).toHaveAccessibleName('I agree')
-    await expect(checkbox).toHaveAccessibleDescription('Please agree.')
+    await expect(checkbox).toHaveAccessibleDescription('Please agree')
     const labelText = canvas.getByText('I agree').getBoundingClientRect()
     const control = checkbox.getBoundingClientRect()
     await expect(labelText.top).toBeLessThan(control.bottom)
@@ -563,7 +563,7 @@ export const ClassHooksOnly: Story = {
     ).toBeInTheDocument()
     await expect(canvas.getByText('report.pdf')).toBeInTheDocument()
     await userEvent.click(canvas.getByRole('button', { name: 'Check classes' }))
-    await expect(canvas.getByText('Name required.')).toBeInTheDocument()
+    await expect(canvas.getByText('Name required')).toBeInTheDocument()
     const form = canvasElement.querySelector('form')!
     for (const element of form.querySelectorAll('[class]')) {
       for (const token of element.classList) {

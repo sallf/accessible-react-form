@@ -1,5 +1,7 @@
+import { FieldError } from '../../FieldError/FieldError'
+import { getFieldError } from '../../fieldErrors'
 import type { DragEvent, InputHTMLAttributes } from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import type { FieldFormMethods } from '../../../hooks/formContext'
 
 import { Label } from '../../Label/Label'
@@ -34,11 +36,15 @@ export const FileUpload = (props: Props) => {
     required,
     disabled,
     onChangeCapture,
+    onDragEnter,
+    onDragLeave,
+    onDrop,
     value: _value,
     defaultValue: _defaultValue,
     ...rest
   } = props
-  const formProps = useFieldForm(explicitFormProps)
+  const formProps = useFieldForm(explicitFormProps, id)
+  const errorId = `${useId()}-error`
 
   // --- STATE ---
   const [isActive, setIsActive] = useState(false)
@@ -92,7 +98,17 @@ export const FileUpload = (props: Props) => {
 
   // TODO this has another layer of complexity. Not sure how to pass className
   return (
-    <Label label={label} isRequired={!!required} className={labelClassName}>
+    <Label
+      label={label}
+      isRequired={!!required}
+      className={labelClassName}
+      error={
+        <FieldError
+          id={errorId}
+          error={formProps && getFieldError(formProps.formState.errors, id)}
+        />
+      }
+    >
       <div
         className="arform__upload-wrapper"
         data-arform-active={isActive ? '' : undefined}
@@ -120,6 +136,7 @@ export const FileUpload = (props: Props) => {
         <Input
           id={id}
           label={label}
+          errorId={errorId}
           className={`arform__upload ${className || ''}`}
           type="file"
           required={required}
@@ -128,12 +145,15 @@ export const FileUpload = (props: Props) => {
           formProps={formProps}
           onDragEnter={(evt) => {
             handleDrag(evt, true)
+            onDragEnter?.(evt)
           }}
           onDragLeave={(evt) => {
             handleDrag(evt, false)
+            onDragLeave?.(evt)
           }}
           onDrop={(evt) => {
             handleDrag(evt, false)
+            onDrop?.(evt)
           }}
           {...rest}
           onChangeCapture={(event) => {

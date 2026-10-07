@@ -3,7 +3,6 @@ import type { InputHTMLAttributes } from 'react'
 import type { FieldValues, RegisterOptions } from 'react-hook-form'
 import type { FieldFormMethods } from '../../../hooks/formContext'
 
-import { FieldError } from '../../FieldError/FieldError'
 import { getFieldError } from '../../fieldErrors'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -12,7 +11,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className: string
   formProps?: FieldFormMethods
   prefix?: string
-  showError?: boolean
+  errorId: string
   registrationOptions?: Pick<RegisterOptions<FieldValues>, 'required'>
 }
 
@@ -27,7 +26,7 @@ export const Input = (props: Props) => {
     disabled: explicitlyDisabled,
     formProps,
     prefix,
-    showError = true,
+    errorId,
     registrationOptions,
     onChange,
     onBlur,
@@ -43,7 +42,6 @@ export const Input = (props: Props) => {
   const disabled = explicitlyDisabled || formProps.formState.disabled
   const error = getFieldError(formProps.formState.errors, id)
   const hasError = !!error
-  const errorId = `${id}-error`
   const {
     onChange: registeredOnChange,
     onBlur: registeredOnBlur,
@@ -93,7 +91,6 @@ export const Input = (props: Props) => {
       ) : (
         input
       )}
-      {showError && <FieldError id={errorId} error={error} />}
     </>
   )
 }
