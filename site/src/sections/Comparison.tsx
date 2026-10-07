@@ -20,8 +20,10 @@ export const Comparison = () => {
             Pick a form. Watch the line count.
           </h2>
           <p className="text-fg-muted text-lg">
-            The same common forms, with the same accessibility, in four
-            libraries. Only one stays small — no matter how big the form gets.
+            Compare four hand-written implementations of the same field lists.
+            Counts describe these displayed snippets, not a benchmark of
+            complete applications or equivalent accessibility. Shared wrappers
+            can reduce repetition in any of these libraries.
           </p>
         </div>
 
@@ -113,7 +115,7 @@ export const Comparison = () => {
 
         <p className="mt-8 text-sm text-fg-muted max-w-3xl leading-relaxed">
           <strong className="text-fg">
-            Every form library leaves a11y to you.
+            These examples show two ways to connect field feedback.
           </strong>{' '}
           The labels, the{' '}
           <code className="font-mono text-xs px-1 py-0.5 rounded bg-bg-subtle">
@@ -131,13 +133,12 @@ export const Comparison = () => {
           <code className="font-mono text-xs px-1 py-0.5 rounded bg-bg-subtle">
             role=&quot;alert&quot;
           </code>{' '}
-          — you write it per field, every time, in every library above. That
-          cost compounds with every field you add; ARForm does it once, at the
-          framework level, so your form code stays just your form.
+          are written directly in the comparison snippets. ARForm provides this
+          wiring inside its reusable controls. Test the completed form with your
+          styling, content, and assistive technology.
         </p>
         <p className="mt-3 text-sm text-fg-muted max-w-3xl leading-relaxed">
-          All examples use yup for an apples-to-apples comparison. ARForm
-          accepts any{' '}
+          All displayed examples use yup. ARForm accepts any{' '}
           <a
             href="https://standardschema.dev"
             target="_blank"

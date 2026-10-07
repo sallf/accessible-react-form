@@ -5,7 +5,10 @@ export const Quickstart = () => {
   return (
     <>
       <h1>Quickstart</h1>
-      <p>Get a validated, accessible form running in five minutes.</p>
+      <p>
+        Build a form with schema validation, connected labels, and linked
+        errors.
+      </p>
       <p>
         For a complete styled example, copy the{' '}
         <Link to="/docs/recipes/contact">contact form recipe</Link>, including

@@ -6,7 +6,7 @@
 
 **[Docs & live demos](https://ar-form-sallf.netlify.app)** · **[Storybook](https://ar-form-sallf.netlify.app/storybook/)**
 
-Copy the [contact form recipe](https://ar-form-sallf.netlify.app/docs/recipes/contact) for a complete Tailwind form with validation and reusable fields.
+Copy the [contact form recipe](#contact-form) for a complete Tailwind form with validation and reusable fields.
 
 A minimal, accessible React form library. Built on [react-hook-form](https://react-hook-form.com/) for performance, with first-class support for any [Standard Schema](https://standardschema.dev) validator — yup, zod, valibot, arktype, or any other compliant library.
 
@@ -39,10 +39,18 @@ const schema = object({
   email: string().email(),
 })
 
-<ARForm validationSchema={schema} onSubmit={onSubmit}>
-  <Text id="name" label="Name" required />
-  <Text id="email" label="Email" />
-</ARForm>
+export function SignupForm() {
+  return (
+    <ARForm
+      validationSchema={schema}
+      onSubmit={(values) => console.log(values)}
+    >
+      <Text id="name" label="Name" required />
+      <Text id="email" label="Email" />
+      <button type="submit">Submit</button>
+    </ARForm>
+  )
+}
 ```
 
 The same form with zod:
@@ -68,6 +76,69 @@ const schema = v.object({
 ```
 
 The `<ARForm>` JSX is identical regardless of which validator you chose.
+
+## Contact form
+
+This example includes its own Tailwind classes and reusable text field. It logs
+validated values locally; connect `onSubmit` to your application's submit handler.
+
+```tsx
+import type { ComponentProps } from 'react'
+import { ARForm, Text, TextArea } from 'accessible-react-form'
+import { object, string } from 'yup'
+
+const contactSchema = object({
+  name: string().required(),
+  email: string().email().required(),
+  message: string().required(),
+})
+
+const controlClasses =
+  'block w-full rounded border border-gray-400 p-2 [&[aria-invalid="true"]]:border-red-600'
+
+function ContactText(props: ComponentProps<typeof Text>) {
+  return (
+    <Text
+      className={controlClasses}
+      labelClassName="block text-sm font-medium"
+      {...props}
+    />
+  )
+}
+
+export function ContactForm() {
+  return (
+    <ARForm
+      className="max-w-md space-y-4"
+      validationSchema={contactSchema}
+      onSubmit={(values) => console.log(values)}
+    >
+      <ContactText id="name" label="Name" autoComplete="name" required />
+      <ContactText
+        id="email"
+        label="Email"
+        type="email"
+        autoComplete="email"
+        required
+      />
+      <TextArea
+        id="message"
+        label="Message"
+        rows={4}
+        required
+        className={controlClasses}
+        labelClassName="block text-sm font-medium"
+      />
+      <button
+        type="submit"
+        className="rounded bg-blue-700 px-4 py-2 text-white"
+      >
+        Send message
+      </button>
+    </ARForm>
+  )
+}
+```
 
 ## Why `required` is set in two places
 
@@ -109,6 +180,8 @@ Fields accept attributes for their rendered controls, plus `id` and `label`. For
 
 Use React Hook Form field paths such as `profile.name` or `items.0.name` as field ids. Errors at those paths appear beside the matching control. Pathless issues, unsupported paths, and parent issues that overlap child issues appear in the form-wide alert and still block submission.
 
+Field ids must be nonempty. They cannot start with the reserved `root` path, contain `|`, or include a path segment named `prototype` or matching an `Object.prototype` property (such as `constructor`, `toString`, or `hasOwnProperty`). These names conflict with React Hook Form's registration or error handling; the library rejects them with an actionable error. Rename affected fields and update their schemas, defaults, and submit handlers. Nested names such as `profile.root` remain supported. Schema issues at reserved paths still appear in the form-wide alert and block submission.
+
 ARForm uses `FieldValues` for its values and submit callback; it does not infer input/output types from your schema or check field paths against them. For a typed form, create your own `useForm<Values, Context, Output>()` and use `FormProvider` or pass its methods through each field's `formProps`. Explicit `formProps` takes precedence over inherited context. Your external form owns its resolver and submit handler.
 
 ## File and tag values
@@ -130,7 +203,28 @@ methods.setValue('profile', { attachment: 'saved.txt' })
 
 RHF 7.75 can suppress notifications when `setValue` replaces one `File` with another; use `reset`/`resetField` for those replacements.
 
-TagInput stores tags as a comma-separated string. Use values and suggestions without commas; a comma-containing value cannot represent a single tag. Suggestions are trimmed, and empty or single-comma entries are omitted. Duplicate detection ignores whitespace differences but treats letter case as distinct, so `React` and `react` remain separate tags. Selected equivalents disappear until removed.
+TagInput stores tags as a comma-separated string. Its `defaultValue` initializes selected tags; form-level defaults take precedence. For controlled updates, use the owning React Hook Form methods (`setValue` or `reset`). A native `value` prop is not supported because React Hook Form owns the stored tags.
+
+```tsx
+import { ARForm, TagInput } from 'accessible-react-form'
+
+export function TopicsForm() {
+  return (
+    <ARForm onSubmit={(values) => console.log(values)}>
+      <TagInput
+        id="topics"
+        label="Topics"
+        defaultValue="React"
+        suggestions={['React', 'TypeScript']}
+        required
+      />
+      <button type="submit">Save topics</button>
+    </ARForm>
+  )
+}
+```
+
+Use values and suggestions without commas; a comma-containing value cannot represent a single tag. Suggestions are trimmed, and empty or single-comma entries are omitted. Duplicate detection ignores whitespace differences but treats letter case as distinct, so `React` and `react` remain separate tags. Selected equivalents disappear until removed.
 
 ## Styling
 
@@ -149,9 +243,20 @@ Only the internal submit control and screen-reader text use inline hiding styles
 Style a single instance directly:
 
 ```tsx
-<ARForm className="checkout-form" style={{ maxWidth: 480 }} onSubmit={...}>
-  <Text id="email" label="Email" className="checkout-form__email" />
-</ARForm>
+import { ARForm, Text } from 'accessible-react-form'
+
+export function StyledForm() {
+  return (
+    <ARForm
+      className="checkout-form"
+      style={{ maxWidth: 480 }}
+      onSubmit={(values) => console.log(values)}
+    >
+      <Text id="email" label="Email" className="checkout-form__email" />
+      <button type="submit">Save</button>
+    </ARForm>
+  )
+}
 ```
 
 For wrapping markup (e.g., a custom row layout), wrap the input in your own element:
@@ -261,7 +366,7 @@ Tailwind plays nicely with the library — utility classes coexist with the `arf
 </ARForm>
 ```
 
-Tailwind v3.1+ ships an `aria-invalid:` variant; older versions can use the arbitrary variant `[&[aria-invalid="true"]]:border-red-500`.
+Tailwind v4 supports `aria-invalid:`. For Tailwind v3.1+, use the arbitrary variant `[&[aria-invalid="true"]]:border-red-500` instead; v3 does not include `aria-invalid:` by default.
 
 **2. Wrapping div for layout the library doesn't render**
 

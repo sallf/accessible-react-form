@@ -92,7 +92,7 @@ export const Features = () => {
       <div className="max-w-6xl mx-auto px-6 py-20 sm:py-24">
         <div className="max-w-2xl mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
-            Less code, fewer bugs.
+            Labels and errors, connected.
           </h2>
           <p className="text-fg-muted text-lg">
             Reusable form controls with connected labels and validation
