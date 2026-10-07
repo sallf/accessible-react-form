@@ -85,6 +85,9 @@ jobs:
       - name: Typecheck typed external form methods
         run: npx tsc -p scripts/fixtures/form-integration
 
+      - name: Check packed CJS, ESM, and TypeScript consumers
+        run: npm run check:package-formats
+
       - name: Check package contains no stylesheets
         run: npm run check:package-css
 

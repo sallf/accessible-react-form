@@ -3,13 +3,18 @@
   "version": "0.0.1-alpha.1",
   "description": "An accessible, minimal React form library. Built on react-hook-form. Works with any Standard Schema validator (yup, zod, valibot, arktype).",
   "main": "dist/index.js",
-  "module": "dist/index.es.js",
+  "module": "dist/index.mjs",
   "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.js"
+      "import": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/index.js"
+      }
     },
     "./package.json": "./package.json"
   },
@@ -25,14 +30,15 @@
     "test-storybook:ci": "concurrently -k -s first -n SB,TEST \"http-server storybook-static --port 6006 --silent\" \"wait-on tcp:127.0.0.1:6006 && test-storybook --url http://127.0.0.1:6006\"",
     "storybook": "npm run build-lib && storybook dev -p 6006",
     "build-storybook": "npm run build-lib && storybook build",
-    "build-lib": "rollup -c",
+    "build-lib": "node scripts/build-lib.mjs",
     "check:package-css": "node scripts/assert-no-package-stylesheets.mjs",
     "chromatic": "chromatic --exit-zero-on-changes",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepublishOnly": "npm run build-lib",
-    "test:recipes": "npm run build-lib && npm --prefix site run build && node scripts/test-recipes.mjs"
+    "test:recipes": "npm run build-lib && npm --prefix site run build && node scripts/test-recipes.mjs",
+    "prepack": "npm run build-lib",
+    "check:package-formats": "node scripts/test-package-formats.mjs"
   },
   "keywords": [
     "react",
@@ -113,5 +119,6 @@
     "react": "^18.3.1 || ^19.0.0",
     "react-dom": "^18.3.1 || ^19.0.0",
     "react-hook-form": "^7.75.0"
-  }
+  },
+  "type": "commonjs"
 }
