@@ -191,16 +191,16 @@ export const FieldHelpAndErrors: Story = {
       'Choose a country',
       'Enter a message',
     ]
-    for (const [index, field] of fields.entries()) {
-      const error = await canvas.findByText(`${messages[index]}.`)
+    for (const [index] of fields.entries()) {
+      const error = await canvas.findByText(messages[index])
       const control = canvas.getByLabelText(new RegExp(`^${labels[index]}`))
       await expect(control).toHaveAttribute(
         'aria-describedby',
-        `first-help second-help ${field}-error`
+        `first-help second-help ${error.id}`
       )
-      await expect(
-        canvasElement.ownerDocument.getElementById(`${field}-error`)
-      ).toBe(error)
+      await expect(canvasElement.ownerDocument.getElementById(error.id)).toBe(
+        error
+      )
       await expect(control).toHaveAccessibleDescription(
         expect.stringContaining(messages[index])
       )
@@ -286,20 +286,18 @@ export const DescriptionTokenHandling: Story = {
       canvas.getByRole('button', { name: 'Validate tokens' })
     )
     for (const { id, expected } of tokenCases) {
-      const error = await canvas.findByText(`Correct ${id}.`)
+      const error = await canvas.findByText(`Correct ${id}`)
       const control = canvas.getByLabelText(new RegExp(`^${id}`))
       await expect(control).toHaveAttribute(
         'aria-describedby',
-        id === 'explicit'
-          ? 'token-help explicit-error'
-          : `${expected ? expected + ' ' : ''}${id}-error`
+        `${expected ? expected + ' ' : ''}${error.id}`
       )
       await expect(control).toHaveAccessibleDescription(
-        expect.stringContaining(`Correct ${id}.`)
+        expect.stringContaining(`Correct ${id}`)
       )
-      await expect(
-        canvasElement.ownerDocument.getElementById(`${id}-error`)
-      ).toBe(error)
+      await expect(canvasElement.ownerDocument.getElementById(error.id)).toBe(
+        error
+      )
       await userEvent.type(control, 'valid')
     }
     await userEvent.click(
@@ -369,8 +367,8 @@ export const TagInputHelpAndErrors: Story = {
     await expect(text).toHaveAttribute('data-source', 'text-consumer')
     await expect(group).toHaveAttribute('data-source', 'group-consumer')
     await userEvent.click(canvas.getByRole('button', { name: 'Save topics' }))
-    const textError = await canvas.findByText('Add a text topic.')
-    const groupError = await canvas.findByText('Choose a suggested topic.')
+    const textError = await canvas.findByText('Add a text topic')
+    const groupError = await canvas.findByText('Choose a suggested topic')
     await expect(text).toHaveAttribute(
       'aria-describedby',
       `tag-help tag-format ${textError.id}`
@@ -380,10 +378,10 @@ export const TagInputHelpAndErrors: Story = {
       `tag-help tag-format ${required.id} ${groupError.id}`
     )
     await expect(text).toHaveAccessibleDescription(
-      'Choose a useful topic. Use short topic names. Add a text topic.'
+      'Choose a useful topic. Use short topic names. Add a text topic'
     )
     await expect(group).toHaveAccessibleDescription(
-      'Choose a useful topic. Use short topic names. (required) Choose a suggested topic.'
+      'Choose a useful topic. Use short topic names. (required) Choose a suggested topic'
     )
     await expect(submit).not.toHaveBeenCalled()
     await userEvent.type(text, 'design{enter}')
@@ -419,7 +417,7 @@ export const NativeInvalidAccessibility: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     await userEvent.click(canvas.getByRole('button', { name: 'Send' }))
-    await expect(await canvas.findByText('Enter a message.')).toBeVisible()
+    await expect(await canvas.findByText('Enter a message')).toBeVisible()
   },
 }
 export const TagInputInitialAccessibility: Story = {
@@ -431,7 +429,7 @@ export const TagInputInvalidAccessibility: Story = {
     const canvas = within(canvasElement)
     await userEvent.click(canvas.getByRole('button', { name: 'Save topics' }))
     await expect(
-      await canvas.findByText('Choose a suggested topic.')
+      await canvas.findByText('Choose a suggested topic')
     ).toBeVisible()
   },
 }

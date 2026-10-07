@@ -102,7 +102,7 @@ export const ConsumerFileValidators: Story = {
     await expect(submit).not.toHaveBeenCalled()
     for (const { id, map } of fileCases) {
       await expect(
-        await canvas.findByText(`Consumer rejects ${id}.`)
+        await canvas.findByText(`Consumer rejects ${id}`)
       ).toBeVisible()
       await expect(canvas.getByLabelText(new RegExp(`^${id}`))).toHaveAttribute(
         'aria-invalid',
@@ -122,7 +122,7 @@ export const ConsumerFileValidators: Story = {
       await expect(submit).toHaveBeenCalledTimes(kind === 'Files' ? 0 : 1)
       for (const { id } of fileCases)
         await expect(
-          await canvas.findByText(`Consumer rejects ${id}.`)
+          await canvas.findByText(`Consumer rejects ${id}`)
         ).toBeVisible()
       await userEvent.click(
         canvas.getByRole('button', { name: `Reset allowed ${kind}` })
@@ -201,14 +201,14 @@ export const OmittedRequiredRules: Story = {
     await expect(submit).not.toHaveBeenCalled()
     await expect(invalid).toHaveBeenCalledTimes(2)
     for (const id of requiredIds) {
-      const error = await canvas.findByText(`Consumer requires ${id}.`)
+      const error = await canvas.findByText(`Consumer requires ${id}`)
       const control =
         id === 'suggested'
           ? canvas.getByRole('group', { name: id })
           : canvas.getByLabelText(new RegExp(`^${id}`))
       await expect(control).toHaveAttribute('aria-invalid', 'true')
       await expect(control).toHaveAccessibleDescription(
-        `Consumer requires ${id}.`
+        `Consumer requires ${id}`
       )
       await expect(control.getAttribute('aria-describedby')).toBe(error.id)
       await expect(invalid.mock.calls[0][0][id].type).toBe('required')
@@ -276,7 +276,7 @@ export const ExplicitRequiredChanges: Story = {
     for (const id of requiredIds)
       await expect(invalid.mock.calls[0][0][id].type).toBe('required')
     await expect(canvas.getByLabelText(/^file/)).toHaveAccessibleDescription(
-      'This field is required.'
+      'This field is required'
     )
     await userEvent.click(
       canvas.getByRole('button', { name: 'Reset logical default' })
@@ -294,12 +294,12 @@ export const ExplicitRequiredChanges: Story = {
     await userEvent.click(send)
     await expect(invalid.mock.calls[2][0].file.type).toBe('required')
     await expect(canvas.getByLabelText(/^file/)).toHaveAccessibleDescription(
-      'This field is required.'
+      'This field is required'
     )
     await userEvent.click(canvas.getByRole('button', { name: 'Make optional' }))
     await userEvent.click(send)
     await expect(submit).toHaveBeenCalledTimes(1)
-    await expect(canvas.queryAllByText('This field is required.')).toHaveLength(
+    await expect(canvas.queryAllByText('This field is required')).toHaveLength(
       0
     )
     await userEvent.click(canvas.getByRole('button', { name: 'Make required' }))
@@ -385,7 +385,7 @@ export const ProgrammaticFileUpdates: Story = {
     await expect(invalid.mock.calls[0][0].immediateFile.type).toBe('required')
     await expect(
       canvas.getByLabelText(/^Immediate file/)
-    ).toHaveAccessibleDescription('This field is required.')
+    ).toHaveAccessibleDescription('This field is required')
     await click('Restore file value')
     await expect(canvas.getByText('restored.txt')).toBeVisible()
     await click('Submit reset value')
@@ -409,7 +409,7 @@ export const ProgrammaticFileUpdates: Story = {
     await expect(submit).toHaveBeenCalledTimes(2)
     await expect(invalid.mock.calls[2][0].immediateFile.type).toBe('validate')
     await expect(
-      canvas.getByText('Consumer rejects immediate file.')
+      canvas.getByText('Consumer rejects immediate file')
     ).toBeVisible()
     await click('Allowed string value')
     await click('Submit reset value')
@@ -564,7 +564,7 @@ export const OnChangeFileRequired: Story = {
     await expect(input).toHaveAttribute('aria-invalid', 'false')
     await userEvent.upload(input, [])
     await waitFor(() => expect(input).toHaveAttribute('aria-invalid', 'true'))
-    await expect(input).toHaveAccessibleDescription('This field is required.')
+    await expect(input).toHaveAccessibleDescription('This field is required')
     await userEvent.upload(input, new File(['restored'], 'restored.txt'))
     await waitFor(() => expect(input).toHaveAttribute('aria-invalid', 'false'))
     await expect(fileCapture).toHaveBeenCalledTimes(3)
@@ -669,7 +669,7 @@ export const WholeResetFileListSubmission: Story = {
     await expect(invalid.mock.calls[0][0].listFile.type).toBe('required')
     await expect(
       canvas.getByLabelText(/^Reset list file/)
-    ).toHaveAccessibleDescription('This field is required.')
+    ).toHaveAccessibleDescription('This field is required')
     await userEvent.click(
       canvas.getByRole('button', { name: 'Reset populated list value' })
     )
@@ -900,7 +900,7 @@ export const ConsumerCaptureFileChange: Story = {
     const input = canvas.getByLabelText(/^Consumer cleared file/)
     await userEvent.upload(input, new File(['selected'], 'cleared.txt'))
     await waitFor(() => expect(input).toHaveAttribute('aria-invalid', 'true'))
-    await expect(input).toHaveAccessibleDescription('This field is required.')
+    await expect(input).toHaveAccessibleDescription('This field is required')
     await expect(clearingCapture).toHaveBeenCalledTimes(1)
     await expect(canvas.queryByText('cleared.txt')).not.toBeInTheDocument()
     await userEvent.click(

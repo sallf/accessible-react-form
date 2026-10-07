@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import { describedBy } from '../describedBy'
 import type { TextareaHTMLAttributes } from 'react'
 import type { FieldFormMethods } from '../../hooks/formContext'
@@ -30,7 +31,8 @@ export const TextArea = (props: Props) => {
     onBlur,
     ...rest
   } = props
-  const formProps = useFieldForm(explicitFormProps)
+  const formProps = useFieldForm(explicitFormProps, id)
+  const errorId = `${useId()}-error`
   const disabled = explicitlyDisabled || formProps?.formState.disabled
 
   // --- RENDER ---
@@ -38,7 +40,6 @@ export const TextArea = (props: Props) => {
 
   const error = getFieldError(formProps.formState.errors, id)
   const hasError = !!error
-  const errorId = `${id}-error`
   const {
     onChange: registeredOnChange,
     onBlur: registeredOnBlur,
@@ -49,7 +50,12 @@ export const TextArea = (props: Props) => {
   })
 
   return (
-    <Label label={label} isRequired={!!required} className={labelClassName}>
+    <Label
+      label={label}
+      isRequired={!!required}
+      className={labelClassName}
+      error={<FieldError id={errorId} error={error} />}
+    >
       <textarea
         {...rest}
         {...registration}
@@ -72,7 +78,6 @@ export const TextArea = (props: Props) => {
         minLength={minLength}
         maxLength={maxLength}
       />
-      <FieldError id={errorId} error={error} />
     </Label>
   )
 }

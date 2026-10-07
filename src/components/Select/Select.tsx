@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import { describedBy } from '../describedBy'
 import type { OptionHTMLAttributes, SelectHTMLAttributes } from 'react'
 import type { FieldFormMethods } from '../../hooks/formContext'
@@ -9,6 +10,7 @@ import React from 'react'
 import { useFieldForm } from '../../hooks/formContext'
 
 interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
+  id: string
   label: string
   labelClassName?: string
   options: (
@@ -36,7 +38,8 @@ export const Select = (props: Props) => {
     onBlur,
     ...rest
   } = props
-  const formProps = useFieldForm(explicitFormProps)
+  const formProps = useFieldForm(explicitFormProps, id)
+  const errorId = `${useId()}-error`
   const disabled = explicitlyDisabled || formProps?.formState.disabled
 
   // --- RENDER ---
@@ -44,7 +47,6 @@ export const Select = (props: Props) => {
 
   const error = getFieldError(formProps.formState.errors, id)
   const hasError = !!error
-  const errorId = `${id}-error`
   const {
     onChange: registeredOnChange,
     onBlur: registeredOnBlur,
@@ -55,7 +57,12 @@ export const Select = (props: Props) => {
   })
 
   return (
-    <Label label={label} isRequired={!!required} className={labelClassName}>
+    <Label
+      label={label}
+      isRequired={!!required}
+      className={labelClassName}
+      error={<FieldError id={errorId} error={error} />}
+    >
       <select
         {...rest}
         {...registration}
@@ -92,7 +99,6 @@ export const Select = (props: Props) => {
           )
         })}
       </select>
-      <FieldError id={errorId} error={error} />
     </Label>
   )
 }

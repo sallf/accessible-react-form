@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import type { InputHTMLAttributes } from 'react'
 import type { FieldFormMethods } from '../../../hooks/formContext'
 
@@ -26,7 +27,8 @@ export const Checkbox = (props: Props) => {
     required,
     ...rest
   } = props
-  const formProps = useFieldForm(explicitFormProps)
+  const formProps = useFieldForm(explicitFormProps, id)
+  const errorId = `${useId()}-error`
 
   // --- RENDER ---
   return (
@@ -37,7 +39,7 @@ export const Checkbox = (props: Props) => {
       isRow
       error={
         <FieldError
-          id={`${id}-error`}
+          id={errorId}
           error={formProps && getFieldError(formProps.formState.errors, id)}
         />
       }
@@ -45,12 +47,12 @@ export const Checkbox = (props: Props) => {
       <Input
         id={id}
         label={label}
+        errorId={errorId}
         className={`arform__checkbox ${className}`}
         type="checkbox"
         required={required}
         formProps={formProps}
         {...rest}
-        showError={false}
       />
     </Label>
   )

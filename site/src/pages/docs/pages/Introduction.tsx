@@ -32,8 +32,8 @@ export const Introduction = () => {
       <h2>Where to go next</h2>
       <ul>
         <li>
-          <Link to="/docs/quickstart">Quickstart</Link> — install and ship a
-          form in five minutes
+          <Link to="/docs/quickstart">Quickstart</Link> — install and build a
+          form
         </li>
         <li>
           <Link to="/docs/styling">Styling</Link> — class hooks, state
@@ -44,7 +44,7 @@ export const Introduction = () => {
           valibot
         </li>
         <li>
-          <Link to="/docs/components">Components</Link> — full reference
+          <Link to="/docs/components">Components</Link> — component guides
         </li>
       </ul>
     </>

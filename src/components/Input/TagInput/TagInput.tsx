@@ -14,6 +14,7 @@ import { Tag } from './Tag'
 import { useFieldForm } from '../../../hooks/formContext'
 
 interface CommonProps {
+  value?: never
   id: string
   label: string
   suggestions?: string[]
@@ -93,7 +94,7 @@ export function TagInput(props: Props) {
     required,
     disabled: explicitlyDisabled,
   } = props
-  const formProps = useFieldForm(explicitFormProps)
+  const formProps = useFieldForm(explicitFormProps, id)
   const disabled = explicitlyDisabled || formProps?.formState.disabled
   const inputAttributes = props.onlySuggestions
     ? undefined
@@ -107,7 +108,8 @@ export function TagInput(props: Props) {
   const controlId = `${domId}-control`
   const errorId = `${domId}-error`
   const requiredId = `${domId}-required`
-  const currentVal = (formProps?.watch(id) as string | undefined) ?? ''
+  const watchedValue = formProps?.watch(id) as string | undefined
+  const currentVal = watchedValue ?? ''
   const tags = tagsToArr(currentVal).filter(Boolean)
   const [entry, setEntry] = useState('')
   const error = formProps && getFieldError(formProps.formState.errors, id)
@@ -252,6 +254,7 @@ export function TagInput(props: Props) {
       )}
       <input
         type="hidden"
+        defaultValue={watchedValue ?? props.defaultValue}
         {...formProps.register(id, {
           ...(required === undefined ? {} : { required }),
           disabled,

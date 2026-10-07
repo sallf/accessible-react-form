@@ -30,7 +30,7 @@ const config: StorybookConfig = {
           {
             find: /^accessible-react-form$/,
             replacement: fileURLToPath(
-              new URL('../dist/index.es.js', import.meta.url)
+              new URL('../dist/index.mjs', import.meta.url)
             ),
           },
           ...(Array.isArray(aliases)

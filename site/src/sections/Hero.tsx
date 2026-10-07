@@ -170,7 +170,7 @@ export const Hero = () => {
                   role="status"
                   className="mt-3 text-sm text-accent font-medium"
                 >
-                  ✓ Submitted — valid and accessible.
+                  Submitted. Schema validation passed.
                 </div>
               ) : (
                 <p className="mt-3 text-xs text-fg-muted">

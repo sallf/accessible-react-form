@@ -8,6 +8,7 @@ import prettier from 'eslint-config-prettier'
 export default [
   {
     ignores: [
+      '.audit/**',
       'dist/**',
       'storybook-static/**',
       'node_modules/**',

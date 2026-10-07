@@ -1,3 +1,6 @@
+import { useId } from 'react'
+import { FieldError } from '../../FieldError/FieldError'
+import { getFieldError } from '../../fieldErrors'
 import type { InputHTMLAttributes } from 'react'
 import type { FieldFormMethods } from '../../../hooks/formContext'
 
@@ -26,14 +29,26 @@ export const Text = (props: Props) => {
     prefix,
     ...rest
   } = props
-  const formProps = useFieldForm(explicitFormProps)
+  const formProps = useFieldForm(explicitFormProps, id)
+  const errorId = `${useId()}-error`
 
   // --- RENDER ---
   return (
-    <Label label={label} isRequired={!!required} className={labelClassName}>
+    <Label
+      label={label}
+      isRequired={!!required}
+      className={labelClassName}
+      error={
+        <FieldError
+          id={errorId}
+          error={formProps && getFieldError(formProps.formState.errors, id)}
+        />
+      }
+    >
       <Input
         id={id}
         label={label}
+        errorId={errorId}
         className={`arform__text ${className}`}
         type="text"
         required={required}

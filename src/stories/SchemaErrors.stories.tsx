@@ -124,7 +124,7 @@ export const MixedSchemaErrors: Story = {
   render: ({ onSubmit }) => (
     <ARForm validationSchema={mixedSchema} onSubmit={onSubmit}>
       <Text id="name" label="Name" />
-      <Text id="root" label="Root field" />
+      <Text id="other" label="Other field" />
       <button type="submit" className={submitClasses}>
         Check mixed errors
       </button>
@@ -133,8 +133,8 @@ export const MixedSchemaErrors: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement)
     const name = canvas.getByRole('textbox', { name: 'Name' })
-    const root = canvas.getByRole('textbox', { name: 'Root field' })
-    await userEvent.type(root, 'ordinary value')
+    const other = canvas.getByRole('textbox', { name: 'Other field' })
+    await userEvent.type(other, 'ordinary value')
     await userEvent.click(
       canvas.getByRole('button', { name: 'Check mixed errors' })
     )
@@ -142,10 +142,10 @@ export const MixedSchemaErrors: Story = {
       await canvas.findByText('The first form problem')
     ).toBeVisible()
     await expect(canvas.getByText('The second form problem')).toBeVisible()
-    await expect(canvas.getByText('Name needs attention.')).toBeVisible()
-    await expect(name).toHaveAccessibleDescription('Name needs attention.')
+    await expect(canvas.getByText('Name needs attention')).toBeVisible()
+    await expect(name).toHaveAccessibleDescription('Name needs attention')
     await expect(name).toHaveAttribute('aria-invalid', 'true')
-    await expect(root).toHaveAttribute('aria-invalid', 'false')
+    await expect(other).toHaveAttribute('aria-invalid', 'false')
     await expect(canvas.getByText(/You have \(3\) errors/)).toBeVisible()
     await expect(args.onSubmit).not.toHaveBeenCalled()
   },

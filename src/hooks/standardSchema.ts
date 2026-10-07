@@ -13,12 +13,13 @@ export const useStandardSchemaResolver = (
     async (data) => {
       if (!schema) return { values: data, errors: {} }
 
-      let result = schema['~standard'].validate(data)
-      if (result instanceof Promise) result = await result
+      const result = await schema['~standard'].validate(data)
 
       if (result.issues) {
         const errors: FieldErrors = {}
-        const formMessages: string[] = []
+        const formMessages: string[] = result.issues.length
+          ? []
+          : ['Please check the form.']
         const issues = result.issues.map((issue) => ({
           issue,
           path: schemaFieldPath(issue.path),

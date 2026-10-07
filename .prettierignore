@@ -1,4 +1,5 @@
 dist
+.audit
 storybook-static
 node_modules
 site/dist

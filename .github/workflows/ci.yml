@@ -52,6 +52,9 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
+      - name: Check tag defaults on supported React versions
+        run: npm run check:tag-defaults
+
       - name: Build Storybook
         run: npm run build-storybook
 
@@ -84,6 +87,9 @@ jobs:
 
       - name: Typecheck typed external form methods
         run: npx tsc -p scripts/fixtures/form-integration
+
+      - name: Check packed CJS, ESM, and TypeScript consumers
+        run: npm run check:package-formats
 
       - name: Check package contains no stylesheets
         run: npm run check:package-css

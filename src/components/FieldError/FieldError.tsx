@@ -21,7 +21,7 @@ export const FieldError = (props: Props) => {
   // --- RENDER ---
   return message ? (
     <div id={id} role="alert" className="arform__error">
-      {message}.
+      {message}
     </div>
   ) : null
 }
